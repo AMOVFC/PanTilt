@@ -46,7 +46,7 @@ void RotaryAxis::begin(FastAccelStepperEngine &engine, TwoWire &muxBus) {
 }
 
 void RotaryAxis::nudgeTargetDeg(float deltaDeg) {
-  if (stepper_ == nullptr) return;
+  if (stepper_ == nullptr || mode_ == ControlMode::PROGRAMMED) return;
   targetDeg_ = constrain(targetDeg_ + deltaDeg, minDeg_, maxDeg_);
   commandTarget();
 }
@@ -58,8 +58,40 @@ float RotaryAxis::currentDeg() const {
   return stepsToDeg(stepper_->getCurrentPosition());
 }
 
+int32_t RotaryAxis::positionSteps() const {
+  return stepper_ == nullptr ? 0 : stepper_->getCurrentPosition();
+}
+
+void RotaryAxis::beginProgrammedMove(int32_t targetSteps, uint32_t speedHz,
+                                      uint32_t accelHz) {
+  if (stepper_ == nullptr) return;
+  mode_ = ControlMode::PROGRAMMED;
+  stepper_->setSpeedInHz(speedHz);
+  stepper_->setAcceleration(static_cast<int32_t>(accelHz));
+  stepper_->moveTo(targetSteps);
+}
+
+void RotaryAxis::endProgrammedMove(bool stopImmediately) {
+  if (stepper_ != nullptr) {
+    if (stopImmediately) {
+      stepper_->forceStopAndNewPosition(stepper_->getCurrentPosition());
+    }
+    stepper_->setAcceleration(motion::ROTARY_ACCEL_HZ_PER_S);
+    stepper_->setSpeedInHz(motion::ROTARY_MAX_SPEED_HZ);
+    // Resync the angle-setpoint target to wherever the shot left the axis,
+    // so the next nudgeTargetDeg() call doesn't jump back to a stale target.
+    targetDeg_ = currentDeg();
+  }
+  mode_ = ControlMode::MANUAL;
+}
+
+bool RotaryAxis::isMoveComplete() const {
+  return stepper_ == nullptr || !stepper_->isRunning();
+}
+
 void RotaryAxis::update(uint32_t nowMs) {
   if (stepper_ == nullptr || muxBus_ == nullptr) return;
+  if (mode_ == ControlMode::PROGRAMMED) return;  // drift-check is idle-only anyway; skip explicitly during shots
   if (nowMs - lastDriftCheckMs_ < motion::ROTARY_DRIFT_CHECK_INTERVAL_MS) return;
   lastDriftCheckMs_ = nowMs;
 

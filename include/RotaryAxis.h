@@ -18,8 +18,19 @@ class RotaryAxis {
 
   float targetDeg() const { return targetDeg_; }
   float currentDeg() const;
+  float minDeg() const { return minDeg_; }
+  float maxDeg() const { return maxDeg_; }
+  int32_t positionSteps() const;
+
+  // Programmed-move interface for ShotSequencer (see Shot.h). Suspends
+  // nudgeTargetDeg() and idle drift-correction until endProgrammedMove().
+  void beginProgrammedMove(int32_t targetSteps, uint32_t speedHz, uint32_t accelHz);
+  void endProgrammedMove(bool stopImmediately);
+  bool isMoveComplete() const;
 
  private:
+  enum class ControlMode : uint8_t { MANUAL, PROGRAMMED };
+
   const uint8_t stepPin_;
   const uint8_t dirPin_;
   const uint8_t muxChannel_;
@@ -29,6 +40,7 @@ class RotaryAxis {
 
   FastAccelStepper *stepper_ = nullptr;
   TwoWire *muxBus_ = nullptr;
+  ControlMode mode_ = ControlMode::MANUAL;
   float targetDeg_ = 0.0f;
   uint32_t lastDriftCheckMs_ = 0;
 

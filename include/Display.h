@@ -14,7 +14,7 @@ class Display {
 
   void begin();
   void update(uint32_t nowMs, float slideMm, float panDeg, float panTargetDeg,
-              float tiltDeg, float tiltTargetDeg, int32_t jogSignedHz,
+              float tiltDeg, float tiltTargetDeg, float zMm, int32_t jogSignedHz,
               SelectedAxis selected, bool recording, bool bleConnected);
 
  private:

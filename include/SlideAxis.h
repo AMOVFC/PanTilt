@@ -14,14 +14,24 @@ class SlideAxis {
 
   bool isHomed() const { return homed_; }
   float positionMm() const;
+  int32_t positionSteps() const;
   int32_t jogSignedHz() const { return static_cast<int32_t>(lastSign_) * lastHz_; }
+
+  // Programmed-move interface for ShotSequencer (see Shot.h). Suspends jog
+  // handling until endProgrammedMove() is called; checkLimitSwitches() keeps
+  // running as the overrun safety cutoff regardless of mode.
+  void beginProgrammedMove(int32_t targetSteps, uint32_t speedHz, uint32_t accelHz);
+  void endProgrammedMove(bool stopImmediately);
+  bool isMoveComplete() const;
 
  private:
   enum class HomingState : uint8_t { DRIVING, BACKING_OFF, DONE };
+  enum class ControlMode : uint8_t { MANUAL, PROGRAMMED };
 
   FastAccelStepper *stepper_ = nullptr;
   ESP32Encoder jogEncoder_;
   HomingState homingState_ = HomingState::DRIVING;
+  ControlMode mode_ = ControlMode::MANUAL;
   bool homed_ = false;
   int8_t lastSign_ = 0;
   uint32_t lastHz_ = 0;

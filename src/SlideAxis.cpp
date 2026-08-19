@@ -23,13 +23,47 @@ void SlideAxis::begin(FastAccelStepperEngine &engine) {
 
 void SlideAxis::update() {
   updateHoming();
-  checkLimitSwitches();
-  updateJog();
+  checkLimitSwitches();  // overrun cutoff applies in every mode
+  if (mode_ == ControlMode::MANUAL) {
+    updateJog();
+  }
 }
 
 float SlideAxis::positionMm() const {
   if (stepper_ == nullptr) return 0.0f;
   return stepper_->getCurrentPosition() / mech::SLIDE_STEPS_PER_MM;
+}
+
+int32_t SlideAxis::positionSteps() const {
+  return stepper_ == nullptr ? 0 : stepper_->getCurrentPosition();
+}
+
+void SlideAxis::beginProgrammedMove(int32_t targetSteps, uint32_t speedHz,
+                                     uint32_t accelHz) {
+  if (stepper_ == nullptr || !homed_) return;
+  mode_ = ControlMode::PROGRAMMED;
+  stepper_->setSpeedInHz(speedHz);
+  stepper_->setAcceleration(static_cast<int32_t>(accelHz));
+  stepper_->moveTo(targetSteps);
+}
+
+void SlideAxis::endProgrammedMove(bool stopImmediately) {
+  if (stepper_ != nullptr) {
+    if (stopImmediately) {
+      stepper_->forceStopAndNewPosition(stepper_->getCurrentPosition());
+    }
+    stepper_->setAcceleration(motion::SLIDE_ACCEL_HZ_PER_S);
+  }
+  // Ignore any knob movement that happened during the programmed move, same
+  // as the homing path does, so jog doesn't resume with a phantom jump.
+  jogEncoder_.setCount(0);
+  lastSign_ = 0;
+  lastHz_ = 0;
+  mode_ = ControlMode::MANUAL;
+}
+
+bool SlideAxis::isMoveComplete() const {
+  return stepper_ == nullptr || !stepper_->isRunning();
 }
 
 uint8_t SlideAxis::homingLimitPin() const {

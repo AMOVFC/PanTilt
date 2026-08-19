@@ -1,5 +1,5 @@
-// Full firmware for the 3-axis camera slider (slide/pan/tilt), assuming the
-// designed hardware (see docs/project-brief.md and
+// Full firmware for the 4-axis camera slider (slide/pan/tilt/z), assuming
+// the designed hardware (see docs/project-brief.md and
 // hardware/final_wiring_diagram_v3.svg) is built and working as spec'd.
 
 #include <Arduino.h>
@@ -11,7 +11,10 @@
 #include "DebouncedButton.h"
 #include "Display.h"
 #include "RotaryAxis.h"
+#include "Shot.h"
 #include "SlideAxis.h"
+#include "TmcDrivers.h"
+#include "ZAxis.h"
 #include "config.h"
 
 namespace {
@@ -24,6 +27,24 @@ RotaryAxis pan(pins::PAN_STEP, pins::PAN_DIR, mux_channel::PAN,
 RotaryAxis tilt(pins::TILT_STEP, pins::TILT_DIR, mux_channel::TILT,
                 calibration::TILT_ZERO_OFFSET_DEG, motion::TILT_MIN_DEG,
                 motion::TILT_MAX_DEG);
+ZAxis z;
+
+ShotSequencer shotSequencer;
+
+// Simple 3-axis (slide + pan + z) test shot for validating the synchronized
+// duration-matching algorithm on real hardware, per brief §6.3/milestone 11.
+// Triggered over Serial (send 's') rather than a dedicated button, since the
+// pin map has no spare input assigned to shot playback. Tilt is pinned to a
+// fixed level (0deg) throughout — this shot isn't exercising tilt.
+const Keyframe kTestShot[] = {
+    {/*slideMm=*/0.0f, /*panDeg=*/-45.0f, /*tiltDeg=*/0.0f, /*zMm=*/0.0f,
+     /*durationS=*/0.0f, EaseType::EASE_IN_OUT},
+    {/*slideMm=*/200.0f, /*panDeg=*/45.0f, /*tiltDeg=*/0.0f, /*zMm=*/80.0f,
+     /*durationS=*/0.0f, EaseType::EASE_IN_OUT},
+    {/*slideMm=*/0.0f, /*panDeg=*/-45.0f, /*tiltDeg=*/0.0f, /*zMm=*/0.0f,
+     /*durationS=*/0.0f, EaseType::EASE_IN_OUT},
+};
+constexpr uint8_t kTestShotCount = sizeof(kTestShot) / sizeof(kTestShot[0]);
 
 TwoWire &i2cMux = Wire;  // bus A: TCA9548A -> pan/tilt AS5600
 TwoWire i2cOled(1);      // bus B: OLED, isolated from the mux bus
@@ -39,10 +60,12 @@ DebouncedButton jogPushButton;
 DebouncedButton anglePushButton;
 
 void setupDriverEnable() {
-  // EN is a single line shared across all 3 TMC2209s, active low. Managed
+  // EN is a single line shared across all 4 TMC2209s, active low. Managed
   // manually (not via FastAccelStepper's per-axis auto-enable) because that
   // API assumes exclusive ownership of the enable pin per stepper, which
-  // doesn't hold once pan/tilt share this same line.
+  // doesn't hold once pan/tilt/z share this same line. Never toggled again
+  // after this, so holding torque is never lost — see ZAxis.h re: §6.5's
+  // leadscrew self-locking concern.
   pinMode(pins::DRIVER_EN, OUTPUT);
   digitalWrite(pins::DRIVER_EN, LOW);
 }
@@ -91,12 +114,32 @@ void updateRecordButton(uint32_t nowMs) {
   }
 }
 
+// Serial-triggered shot playback control for bring-up/validation (§6,
+// milestone 11) ahead of any dedicated UI for authoring/selecting shots.
+void updateShotSerialTrigger(uint32_t nowMs) {
+  while (Serial.available() > 0) {
+    const int c = Serial.read();
+    if (c == 's' && !shotSequencer.isActive()) {
+      shotSequencer.start(kTestShot, kTestShotCount, nowMs);
+    } else if (c == 'c') {
+      shotSequencer.cancel();
+    }
+  }
+}
+
 }  // namespace
 
 void setup() {
   Serial.begin(115200);
 
   setupDriverEnable();
+
+  // Configure all 4 TMC2209s over UART (current, microstepping, comms
+  // verification) BEFORE any axis starts moving — slide.begin() kicks off
+  // its homing move immediately, and that move's step math assumes the
+  // microstep register write already took.
+  tmc_drivers::beginAll();
+
   engine.init();
 
   i2cMux.begin(pins::I2C_MUX_SDA, pins::I2C_MUX_SCL);
@@ -105,6 +148,7 @@ void setup() {
   slide.begin(engine);
   pan.begin(engine, i2cMux);
   tilt.begin(engine, i2cMux);
+  z.begin(engine);
 
   setupAngleEncoder();
   jogPushButton.begin(pins::JOG_ENC_PUSH);
@@ -112,6 +156,7 @@ void setup() {
 
   display.begin();
   bleRecorder.begin();
+  shotSequencer.begin(slide, pan, tilt, z);
 }
 
 void loop() {
@@ -120,13 +165,16 @@ void loop() {
   slide.update();
   pan.update(nowMs);
   tilt.update(nowMs);
+  z.update();
+  shotSequencer.update(nowMs);
 
+  updateShotSerialTrigger(nowMs);
   updateAngleSetpoint();
   updateAxisSelectButton(nowMs);
   updateRecordButton(nowMs);
 
   display.update(nowMs, slide.positionMm(), pan.currentDeg(), pan.targetDeg(),
-                  tilt.currentDeg(), tilt.targetDeg(), slide.jogSignedHz(),
-                  selectedAxis, bleRecorder.isRecording(),
+                  tilt.currentDeg(), tilt.targetDeg(), z.positionMm(),
+                  slide.jogSignedHz(), selectedAxis, bleRecorder.isRecording(),
                   bleRecorder.isConnected());
 }
