@@ -106,12 +106,11 @@ constexpr float ROTARY_STEPS_PER_DEGREE =
     (MOTOR_STEPS_PER_REV * ROTARY_MICROSTEPPING * ROTARY_BELT_RATIO) / 360.0f;
 
 constexpr uint16_t Z_MICROSTEPPING = tmc::MICROSTEPS;
-// Leadscrew lead (mm traveled per full revolution) — the brief never pinned
-// down which leadscrew pitch was used (common T8 leads are 2/4/8mm).
-// PLACEHOLDER — measure against the actual hardware (turn the leadscrew by
-// hand one full revolution, measure nut travel) before trusting any Z
-// step-count math.
-constexpr float Z_LEAD_MM = 8.0f;  // TODO: confirm against actual leadscrew hardware
+// Leadscrew lead (mm traveled per full revolution), confirmed against the
+// as-built hardware. Note this makes Z the finest-resolution axis by a wide
+// margin: 1600 steps/mm vs. the slide's 320, which is why Z's step-unit
+// constants below look large relative to its modest physical speeds.
+constexpr float Z_LEAD_MM = 8.0f;
 constexpr float Z_STEPS_PER_MM = (MOTOR_STEPS_PER_REV * Z_MICROSTEPPING) / Z_LEAD_MM;
 }  // namespace mech
 
@@ -156,23 +155,29 @@ constexpr uint32_t ROTARY_DRIFT_CHECK_INTERVAL_MS = 2000;
 constexpr int32_t ROTARY_DRIFT_THRESHOLD_STEPS = 80;
 
 // Z is a slow, low-duty-cycle axis (brief §2) — conservative speed/accel
-// relative to slide/rotary, not a hardware ceiling.
-constexpr uint32_t Z_MAX_SPEED_HZ = 16000;
-constexpr uint32_t Z_ACCEL_HZ_PER_S = 32000;
-constexpr uint32_t Z_HOMING_SPEED_HZ = 4000;
-constexpr int32_t Z_HOMING_BACKOFF_STEPS = 400;
+// relative to slide/rotary, not a hardware ceiling. Physical equivalents at
+// 1600 steps/mm are given since the step-unit numbers alone are misleading
+// here (Z's steps/mm is 5x the slide's).
+constexpr uint32_t Z_MAX_SPEED_HZ = 16000;      // 10 mm/s
+constexpr uint32_t Z_ACCEL_HZ_PER_S = 32000;    // 20 mm/s^2
+constexpr uint32_t Z_HOMING_SPEED_HZ = 4000;    // 2.5 mm/s
+// Backoff must clear the switch's release travel, or checkLimitSwitch()
+// keeps seeing it triggered and force-stops every subsequent move in that
+// direction. 2mm is well clear of a typical microswitch's differential
+// travel, and comparable to the slide's 2.5mm backoff.
+constexpr int32_t Z_HOMING_BACKOFF_STEPS = 3200;  // 2 mm
 // Which direction finds the home switch during the startup homing move.
 // true = runForward(), false = runBackward() — flip if Z drives away from
 // the switch instead of toward it on first power-up.
 constexpr bool Z_HOME_DIR_FORWARD = false;
 
 // Z has only one physical switch (home reference, see §2) — no second
-// switch at full extension, unlike slide's min/max pair. These soft limits
-// are the only thing stopping a bad keyframe from driving the carriage off
-// the top of the 200mm rods. Placeholder — MUST be tuned to the as-built
-// rod length minus carriage/backoff clearance before real use.
+// switch at full extension, unlike slide's min/max pair. Z_MAX_MM is
+// therefore the ONLY thing stopping a bad keyframe from driving the
+// carriage off the top of the 200mm rods; there is no hardware backstop
+// behind it. Set to the as-built usable travel.
 constexpr float Z_MIN_MM = 0.0f;
-constexpr float Z_MAX_MM = 150.0f;
+constexpr float Z_MAX_MM = 170.0f;
 
 // Programmed shots (see Shot.h): EaseType::LINEAR moves use this multiplier
 // on the axis's normal configured acceleration, shrinking the ramp phase to

@@ -154,21 +154,20 @@ Values that cannot be derived from the code and must be measured on the
 physical build. Several are placeholders that will produce wrong motion if left
 as-is:
 
-- **`mech::Z_LEAD_MM`** — leadscrew travel per revolution. Turn the screw one
-  full turn by hand and measure the nut's travel. All Z distances are wrong
-  until this matches reality.
 - **`tmc::*_RMS_MA`** — per-motor run current, typically 70–85% of the motor's
   nameplate rating. Currently a conservative 800mA placeholder for all four.
 - **`calibration::PAN_ZERO_OFFSET_DEG` / `TILT_ZERO_OFFSET_DEG`** — the mounted
   magnet's angle relative to true mechanical zero. Arbitrary per build,
   measured once.
-- **Soft limits** (`PAN_MIN/MAX_DEG`, `TILT_MIN/MAX_DEG`, `Z_MIN/MAX_MM`) —
-  placeholders. Pan and tilt have no limit switches at all, so these are the
-  only thing preventing over-rotation and cable wind-up. Z has only a home
-  switch, so `Z_MAX_MM` is the only thing stopping the carriage from driving off
-  the top of the rods.
+- **Pan/tilt soft limits** (`PAN_MIN/MAX_DEG`, `TILT_MIN/MAX_DEG`) —
+  placeholders. Neither axis has a limit switch, so these are the only thing
+  preventing over-rotation and cable wind-up.
 - **Homing directions** (`SLIDE_HOME_TOWARD_MIN`, `Z_HOME_DIR_FORWARD`) — flip
   if an axis drives away from its switch instead of toward it.
+
+Confirmed against the as-built rig: `Z_LEAD_MM` = 8mm (giving 1600 steps/mm)
+and `Z_MAX_MM` = 170mm. That max is the only thing stopping Z from driving off
+the top of the rods — there's no switch at full extension behind it.
 
 The AS5600 needs a **diametrically** magnetized magnet, not the common axial
 type. Verify before gluing — orientation cannot compensate for the wrong
