@@ -26,6 +26,9 @@ main.cpp          Non-blocking loop: no delay() anywhere. Owns the two knobs,
                   the two push-buttons, and dispatches to everything below.
 config.h          Single source of truth: pin map, driver config, mechanical
                   ratios, motion limits, calibration values.
+Settings.*        Runtime config: NVS persistence and the descriptor table
+                  that drives validation and the web UI.
+WebConfig.*       WiFi AP + HTTP config interface.
 TmcDrivers.*      Boot-time UART configuration for all 4 TMC2209s.
 SlideAxis.*       Homing + live velocity jog from the jog encoder.
 RotaryAxis.*      Pan/tilt: angle setpoints, AS5600 absolute position,
@@ -99,6 +102,42 @@ straps:
 If UART wiring fails, motion still works (STEP/DIR is independent) but the
 firmware prints a warning that position math is untrustworthy until fixed.
 
+## Web configuration
+
+The rig hosts its own WiFi access point, so it's reachable on location with no
+existing network:
+
+| | |
+|---|---|
+| SSID | `CameraSlider` |
+| Password | `slider1234` — change in `config.h` before first use |
+| URL | `http://192.168.4.1` |
+
+Every tuning value — speeds, accelerations, soft limits, motor currents,
+microstepping, mechanical ratios, magnet calibration offsets, S-curve segment
+count, UI timings — is editable there and persists to flash. Values are
+range-validated on write, and settings that only take effect during
+initialization are badged **reboot** in the UI.
+
+Settings are defined once in a descriptor table in `Settings.cpp`; JSON,
+form rendering, validation, and persistence all derive from it, so adding a
+setting means adding one row.
+
+**Not exposed, deliberately:** pin assignments, I2C addresses, OLED
+dimensions, and the TMC sense resistor and address straps. These describe how
+the board is physically wired and which parts are fitted — editing them in
+software can't rewire anything, it can only make firmware disagree with
+reality, and a wrong pin entry would drive STEP pulses onto whatever else sits
+on that line. They stay in `config.h` and need a reflash.
+
+Two things worth knowing about the radio. The ESP32-S3 shares one radio
+between WiFi and BLE, and the camera trigger is BLE — they coexist, but both
+add interrupt load, so it's worth closing the browser during a take that
+matters. And the HTTP server is synchronous, so serving a request briefly
+blocks the main loop; config writes are refused with HTTP 409 while a shot is
+running, since a move in flight has already had its waypoints computed against
+the old values.
+
 ## Controls
 
 | Input | Action |
@@ -151,8 +190,9 @@ Current build: ~15% flash, ~15% RAM on a 16MB/8MB N16R8.
 ## Before first hardware run
 
 Values that cannot be derived from the code and must be measured on the
-physical build. Several are placeholders that will produce wrong motion if left
-as-is:
+physical build. All of these are editable from the web UI — the names below
+are the `config.h` identifiers, shown with friendlier labels in the browser.
+Several are placeholders that will produce wrong motion if left as-is:
 
 - **`tmc::*_RMS_MA`** — per-motor run current, typically 70–85% of the motor's
   nameplate rating. Currently a conservative 800mA placeholder for all four.

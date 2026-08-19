@@ -11,9 +11,11 @@
 #include "DebouncedButton.h"
 #include "Display.h"
 #include "RotaryAxis.h"
+#include "Settings.h"
 #include "Shot.h"
 #include "SlideAxis.h"
 #include "TmcDrivers.h"
+#include "WebConfig.h"
 #include "ZAxis.h"
 #include "config.h"
 
@@ -114,6 +116,11 @@ void updateRecordButton(uint32_t nowMs) {
   }
 }
 
+// Settings must not change underneath a running shot: its S-curve waypoints
+// were computed against the speeds, limits and step ratios in effect when
+// the move started.
+bool shotIsRunning() { return shotSequencer.isActive(); }
+
 // Serial-triggered shot playback control for bring-up/validation (§6,
 // milestone 11) ahead of any dedicated UI for authoring/selecting shots.
 void updateShotSerialTrigger(uint32_t nowMs) {
@@ -131,6 +138,10 @@ void updateShotSerialTrigger(uint32_t nowMs) {
 
 void setup() {
   Serial.begin(115200);
+
+  // Load saved settings first: everything below reads config values, and
+  // the TMC driver setup writes some of them straight to hardware.
+  settings::begin();
 
   setupDriverEnable();
 
@@ -157,6 +168,7 @@ void setup() {
   display.begin();
   bleRecorder.begin();
   shotSequencer.begin(slide, pan, tilt, z);
+  webconfig::begin(shotIsRunning);
 }
 
 void loop() {
@@ -172,6 +184,7 @@ void loop() {
   updateAngleSetpoint();
   updateAxisSelectButton(nowMs);
   updateRecordButton(nowMs);
+  webconfig::update();
 
   display.update(nowMs, slide.positionMm(), pan.currentDeg(), pan.targetDeg(),
                   tilt.currentDeg(), tilt.targetDeg(), z.positionMm(),

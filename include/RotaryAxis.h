@@ -9,8 +9,13 @@
 
 class RotaryAxis {
  public:
+  // The calibration offset and soft limits are bound by reference, not
+  // copied: these objects are constructed at static-init time, before
+  // settings are loaded from NVS, and the values stay editable from the web
+  // UI afterwards. Binding the address is safe at static-init time; only
+  // the read has to happen later.
   RotaryAxis(uint8_t stepPin, uint8_t dirPin, uint8_t muxChannel,
-             float zeroOffsetDeg, float minDeg, float maxDeg);
+             const float &zeroOffsetDeg, const float &minDeg, const float &maxDeg);
 
   void begin(FastAccelStepperEngine &engine, TwoWire &muxBus);
   void nudgeTargetDeg(float deltaDeg);
@@ -18,8 +23,8 @@ class RotaryAxis {
 
   float targetDeg() const { return targetDeg_; }
   float currentDeg() const;
-  float minDeg() const { return minDeg_; }
-  float maxDeg() const { return maxDeg_; }
+  float minDeg() const { return *minDeg_; }
+  float maxDeg() const { return *maxDeg_; }
   int32_t positionSteps() const;
 
   // Programmed-move interface for ShotSequencer (see Shot.h). Suspends
@@ -34,9 +39,9 @@ class RotaryAxis {
   const uint8_t stepPin_;
   const uint8_t dirPin_;
   const uint8_t muxChannel_;
-  const float zeroOffsetDeg_;
-  const float minDeg_;
-  const float maxDeg_;
+  const float *const zeroOffsetDeg_;
+  const float *const minDeg_;
+  const float *const maxDeg_;
 
   FastAccelStepper *stepper_ = nullptr;
   TwoWire *muxBus_ = nullptr;

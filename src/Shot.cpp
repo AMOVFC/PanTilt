@@ -81,8 +81,14 @@ float quinticNaturalTimeS(int32_t distanceSteps, float maxSpeedHz, float maxAcce
 uint8_t computeSegmentCount(float governingTimeS) {
   const float maxByFloor =
       (governingTimeS * 1000.0f) / static_cast<float>(motion::SHOT_SCURVE_MIN_SEGMENT_MS);
-  const uint8_t floored = maxByFloor < 1.0f ? 1 : static_cast<uint8_t>(maxByFloor);
-  return floored < motion::SHOT_SCURVE_SEGMENTS ? floored : motion::SHOT_SCURVE_SEGMENTS;
+  const float cap = static_cast<float>(motion::SHOT_SCURVE_SEGMENTS);
+
+  // Clamp in float BEFORE narrowing: a long move makes maxByFloor exceed 255,
+  // and casting that to uint8_t wraps — at exactly 256 it wraps to 0, which
+  // would then be used as a divisor for the segment duration.
+  if (maxByFloor < 1.0f) return 1;
+  if (maxByFloor >= cap) return motion::SHOT_SCURVE_SEGMENTS;
+  return static_cast<uint8_t>(maxByFloor);
 }
 
 }  // namespace

@@ -19,13 +19,14 @@ float stepsToDeg(int32_t steps) { return steps / mech::ROTARY_STEPS_PER_DEGREE; 
 }  // namespace
 
 RotaryAxis::RotaryAxis(uint8_t stepPin, uint8_t dirPin, uint8_t muxChannel,
-                        float zeroOffsetDeg, float minDeg, float maxDeg)
+                        const float &zeroOffsetDeg, const float &minDeg,
+                        const float &maxDeg)
     : stepPin_(stepPin),
       dirPin_(dirPin),
       muxChannel_(muxChannel),
-      zeroOffsetDeg_(zeroOffsetDeg),
-      minDeg_(minDeg),
-      maxDeg_(maxDeg) {}
+      zeroOffsetDeg_(&zeroOffsetDeg),
+      minDeg_(&minDeg),
+      maxDeg_(&maxDeg) {}
 
 void RotaryAxis::begin(FastAccelStepperEngine &engine, TwoWire &muxBus) {
   muxBus_ = &muxBus;
@@ -40,14 +41,14 @@ void RotaryAxis::begin(FastAccelStepperEngine &engine, TwoWire &muxBus) {
 
   // No homing move: the AS5600 gives absolute position on every power-up.
   const float sensorDeg = readAS5600DegreesOnChannel(*muxBus_, muxChannel_);
-  const float correctedDeg = normalizeDeg(sensorDeg - zeroOffsetDeg_);
+  const float correctedDeg = normalizeDeg(sensorDeg - *zeroOffsetDeg_);
   stepper_->setCurrentPosition(degToSteps(correctedDeg));
   targetDeg_ = correctedDeg;
 }
 
 void RotaryAxis::nudgeTargetDeg(float deltaDeg) {
   if (stepper_ == nullptr || mode_ == ControlMode::PROGRAMMED) return;
-  targetDeg_ = constrain(targetDeg_ + deltaDeg, minDeg_, maxDeg_);
+  targetDeg_ = constrain(targetDeg_ + deltaDeg, *minDeg_, *maxDeg_);
   commandTarget();
 }
 
@@ -99,7 +100,7 @@ void RotaryAxis::update(uint32_t nowMs) {
   if (stepper_->isRunning()) return;
 
   const float sensorDeg = readAS5600DegreesOnChannel(*muxBus_, muxChannel_);
-  const float correctedDeg = normalizeDeg(sensorDeg - zeroOffsetDeg_);
+  const float correctedDeg = normalizeDeg(sensorDeg - *zeroOffsetDeg_);
   const int32_t sensorSteps = degToSteps(correctedDeg);
   const int32_t stepDiff = sensorSteps - stepper_->getCurrentPosition();
 
