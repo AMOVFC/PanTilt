@@ -1,0 +1,65 @@
+Info: Processing symbol '5Vin1:'.
+Info: Processing symbol 'J26:TerminalBlock_MaiXu:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm'.
+Info: Processing symbol '24Vin1:'.
+Info: Processing symbol 'J27:TerminalBlock_MaiXu:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm'.
+Info: Processing symbol 'F1:'.
+Info: Processing symbol 'J28:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'J1:'.
+Info: Processing symbol 'J7:'.
+Info: Processing symbol 'J2:'.
+Info: Processing symbol 'J29:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'J3:'.
+Info: Processing symbol 'J30:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'J4:'.
+Info: Processing symbol 'J31:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'J32:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'J33:TerminalBlock_MaiXu:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm'.
+Info: Processing symbol 'J8:'.
+Info: Processing symbol 'J34:TerminalBlock_MaiXu:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm'.
+Info: Processing symbol 'J9:'.
+Info: Processing symbol 'J35:TerminalBlock_MaiXu:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm'.
+Info: Processing symbol 'J10:'.
+Info: Processing symbol 'J36:TerminalBlock_MaiXu:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm'.
+Info: Processing symbol 'J11:'.
+Info: Processing symbol 'U1:TMC2209:TMC2209_SilentStepStick_Socket_18P'.
+Info: Processing symbol 'J12:'.
+Info: Processing symbol 'U2:TMC2209:TMC2209_SilentStepStick_Socket_18P'.
+Info: Processing symbol 'J13:'.
+Info: Processing symbol 'U3:TMC2209:TMC2209_SilentStepStick_Socket_18P'.
+Info: Processing symbol 'J14:'.
+Info: Processing symbol 'U4:TMC2209:TMC2209_SilentStepStick_Socket_18P'.
+Info: Processing symbol 'J15:'.
+Info: Processing symbol 'J21:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'J16:'.
+Info: Processing symbol 'J17:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'J18:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'J19:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'J20:Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical'.
+Info: Processing symbol 'J22:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'J23:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Error: Cannot add 5Vin1 (no footprint assigned).
+Error: Cannot add 24Vin1 (no footprint assigned).
+Error: Cannot add F1 (no footprint assigned).
+Error: Cannot add J2 (no footprint assigned).
+Error: Cannot add J3 (no footprint assigned).
+Error: Cannot add J4 (no footprint assigned).
+Error: Cannot add J1 (no footprint assigned).
+Error: Cannot add J7 (no footprint assigned).
+Error: Cannot add J8 (no footprint assigned).
+Error: Cannot add J9 (no footprint assigned).
+Error: Cannot add J10 (no footprint assigned).
+Error: Cannot add J11 (no footprint assigned).
+Error: Cannot add J12 (no footprint assigned).
+Error: Cannot add J13 (no footprint assigned).
+Error: Cannot add J14 (no footprint assigned).
+Error: Cannot add J27 (footprint 'TerminalBlock_MaiXu:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm' not found).
+Error: Cannot add J35 (footprint 'TerminalBlock_MaiXu:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm' not found).
+Error: Cannot add J16 (no footprint assigned).
+Error: Cannot add J36 (footprint 'TerminalBlock_MaiXu:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm' not found).
+Error: Cannot add J26 (footprint 'TerminalBlock_MaiXu:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm' not found).
+Error: Cannot add J33 (footprint 'TerminalBlock_MaiXu:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm' not found).
+Error: Cannot add J15 (no footprint assigned).
+Error: Cannot add J34 (footprint 'TerminalBlock_MaiXu:TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm' not found).
+
+
+Info: Total warnings: 0, errors: 23.
