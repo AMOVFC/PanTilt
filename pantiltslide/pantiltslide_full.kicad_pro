@@ -488,7 +488,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "pantiltslide.kicad_pro",
+    "filename": "pantiltslide_full.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -656,18 +656,18 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "pantiltslide.kicad_sch",
-        "name": "Root",
+        "filename": "pantiltslide_full.kicad_sch",
+        "name": "pantiltslide_full",
         "uuid": "069dac62-ca78-4a21-b689-b9421532705f"
       }
     ],
-    "used_designators": "J1-16,F1,U1,#PWR1-6",
+    "used_designators": "5Vin1,J1-16,F1,U1,#PWR1-6,24Vin1",
     "variants": []
   },
   "sheets": [
     [
       "069dac62-ca78-4a21-b689-b9421532705f",
-      "Root"
+      "pantiltslide_full"
     ]
   ],
   "text_variables": {},

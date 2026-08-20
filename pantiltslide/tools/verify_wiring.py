@@ -152,27 +152,54 @@ EXPECTED = {
     ('U3','11'):'GPIO_42', ('U3','12'):'GPIO_41',
     ('U3','14'):'3.3v', ('U3','15'):'GND',
     ('U3','16'):'GPIO_10',
+    # U4 = 4th/aux axis, UART slave address 3 (MS1=1 pin15=3.3v, MS2=1 pin14=3.3v)
+    ('U4','1'):'GND', ('U4','2'):'3.3v', ('U4','3'):'AUX_M1B', ('U4','4'):'AUX_M1A',
+    ('U4','5'):'AUX_M2A', ('U4','6'):'AUX_M2B', ('U4','7'):'GND', ('U4','8'):'+24V',
+    ('U4','9'):'GPIO_48', ('U4','10'):'GPIO_47',
+    ('U4','11'):'GPIO_42', ('U4','12'):'GPIO_41',
+    ('U4','14'):'3.3v', ('U4','15'):'3.3v',
+    ('U4','16'):'GPIO_10',
+    # motor connectors
     ('J17','1'):'SLIDE_M1A', ('J17','2'):'SLIDE_M1B', ('J17','3'):'SLIDE_M2A', ('J17','4'):'SLIDE_M2B',
     ('J18','1'):'PAN_M1A', ('J18','2'):'PAN_M1B', ('J18','3'):'PAN_M2A', ('J18','4'):'PAN_M2B',
     ('J19','1'):'TILT_M1A', ('J19','2'):'TILT_M1B', ('J19','3'):'TILT_M2A', ('J19','4'):'TILT_M2B',
+    ('J28','1'):'AUX_M1A', ('J28','2'):'AUX_M1B', ('J28','3'):'AUX_M2A', ('J28','4'):'AUX_M2B',
+    # absolute angle sensors + display
     ('J21','1'):'3.3v', ('J21','2'):'GND', ('J21','3'):'MUX_CH0_SDA', ('J21','4'):'MUX_CH0_SCL',
     ('J22','1'):'3.3v', ('J22','2'):'GND', ('J22','3'):'MUX_CH1_SDA', ('J22','4'):'MUX_CH1_SCL',
     ('J23','1'):'3.3v', ('J23','2'):'GND', ('J23','3'):'GPIO_13', ('J23','4'):'GPIO_14',
-    ('J24','1'):'GPIO_15', ('J24','2'):'GPIO_16', ('J24','3'):'GPIO_17', ('J24','4'):'GND',
-    ('J25','1'):'GPIO_18', ('J25','2'):'GPIO_21', ('J25','3'):'GPIO_38', ('J25','4'):'GND',
+    # one manual control encoder per axis (pin 4 reserved for the push switch)
+    ('J29','1'):'GPIO_15', ('J29','2'):'GPIO_16', ('J29','3'):'GND',
+    ('J30','1'):'GPIO_17', ('J30','2'):'GPIO_18', ('J30','3'):'GND',
+    ('J31','1'):'GPIO_21', ('J31','2'):'GPIO_38', ('J31','3'):'GND',
+    ('J32','1'):'GPIO_19', ('J32','2'):'GPIO_20', ('J32','3'):'GND',
+    # I2C mux
     ('J20','1'):'3.3v', ('J20','2'):'GND', ('J20','3'):'GPIO_11', ('J20','4'):'GPIO_12',
     ('J20','5'):'MUX_CH0_SDA', ('J20','6'):'MUX_CH0_SCL', ('J20','7'):'MUX_CH1_SDA', ('J20','8'):'MUX_CH1_SCL',
+    # slide limit switches
     ('J26','1'):'GPIO_39', ('J26','2'):'GND',
     ('J27','1'):'GPIO_40', ('J27','2'):'GND',
+    # keyframe/transport buttons, all active-low to GND
+    ('J33','1'):'GPIO_1',  ('J33','2'):'GND',   # set keyframe
+    ('J34','1'):'GPIO_3',  ('J34','2'):'GND',   # delete/clear keyframe
+    ('J35','1'):'GPIO_45', ('J35','2'):'GND',   # play/pause
+    ('J36','1'):'GPIO_46', ('J36','2'):'GND',   # reset
 }
 NC_EXPECTED = set()
-for u in ('U1', 'U2', 'U3'):
+for u in ('U1', 'U2', 'U3', 'U4'):
     for n in (13, 17, 18):   # SPRD (stealthChop via pulldown), INDEX, DIAG
         NC_EXPECTED.add((u, str(n)))
+for j in ('J29', 'J30', 'J31', 'J32'):
+    NC_EXPECTED.add((j, '4'))   # encoder push switch, reserved
 
 g = load(SCH)
 lib_pins, wire_index, label_at, nc_at, syms = g
-NEW_REFS = ['U1','U2','U3','J17','J18','J19','J20','J21','J22','J23','J24','J25','J26','J27']
+NEW_REFS = ['U1','U2','U3','U4',
+            'J17','J18','J19','J28',
+            'J21','J22','J23',
+            'J29','J30','J31','J32',
+            'J20','J26','J27',
+            'J33','J34','J35','J36']
 
 print('--- generated schematic vs intended net map ---')
 problems = []
