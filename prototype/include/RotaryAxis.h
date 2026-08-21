@@ -2,6 +2,11 @@
 // Pan/tilt axis: angle-setpoint control via FastAccelStepper, with absolute
 // position on every boot from an AS5600 (no homing move) and periodic
 // idle-only drift correction against that same sensor.
+//
+// Ported from the final rig's RotaryAxis with one addition: setTargetDeg(),
+// used by the prototype's per-axis encoder push-button (recenter to 0deg).
+// Everything else is unchanged, so this stays a drop-in match for the final
+// rig's version if the two ever need to be reconciled.
 
 #include <Arduino.h>
 #include <FastAccelStepper.h>
@@ -19,6 +24,7 @@ class RotaryAxis {
 
   void begin(FastAccelStepperEngine &engine, TwoWire &muxBus);
   void nudgeTargetDeg(float deltaDeg);
+  void setTargetDeg(float deg);  // absolute set, e.g. recenter-button
   void update(uint32_t nowMs);
 
   float targetDeg() const { return targetDeg_; }
@@ -27,8 +33,8 @@ class RotaryAxis {
   float maxDeg() const { return *maxDeg_; }
   int32_t positionSteps() const;
 
-  // Programmed-move interface for ShotSequencer (see Shot.h). Suspends
-  // nudgeTargetDeg() and idle drift-correction until endProgrammedMove().
+  // Programmed-move interface, kept for parity with the final rig's Shot
+  // system even though the prototype doesn't wire up a ShotSequencer yet.
   void beginProgrammedMove(int32_t targetSteps, uint32_t speedHz, uint32_t accelHz);
   void endProgrammedMove(bool stopImmediately);
   bool isMoveComplete() const;

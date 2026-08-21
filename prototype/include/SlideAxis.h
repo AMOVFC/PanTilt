@@ -2,6 +2,9 @@
 // Slide axis: FastAccelStepper driven by the jog encoder's signed
 // accumulated value as a live velocity target, with startup homing against
 // the two physical limit switches and a continuous overrun safety cutoff.
+//
+// Unchanged from the final rig's SlideAxis — the slide axis's hardware and
+// control scheme are identical between the two builds.
 
 #include <Arduino.h>
 #include <ESP32Encoder.h>
@@ -17,9 +20,8 @@ class SlideAxis {
   int32_t positionSteps() const;
   int32_t jogSignedHz() const { return static_cast<int32_t>(lastSign_) * lastHz_; }
 
-  // Programmed-move interface for ShotSequencer (see Shot.h). Suspends jog
-  // handling until endProgrammedMove() is called; checkLimitSwitches() keeps
-  // running as the overrun safety cutoff regardless of mode.
+  // Programmed-move interface, kept for parity with the final rig's Shot
+  // system even though the prototype doesn't wire up a ShotSequencer yet.
   void beginProgrammedMove(int32_t targetSteps, uint32_t speedHz, uint32_t accelHz);
   void endProgrammedMove(bool stopImmediately);
   bool isMoveComplete() const;

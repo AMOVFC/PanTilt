@@ -52,6 +52,12 @@ void RotaryAxis::nudgeTargetDeg(float deltaDeg) {
   commandTarget();
 }
 
+void RotaryAxis::setTargetDeg(float deg) {
+  if (stepper_ == nullptr || mode_ == ControlMode::PROGRAMMED) return;
+  targetDeg_ = constrain(deg, *minDeg_, *maxDeg_);
+  commandTarget();
+}
+
 void RotaryAxis::commandTarget() { stepper_->moveTo(degToSteps(targetDeg_)); }
 
 float RotaryAxis::currentDeg() const {
@@ -79,7 +85,7 @@ void RotaryAxis::endProgrammedMove(bool stopImmediately) {
     }
     stepper_->setAcceleration(motion::ROTARY_ACCEL_HZ_PER_S);
     stepper_->setSpeedInHz(motion::ROTARY_MAX_SPEED_HZ);
-    // Resync the angle-setpoint target to wherever the shot left the axis,
+    // Resync the angle-setpoint target to wherever the move left the axis,
     // so the next nudgeTargetDeg() call doesn't jump back to a stale target.
     targetDeg_ = currentDeg();
   }
@@ -92,7 +98,7 @@ bool RotaryAxis::isMoveComplete() const {
 
 void RotaryAxis::update(uint32_t nowMs) {
   if (stepper_ == nullptr || muxBus_ == nullptr) return;
-  if (mode_ == ControlMode::PROGRAMMED) return;  // drift-check is idle-only anyway; skip explicitly during shots
+  if (mode_ == ControlMode::PROGRAMMED) return;  // drift-check is idle-only anyway; skip explicitly
   if (nowMs - lastDriftCheckMs_ < motion::ROTARY_DRIFT_CHECK_INTERVAL_MS) return;
   lastDriftCheckMs_ = nowMs;
 

@@ -7,7 +7,7 @@ void SlideAxis::begin(FastAccelStepperEngine &engine) {
   pinMode(pins::LIMIT_SLIDE_MAX, INPUT_PULLUP);
 
   ESP32Encoder::useInternalWeakPullResistors = puType::up;
-  jogEncoder_.attachHalfQuad(pins::JOG_ENC_A, pins::JOG_ENC_B);
+  jogEncoder_.attachHalfQuad(pins::SLIDE_ENC_A, pins::SLIDE_ENC_B);
   jogEncoder_.setCount(0);
 
   stepper_ = engine.stepperConnectToPin(pins::SLIDE_STEP);
