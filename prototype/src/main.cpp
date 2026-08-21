@@ -7,14 +7,15 @@
 // hardware difference allows, so the two stay easy to cross-port:
 //   - Same setup()/loop() shape, same non-blocking style (no delay()).
 //   - SlideAxis, RotaryAxis, Mux, Settings, WebConfig, BleRecorder,
-//     DebouncedButton are used identically (RotaryAxis gained one extra
-//     method, setTargetDeg(), for the recenter buttons below).
-//   - Genuinely different because the hardware is different: no ZAxis, no
-//     ShotSequencer/Shot keyframes (nothing yet needs 4-axis synchronized
-//     moves), and the final rig's shared angle-encoder-with-select-button
-//     scheme is replaced by one encoder per rotary axis. (The final rig's
-//     current control scheme is itself expected to change in an upcoming
-//     revision, so it isn't being treated as the thing to match here.)
+//     DebouncedButton, Shot/ShotSequencer are used identically (RotaryAxis
+//     gained one extra method, setTargetDeg(), for the recenter buttons
+//     below; Shot/ShotSequencer are the 3-axis version -- no zMm field, no
+//     ZAxis pointer -- everything else about a keyframe is unchanged).
+//   - Genuinely different because the hardware is different: no ZAxis, and
+//     the final rig's shared angle-encoder-with-select-button scheme is
+//     replaced by one encoder per rotary axis. (The final rig's current
+//     control scheme is itself expected to change in an upcoming revision,
+//     so it isn't being treated as the thing to match here.)
 
 #include <Arduino.h>
 #include <ESP32Encoder.h>
@@ -26,6 +27,7 @@
 #include "Display.h"
 #include "RotaryAxis.h"
 #include "Settings.h"
+#include "Shot.h"
 #include "SlideAxis.h"
 #include "TmcDrivers.h"
 #include "WebConfig.h"
@@ -41,6 +43,24 @@ RotaryAxis pan(pins::PAN_STEP, pins::PAN_DIR, mux_channel::PAN,
 RotaryAxis tilt(pins::TILT_STEP, pins::TILT_DIR, mux_channel::TILT,
                 calibration::TILT_ZERO_OFFSET_DEG, motion::TILT_MIN_DEG,
                 motion::TILT_MAX_DEG);
+
+ShotSequencer shotSequencer;
+
+// Same 3-axis test shot the final rig used for validating the
+// duration-matching algorithm (its slide/pan/z shot, tilt pinned to 0deg,
+// minus the z field). Triggered over Serial ('s' to run, 'c' to cancel)
+// rather than a dedicated button -- all 3 encoder pushes are already
+// assigned (see updateRecordButton/updateAxisRecenterButtons below), and
+// this matches the final rig's own bring-up UX exactly.
+const Keyframe kTestShot[] = {
+    {/*slideMm=*/0.0f, /*panDeg=*/-45.0f, /*tiltDeg=*/0.0f,
+     /*durationS=*/0.0f, EaseType::EASE_IN_OUT},
+    {/*slideMm=*/200.0f, /*panDeg=*/45.0f, /*tiltDeg=*/0.0f,
+     /*durationS=*/0.0f, EaseType::EASE_IN_OUT},
+    {/*slideMm=*/0.0f, /*panDeg=*/-45.0f, /*tiltDeg=*/0.0f,
+     /*durationS=*/0.0f, EaseType::EASE_IN_OUT},
+};
+constexpr uint8_t kTestShotCount = sizeof(kTestShot) / sizeof(kTestShot[0]);
 
 TwoWire &i2cMux = Wire;  // bus A: TCA9548A -> pan/tilt AS5600
 TwoWire i2cOled(1);      // bus B: OLED (optional), isolated from the mux bus
@@ -122,6 +142,27 @@ void updateAxisRecenterButtons(uint32_t nowMs) {
   }
 }
 
+// Settings must not change underneath a running shot: its S-curve waypoints
+// were computed against the speeds, limits and step ratios in effect when
+// the move started. Passed to webconfig::begin() below as a plain function
+// (not a lambda) so it converts to the bool(*)() function pointer WebConfig
+// expects while still reading the file-scope shotSequencer directly.
+bool shotIsRunning() { return shotSequencer.isActive(); }
+
+// Serial-triggered shot playback control, same as the final rig -- 's' to
+// start the test shot, 'c' to cancel. Ahead of any dedicated UI for
+// authoring/selecting shots.
+void updateShotSerialTrigger(uint32_t nowMs) {
+  while (Serial.available() > 0) {
+    const int c = Serial.read();
+    if (c == 's' && !shotSequencer.isActive()) {
+      shotSequencer.start(kTestShot, kTestShotCount, nowMs);
+    } else if (c == 'c') {
+      shotSequencer.cancel();
+    }
+  }
+}
+
 }  // namespace
 
 void setup() {
@@ -155,10 +196,8 @@ void setup() {
 
   display.begin();  // no-ops cleanly if no OLED is fitted
   bleRecorder.begin();
-
-  // No ShotSequencer yet (see file header), so nothing ever holds the rig
-  // "busy" -- config writes are always accepted.
-  webconfig::begin([]() { return false; });
+  shotSequencer.begin(slide, pan, tilt);
+  webconfig::begin(shotIsRunning);
 }
 
 void loop() {
@@ -167,7 +206,9 @@ void loop() {
   slide.update();
   pan.update(nowMs);
   tilt.update(nowMs);
+  shotSequencer.update(nowMs);
 
+  updateShotSerialTrigger(nowMs);
   updatePanTiltSetpoints();
   updateRecordButton(nowMs);
   updateAxisRecenterButtons(nowMs);
