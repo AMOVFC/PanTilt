@@ -14,7 +14,7 @@ wirelessly over BLE HID.
 | Slide | GT2 belt along the 2020 rail, V-wheel carriage | 1:1 | 2x limit switches (min/max) |
 | Pan | 2-stage GT2 belt (20T:20T jackshaft, then 20T:80T) | 4:1 | AS5600 absolute encoder — no homing |
 | Tilt | Same 2-stage scheme as pan | 4:1 | AS5600 absolute encoder — no homing |
-| Z (height) | Integrated leadscrew NEMA 17, anti-backlash nut | leadscrew lead | 1x limit switch, then step-counted |
+| Z (height) | Integrated leadscrew NEMA 17, anti-backlash nut | 8mm lead | 1x limit switch, then step-counted |
 
 Pan and tilt read absolute angle on every power-up, so they never need a homing
 move. Slide and Z home against physical switches at startup.
@@ -24,10 +24,11 @@ move. Slide and Z home against physical switches at startup.
 ```
 main.cpp          Non-blocking loop: no delay() anywhere. Owns the two knobs,
                   the two push-buttons, and dispatches to everything below.
-config.h          Single source of truth: pin map, driver config, mechanical
-                  ratios, motion limits, calibration values.
-Settings.*        Runtime config: NVS persistence and the descriptor table
-                  that drives validation and the web UI.
+config.h          Declares every config value. Physical facts (pins, I2C
+                  addresses, fitted parts) are constexpr here; tunables are
+                  extern, with their defaults in Settings.cpp.
+Settings.*        Tunable values, their defaults, NVS persistence, and the
+                  descriptor table driving validation and the web UI.
 WebConfig.*       WiFi AP + HTTP config interface.
 TmcDrivers.*      Boot-time UART configuration for all 4 TMC2209s.
 SlideAxis.*       Homing + live velocity jog from the jog encoder.
@@ -89,8 +90,19 @@ bug. Here `tmc::MICROSTEPS` is the single source of truth, written to the driver
 and then **read back and verified** at startup. A mismatch is a loud error, not
 a silent 4x position error.
 
-In UART mode MS1/MS2 no longer select microstepping — they become address
-straps:
+### Wiring the UART bus
+
+This costs some bench work that standalone mode did not, which is exactly why
+it was done before mechanical assembly rather than after:
+
+1. **Solder one wire per stepstick.** The Jeanoko carrier boards do not break
+   out the TMC2209's `PDN_UART` pad, so each of the four drivers needs a wire
+   soldered directly to that pad on the module.
+2. **Join them into one bus.** All four `PDN_UART` wires tie together.
+   GPIO41 (RX) connects to the bus directly; GPIO47 (TX) connects through a
+   ~1kΩ resistor — the standard TMC single-wire half-duplex arrangement.
+3. **Strap the addresses.** In UART mode MS1/MS2 stop selecting microstepping
+   and become address selects instead:
 
 | Driver | MS1 | MS2 | Address |
 |---|---|---|---|
@@ -99,8 +111,14 @@ straps:
 | Tilt | LOW | HIGH | 2 |
 | Z | HIGH | HIGH | 3 |
 
-If UART wiring fails, motion still works (STEP/DIR is independent) but the
-firmware prints a warning that position math is untrustworthy until fixed.
+The Vref trimpots become irrelevant once this is wired — current comes from the
+register instead. No multimeter procedure needed.
+
+Because each driver has a distinct address, a mis-strapped one shows up at boot
+as *that specific driver* failing to respond, not as silent misconfiguration.
+If UART fails entirely, motion still works (STEP/DIR is independent) but the
+firmware prints a warning that current and microstepping are at hardware
+defaults and position math is untrustworthy until fixed.
 
 ## Web configuration
 
@@ -113,15 +131,21 @@ existing network:
 | Password | `slider1234` — change in `config.h` before first use |
 | URL | `http://192.168.4.1` |
 
-Every tuning value — speeds, accelerations, soft limits, motor currents,
-microstepping, mechanical ratios, magnet calibration offsets, S-curve segment
-count, UI timings — is editable there and persists to flash. Values are
-range-validated on write, and settings that only take effect during
-initialization are badged **reboot** in the UI.
+42 settings across 7 sections — Drivers, Mechanical, Slide, Pan / Tilt,
+Z (height), Shots, Interface — covering motor currents, microstepping, belt and
+leadscrew ratios, per-axis speed and acceleration, homing behaviour, soft
+limits, magnet calibration offsets, S-curve shaping, and UI timings. Each value
+is range-validated on write and saved to flash. Settings that are only read
+during initialization are badged **reboot** in the UI, since editing them live
+would have no effect until restart.
 
 Settings are defined once in a descriptor table in `Settings.cpp`; JSON,
 form rendering, validation, and persistence all derive from it, so adding a
 setting means adding one row.
+
+The page has **Save**, **Reload**, **Reboot**, and **Reset defaults**. Reset
+erases the saved values in flash but leaves the rig running on what it already
+has in memory — compiled defaults only take over at the next reboot.
 
 **Not exposed, deliberately:** pin assignments, I2C addresses, OLED
 dimensions, and the TMC sense resistor and address straps. These describe how
@@ -185,7 +209,15 @@ Upload and monitor:
 pio run --target upload && pio device monitor
 ```
 
-Current build: ~15% flash, ~15% RAM on a 16MB/8MB N16R8.
+PlatformIO fetches all libraries automatically: FastAccelStepper, ESP32Encoder,
+TMCStepper, ArduinoJson, Adafruit SSD1306/GFX, and ESP32 BLE Keyboard.
+
+Current build: **22% flash, 22% RAM** on a 16MB/8MB N16R8. WiFi accounts for
+most of that — it was ~15%/15% before the web UI.
+
+On first boot every setting comes up on its compiled-in default, since NVS is
+empty; the serial log reports how many were restored versus defaulted. After
+that, whatever you save from the web UI persists across reboots and reflashes.
 
 ## Before first hardware run
 
@@ -241,3 +273,11 @@ Preserved so they don't get accidentally re-litigated:
   where they are at power-up; the axes that can't, home.
 - **BLE HID instead of a wired shutter.** Uses the same volume-button mechanism
   as cheap Bluetooth remotes, which the Blackmagic Camera app already supports.
+- **Tunables at runtime, wiring at compile time.** Anything you'd adjust while
+  dialing the rig in is web-editable and stored in flash. Anything describing
+  how the board is physically built stays in `config.h` — software cannot
+  rewire a board, so making those editable would only let firmware drift out of
+  agreement with reality.
+- **Access point, not a client.** The rig makes its own network rather than
+  joining one, so it behaves identically on location where there may be no WiFi
+  at all, and the address never changes.
