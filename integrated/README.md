@@ -1,8 +1,8 @@
 # Integrated Controller — All Components Soldered (PCBWay assembly)
 
-Draft schematic for a fully-integrated version of the [4-axis final rig](../pantiltslide/pantiltslide_full.kicad_sch): every IC soldered directly to the board instead of socketed breakout modules, sized for a PCBWay turnkey assembly order. Companion to `pantiltslide/pantiltslide_full.kicad_sch` (the carrier-board version) — that board still exists and is untouched.
+Fully-integrated version of the [4-axis final rig](../pantiltslide/pantiltslide_full.kicad_sch): every IC soldered directly to the board instead of socketed breakout modules, sized for a PCBWay turnkey assembly order. Companion to `pantiltslide/pantiltslide_full.kicad_sch` (the carrier-board version) — that board still exists and is untouched.
 
-**Status: schematic only, for review. Not yet ready for fab.** See "Known issue" below before opening in KiCad.
+**Status: schematic + PCB placement complete and verified. Not routed, so not yet ready for fab.** See "PCB status" below.
 
 ## What's integrated vs. what stays a connector
 
@@ -10,12 +10,12 @@ Draft schematic for a fully-integrated version of the [4-axis final rig](../pant
 |---|---|---|
 | ESP32-S3 DevKitC (22-pin sockets) | ESP32-S3-WROOM-1-N16R8 module, soldered | Module has its own certified antenna/crystal — no RF layout risk |
 | 4× TMC2209 stepstick sockets | 4× TMC2209-LA (QFN28), full app circuit | Standard Trinamic reference design, verified against datasheet |
-| 2× AS5600 breakout connectors | Still 4-pin connectors here — the sensors moved to their own satellite PCBs (`as5600_sensor/`) | An AS5600 needs a <3 mm air gap to a magnet on the rotating shaft, so it physically cannot sit on the controller board. Integrated as a purpose-built 22×22 mm board instead of a bought breakout module. |
+| 2× AS5600 breakout connectors | Still connectors — now 4-pin JST XH (`J7`, `J8`) | An AS5600 needs a <3 mm air gap to a magnet on the rotating shaft, so it can't sit on the controller board. Off-the-shelf AS5600 breakout modules stay at the pan/tilt joints, wired back over XH. |
 | TCA9548A breakout connector | TCA9548A (TSSOP24), soldered | Standard I2C mux app circuit |
 | — (no regulation existed) | 24V→5V buck (LM2596S-5) → 5V→3.3V LDO (AMS1117-3.3) | Carrier board had no onboard regulation at all — this is genuinely new |
 | — | USB-C connector, native USB on the S3 | Bench programming/power without the 24V rail connected |
 | SSD1306 OLED connector | **Unchanged** — still a connector | It's a glass panel, not something an assembly house places |
-| Motor/encoder/limit-switch connectors | **Unchanged**, same footprints | Preserves the wiring harness the mechanical build already uses |
+| Motor/encoder/limit-switch connectors | Still connectors, now **JST XH** | Polarised and latching — see the Connectors table below |
 
 All part choices (TMC2209-LA, ESP32-S3-WROOM-1, AS5600, TCA9548APWR, LM2596S-5, AMS1117-3.3) are mainstream, high-volume parts — good candidates for PCBWay's turnkey sourcing, not exotic.
 
@@ -28,6 +28,12 @@ Identical to the final rig's — see the main [README pin map](../README.md#pin-
 **ERC: 0 violations. Netlist verified pin-by-pin against the intended design.**
 
 Nets use **global labels**, matching the convention in `pantiltslide_full.kicad_sch`.
+
+### Sheet organisation
+
+Drawn on an A1 sheet in four labelled blocks — power in / regulation, MCU + USB, I2C mux + off-board connectors, and the four TMC2209 drivers in a 2x2 grid.
+
+Power rails are drawn as **GND / +3V3 / +5V / +24V symbols**, not text labels. 158 of the 331 net connections on this sheet are power (90 of them GND alone); as labels they buried the actual signal flow in a wall of repeated text. Only real signals carry label text now — 173 labels instead of 331.
 
 ### What was wrong in the first two drafts, and the actual root cause
 
@@ -51,22 +57,42 @@ Also fixed along the way:
 
 The two hand-authored symbols (AS5600, ESP32-S3-WROOM-1) ship as an editable `New_Library.kicad_sym` with a `sym-lib-table`, so they open normally in the Symbol Editor rather than existing only as embedded copies.
 
-Layout still needs a human pass — see "Before layout" below.
+Layout still needs a human pass — see "PCB status" below.
 
 ## PCB status
 
-| | Main board | AS5600 satellite |
-|---|---|---|
-| Files | `schematic/pantiltslide_integrated.*` | `as5600_sensor/as5600_sensor.*` |
-| Size | 150 × 120 mm | 22 × 22 mm |
-| Layers | 4 (F.Cu / GND / 3V3 / B.Cu) | 2 |
-| Footprints | 80 | 5 (incl. 2 M2 holes) |
-| ERC | **0** | **0** |
-| Schematic parity | **0** | **0** |
-| DRC (excl. routing) | 5, all cosmetic | 3, all cosmetic |
-| **Routing** | **not routed — 254 ratsnest connections** | **not routed — 7** |
+One board: `schematic/pantiltslide_integrated.*`
 
-**These boards are placed and netted, not routed.** Every pad carries its correct net so the ratsnest is complete and correct, but no copper tracks exist yet. Routing is the next step — either by hand in KiCad, or by exporting Specctra DSN (File → Export → Specctra DSN, GUI only — `kicad-cli` has no DSN export) and running Freerouting.
+| | |
+|---|---|
+| Size | 150 × 120 mm |
+| Layers | 4 (F.Cu / GND / 3V3 / B.Cu) |
+| Footprints | 80 |
+| ERC | **0** |
+| Schematic parity | **0** |
+| DRC (excl. routing) | 9, all cosmetic silk |
+| **Routing** | **not routed — 254 ratsnest connections** |
+
+**The board is placed and netted, not routed.** Every pad carries its correct net so the ratsnest is complete and correct, but no copper tracks exist yet. Routing is the next step — either by hand in KiCad, or by exporting Specctra DSN (File → Export → Specctra DSN, GUI only — `kicad-cli` has no DSN export) and running Freerouting.
+
+## Connectors
+
+Everything that leaves the board is **JST XH** — polarised so a harness can't be plugged in backwards, latching so it won't shake loose on a moving rig, and rated 3 A/contact (comfortably above the TMC2209's 2 A RMS ceiling). The sole exception is the 24 V input, which keeps a screw terminal for bare supply leads.
+
+| Ref | Function | Connector |
+|---|---|---|
+| `J1` | 24 V motor supply in | **Screw terminal**, 5.0 mm |
+| `J2` | USB-C (power + programming) | USB-C receptacle |
+| `J3`–`J6` | Motors: slide / pan / tilt / Z | XH 4-pin |
+| `J7`, `J8` | AS5600 modules: pan / tilt | XH 4-pin — `3V3, GND, SDA, SCL` |
+| `J9` | SSD1306 OLED | XH 4-pin — `3V3, GND, SDA, SCL` |
+| `J10`, `J11` | Encoders: jog / angle | XH 4-pin — `A, B, push, GND` |
+| `J12`–`J14` | Limit switches: slide min / max / Z home | XH 2-pin |
+
+The AS5600s are **off-the-shelf breakout modules** mounted at the pan and tilt joints, not parts on this board — the sensor has to sit within a few mm of a diametrically-magnetised magnet on the rotating shaft. Two things to check on whichever module you buy:
+
+- **Pin order.** `J7`/`J8` are wired `1=3V3, 2=GND, 3=SDA, 4=SCL`. Most AS5600 breakouts use that order, but confirm before crimping — a swapped 3V3/GND will destroy the module.
+- **The `DIR` pin.** On the bare IC, `DIR` sets count direction and must not float. Most breakouts tie it low or provide a jumper; if yours leaves it floating, ground it, or pan/tilt direction will be indeterminate.
 
 Placement is programmatic: components are clustered by subsystem with guaranteed non-overlapping courtyards, but it is not hand-optimised. **Expect to move things before routing**, particularly:
 
@@ -89,21 +115,20 @@ Placement is programmatic: components are clustered by subsystem with guaranteed
 
 ## Reproducing / regenerating
 
-Both boards are generated, not hand-drawn. `tools/run_all.py` rebuilds everything from source:
+This board is generated, not hand-drawn. `tools/run_all.py` rebuilds everything from source:
 
 ```bash
 python integrated/tools/run_all.py
 ```
 
-`gen_sch.py` builds the main schematic, `export_design.py` dumps the netlist (taken from KiCad's own netlist export, so the PCB can never disagree with the schematic), `build_pcb.py` and `build_pcb_sat.py` build the boards via the `pcbnew` Python API, and `write_pro.py` writes the design rules. Editing by hand in KiCad from here on is fine — the generators were scaffolding, not a pipeline you have to keep using.
+`gen_sch.py` builds the schematic, `export_design.py` dumps the netlist (taken from KiCad's own netlist export, so the PCB can never disagree with the schematic), `build_pcb.py` builds the board via the `pcbnew` Python API, and `write_pro.py` writes the design rules. Editing by hand in KiCad from here on is fine — the generators were scaffolding, not a pipeline you have to keep using.
 
 ## Before ordering
 
-- **Route both boards.** Nothing is routed yet.
+- **Route the board.** Nothing is routed yet.
 - The TMC2209 sense resistors are `0.11 Ω` placeholders matching the firmware's `tmc::R_SENSE_OHMS`; confirm against the parts actually ordered.
 - Fuse rating (`2 A`) is a placeholder — size it to your motor supply.
-- Confirm the AS5600's Hall-array centre against its mechanical drawing before trusting the satellite board's axis crosshair; the silk marker assumes the array is centred in the SOIC-8 body.
-- Both boards ship a `sym-lib-table` pointing at a shared `New_Library.kicad_sym` (AS5600 + ESP32-S3-WROOM-1). If you move folders, that relative path needs updating.
+- The board ships a `sym-lib-table` pointing at a shared `New_Library.kicad_sym` (AS5600 + ESP32-S3-WROOM-1). If you move folders, that relative path needs updating.
 
 ## Verified against
 

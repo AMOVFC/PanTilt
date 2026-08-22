@@ -141,6 +141,15 @@ for j, (num, nm) in enumerate(_esp_right):
     _pt[num] = (nm, 17.78, y, 180)
 PINTABLES["ESP32-S3-WROOM-1"] = _pt
 
+# Direction the wire stub runs AWAY from the symbol body, in screen coords.
+# X is unchanged by placement, but Y is negated (see Component.pin_abs), so a
+# pin declared at angle 270 (connection point above the body in library space)
+# exits UPWARD on screen, i.e. toward smaller Y.
+_EXIT_DIR = {0: (-1, 0), 180: (1, 0), 270: (0, -1), 90: (0, 1)}
+STUB_LEN = 2.54
+
+SECTIONS = []   # (text, x, y) headings drawn on the sheet
+
 # ---------------------------------------------------------------------------
 # lib_symbols text extraction from real KiCad libraries
 # ---------------------------------------------------------------------------
@@ -244,6 +253,7 @@ _AUTO_LIB_SYMS = [
     ("Switch.kicad_sym", "SW_Push"),
     ("Connector.kicad_sym", "Screw_Terminal_01x02"),
     ("Connector.kicad_sym", "Conn_01x04_Pin"),
+    ("Connector.kicad_sym", "Conn_01x02_Pin"),
     ("Connector.kicad_sym", "USB_C_Receptacle_USB2.0_14P"),
     ("Driver_Motor.kicad_sym", "TMC2209-LA"),
     ("Interface_Expansion.kicad_sym", "TCA9548APWR"),
@@ -439,13 +449,22 @@ def SWPUSH(value, x, y, footprint="Button_Switch_THT:SW_PUSH_6mm", ref=None):
     lib_id = B.use_lib("Switch.kicad_sym", "SW_Push")
     return B.place("SW", lib_id, "SW_Push", value, footprint, x, y, ref=ref)
 
+# Screw terminal is reserved for the 24V input only -- it takes bare motor
+# supply leads and is the one connector that benefits from a captive screw.
 def SCREW2(value, x, y, footprint="TerminalBlock:TerminalBlock_Altech_AK300-2_P5.00mm", ref=None):
     lib_id = B.use_lib("Connector.kicad_sym", "Screw_Terminal_01x02")
     return B.place("J", lib_id, "Screw_Terminal_01x02", value, footprint, x, y, ref=ref)
 
-def PINHDR4(value, x, y, footprint="Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical", ref=None):
+# Every off-board wiring harness uses JST XH: polarised (cannot be plugged
+# in backwards), latching, and rated 3A/contact -- comfortably above the
+# TMC2209's 2A RMS ceiling for the motor runs.
+def JST_XH4(value, x, y, footprint="Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical", ref=None):
     lib_id = B.use_lib("Connector.kicad_sym", "Conn_01x04_Pin")
     return B.place("J", lib_id, "Conn_01x04_Pin", value, footprint, x, y, ref=ref)
+
+def JST_XH2(value, x, y, footprint="Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical", ref=None):
+    lib_id = B.use_lib("Connector.kicad_sym", "Conn_01x02_Pin")
+    return B.place("J", lib_id, "Conn_01x02_Pin", value, footprint, x, y, ref=ref)
 
 def PWR(sym, x, y):
     lib_id = f"power:{sym}"
@@ -459,24 +478,24 @@ print("board builder ready")
 # ===========================================================================
 
 # --- POWER SECTION ---------------------------------------------------------
-J_pwr = SCREW2("24V_In", 30, 30)
-F1 = FUSE("2A", 50, 34)
+J_pwr = SCREW2("24V_In", 48, 75)
+F1 = FUSE("2A", 75, 71)
 U_buck = B.place("U", B.use_lib("Regulator_Switching.kicad_sym", "LM2596S-5"),
-                  "LM2596S-5", "LM2596S-5", "Package_TO_SOT_SMD:TO-263-5_TabPin3", 70, 40,
+                  "LM2596S-5", "LM2596S-5", "Package_TO_SOT_SMD:TO-263-5_TabPin3", 118, 82,
                   datasheet="http://www.ti.com/lit/ds/symlink/lm2596.pdf",
                   description="24V->5V buck regulator, 3A, fixed 5V, TO-263-5")
-L1 = L("100uH", 95, 40)
-D1 = DSCHOTTKY("SS34", 95, 55, footprint="Diode_SMD:D_SMC")
-C_cin_bulk = CP("100uF_35V", 55, 55)
-C_cin_hf = C("100nF", 62, 55)
-C_cout_bulk = CP("220uF_25V", 108, 55)
+L1 = L("100uH", 165, 78)
+D1 = DSCHOTTKY("SS34", 143, 103, footprint="Diode_SMD:D_SMC")
+C_cin_bulk = CP("100uF_35V", 92, 110)
+C_cin_hf = C("100nF", 106, 110)
+C_cout_bulk = CP("220uF_25V", 182, 110)
 U_ldo = B.place("U", B.use_lib("Regulator_Linear.kicad_sym", "AMS1117-3.3"),
-                 "AMS1117-3.3", "AMS1117-3.3", "Package_TO_SOT_SMD:SOT-223-3_TabPin2", 70, 75,
+                 "AMS1117-3.3", "AMS1117-3.3", "Package_TO_SOT_SMD:SOT-223-3_TabPin2", 118, 155,
                  datasheet="http://www.advanced-monolithic.com/pdf/ds1117.pdf",
                  description="5V->3.3V LDO, 1A, SOT-223")
-C_ldo_in = C("10uF", 58, 80)
-C_ldo_out = C("22uF", 82, 80)
-D_usb_or = DSCHOTTKY("SS14", 30, 90, footprint="Diode_SMD:D_SOD-123")
+C_ldo_in = C("10uF", 92, 172)
+C_ldo_out = C("22uF", 152, 172)
+D_usb_or = DSCHOTTKY("SS14", 62, 130, footprint="Diode_SMD:D_SOD-123")
 
 B.net("+24V", (J_pwr, 1), (F1, 1))
 B.net("GND", (J_pwr, 2))
@@ -495,24 +514,24 @@ for comp, pin in [(U_buck, 3), (U_buck, 5), (D1, 2), (C_cin_bulk, 2), (C_cin_hf,
 
 # --- MCU SECTION -------------------------------------------------------------
 U_esp = B.place("U", "New_Library:ESP32-S3-WROOM-1", "ESP32-S3-WROOM-1",
-                 "ESP32-S3-WROOM-1-N16R8", "RF_Module:ESP32-S3-WROOM-1", 170, 90,
+                 "ESP32-S3-WROOM-1-N16R8", "RF_Module:ESP32-S3-WROOM-1", 330, 130,
                  datasheet="https://documentation.espressif.com/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf",
                  description="ESP32-S3 module, integrated antenna+crystal, N16R8")
 B.custom_syms["New_Library:ESP32-S3-WROOM-1"] = custom_ESP32S3WROOM1()
 
-R_en = R("10k", 145, 60)
-C_en = C("1uF", 145, 75)
-R_boot = R("10k", 200, 60)
-SW_boot = SWPUSH("BOOT", 215, 75)
-SW_rst = SWPUSH("RESET", 155, 45)
+R_en = R("10k", 268, 78)
+C_en = C("1uF", 268, 104)
+R_boot = R("10k", 402, 78)
+SW_boot = SWPUSH("BOOT", 418, 104)
+SW_rst = SWPUSH("RESET", 258, 52)
 
-C_esp_dec = [C("100nF", 130 + i * 8, 40) for i in range(3)]
-C_esp_bulk = CP("10uF", 160, 40)
+C_esp_dec = [C("100nF", 286 + i * 18, 205) for i in range(3)]
+C_esp_bulk = CP("10uF", 358, 205)
 
 J_usb = B.place("J", B.use_lib("Connector.kicad_sym", "USB_C_Receptacle_USB2.0_14P"), "USB_C_Receptacle_USB2.0_14P",
-                 "USB_PROG", "Connector_USB:USB_C_Receptacle_GCT_USB4085", 225, 100)
-R_cc1 = R("5.1k", 245, 90)
-R_cc2 = R("5.1k", 252, 90)
+                 "USB_PROG", "Connector_USB:USB_C_Receptacle_GCT_USB4085", 405, 175)
+R_cc1 = R("5.1k", 448, 168)
+R_cc2 = R("5.1k", 462, 168)
 
 # ESP32 module net mapping (module pin -> net)
 ESP_NET = {
@@ -556,13 +575,13 @@ B.net("GPIO20", (J_usb, "A6"), (J_usb, "B6"))
 
 # --- DRIVER SECTION (4x TMC2209) --------------------------------------------
 DRIVERS = [
-    dict(name="Slide", step="GPIO4", dir="GPIO5", ms1="GND", ms2="GND", x=250, y=40),
-    dict(name="Pan",   step="GPIO6", dir="GPIO7", ms1="+3V3", ms2="GND", x=360, y=40),
-    dict(name="Tilt",  step="GPIO8", dir="GPIO9", ms1="GND", ms2="+3V3", x=250, y=190),
-    dict(name="Z",     step="GPIO1", dir="GPIO2", ms1="+3V3", ms2="+3V3", x=360, y=190),
+    dict(name="Slide", step="GPIO4", dir="GPIO5", ms1="GND", ms2="GND", x=560, y=140),
+    dict(name="Pan",   step="GPIO6", dir="GPIO7", ms1="+3V3", ms2="GND", x=740, y=140),
+    dict(name="Tilt",  step="GPIO8", dir="GPIO9", ms1="GND", ms2="+3V3", x=560, y=395),
+    dict(name="Z",     step="GPIO1", dir="GPIO2", ms1="+3V3", ms2="+3V3", x=740, y=395),
 ]
 
-R_tmc_tx = R("1k", 220, 120)
+R_tmc_tx = R("1k", 405, 258)
 B.net("GPIO47", (U_esp, "24"), (R_tmc_tx, 1))
 B.net("TMC_UART", (R_tmc_tx, 2), (U_esp, "34"))  # GPIO41 (module pin 34) direct RX tap; pin34 already mapped GPIO41 above via ESP_NET -- see note below
 
@@ -593,31 +612,31 @@ for d in DRIVERS:
     rsa_net = f"RSA_{d['name']}"
     rsb_net = f"RSB_{d['name']}"
 
-    c_cpicpo = C("22nF", x - 25, y - 30)
+    c_cpicpo = C("22nF", x + 42, y - 6)
     B.net(cpi_cpo, (Utmc, "5"), (c_cpicpo, 1))
     B.net(cpi_cpo + "_B", (Utmc, "4"), (c_cpicpo, 2))  # CPO isolated node (cap's other leg)
 
-    c_vcpvs = C("100nF", x - 15, y - 30)
+    c_vcpvs = C("100nF", x + 20, y - 48)
     B.net(vcp_net, (Utmc, "6"), (c_vcpvs, 1))
     B.net("+24V", (c_vcpvs, 2))
 
-    c_5vout = C("4.7uF", x - 5, y - 30)
+    c_5vout = C("4.7uF", x + 58, y - 26)
     B.net(fivev_net, (Utmc, "8"), (c_5vout, 1))
     B.net("GND", (c_5vout, 2))
 
-    c_vs_hf = C("100nF", x + 25, y - 30)
-    c_vs_bulk = CP("100uF_35V", x + 33, y - 30)
+    c_vs_hf = C("100nF", x - 30, y - 48)
+    c_vs_bulk = CP("100uF_35V", x - 48, y - 48)
     B.net("+24V", (c_vs_hf, 1), (c_vs_bulk, 1))
     B.net("GND", (c_vs_hf, 2), (c_vs_bulk, 2))
 
-    r_sa = R("0.11", x - 25, y + 35)
-    r_sb = R("0.11", x - 15, y + 35)
+    r_sa = R("0.11", x + 42, y + 36)
+    r_sb = R("0.11", x + 56, y + 36)
     B.net(rsa_net, (Utmc, "23"), (r_sa, 1))
     B.net("GND", (r_sa, 2))
     B.net(rsb_net, (Utmc, "27"), (r_sb, 1))
     B.net("GND", (r_sb, 2))
 
-    J_motor = PINHDR4(f"Motor_{d['name']}", x + 40, y)
+    J_motor = JST_XH4(f"Motor_{d['name']}", x + 78, y + 4)
     B.net(f"MOTOR_{d['name']}_A1", (Utmc, "24"), (J_motor, 1))
     B.net(f"MOTOR_{d['name']}_A2", (Utmc, "21"), (J_motor, 2))
     B.net(f"MOTOR_{d['name']}_B1", (Utmc, "26"), (J_motor, 3))
@@ -630,7 +649,7 @@ del B.nets["DRV_EN"]
 
 # --- SENSOR SECTION (TCA9548A + 2x AS5600) ----------------------------------
 U_mux = B.place("U", B.use_lib("Interface_Expansion.kicad_sym", "TCA9548APWR"), "TCA9548APWR", "TCA9548APWR",
-                 "Package_SO:TSSOP-24_4.4x7.8mm_P0.65mm", 470, 40,
+                 "Package_SO:TSSOP-24_4.4x7.8mm_P0.65mm", 120, 300,
                  datasheet="http://www.ti.com/lit/ds/symlink/tca9548a.pdf",
                  description="8-channel I2C switch, ch0->pan AS5600, ch1->tilt AS5600")
 B.net("+3V3", (U_mux, "24"))
@@ -643,18 +662,18 @@ B.net("I2C_PAN_SCL", (U_mux, "5"))
 B.net("I2C_PAN_SDA", (U_mux, "4"))
 B.net("I2C_TILT_SCL", (U_mux, "7"))
 B.net("I2C_TILT_SDA", (U_mux, "6"))
-C_mux_dec = C("100nF", 455, 40)
+C_mux_dec = C("100nF", 68, 300)
 B.net("+3V3", (C_mux_dec, 1)); B.net("GND", (C_mux_dec, 2))
 
-r_i2c0_sda = R("4.7k", 445, 60); r_i2c0_scl = R("4.7k", 452, 60)
+r_i2c0_sda = R("4.7k", 185, 258); r_i2c0_scl = R("4.7k", 199, 258)
 B.net("GPIO11", (r_i2c0_sda, 1)); B.net("+3V3", (r_i2c0_sda, 2))
 B.net("GPIO12", (r_i2c0_scl, 1)); B.net("+3V3", (r_i2c0_scl, 2))
 
-r_pan_sda = R("4.7k", 445, 90); r_pan_scl = R("4.7k", 452, 90)
+r_pan_sda = R("4.7k", 185, 330); r_pan_scl = R("4.7k", 199, 330)
 B.net("I2C_PAN_SDA", (r_pan_sda, 1)); B.net("+3V3", (r_pan_sda, 2))
 B.net("I2C_PAN_SCL", (r_pan_scl, 1)); B.net("+3V3", (r_pan_scl, 2))
 
-r_tilt_sda = R("4.7k", 445, 130); r_tilt_scl = R("4.7k", 452, 130)
+r_tilt_sda = R("4.7k", 185, 366); r_tilt_scl = R("4.7k", 199, 366)
 B.net("I2C_TILT_SDA", (r_tilt_sda, 1)); B.net("+3V3", (r_tilt_sda, 2))
 B.net("I2C_TILT_SCL", (r_tilt_scl, 1)); B.net("+3V3", (r_tilt_scl, 2))
 
@@ -662,8 +681,8 @@ B.net("I2C_TILT_SCL", (r_tilt_scl, 1)); B.net("+3V3", (r_tilt_scl, 2))
 # diametrically-magnetised magnet on its rotating shaft, so they sit on small
 # satellite PCBs at the pan and tilt joints (see ../as5600_sensor/) and cable
 # back to these two headers. Pinout matches the satellite board's connector.
-J_as_pan = PINHDR4("AS5600_Pan", 490, 100)
-J_as_tilt = PINHDR4("AS5600_Tilt", 490, 140)
+J_as_pan = JST_XH4("AS5600_Pan", 62, 400)
+J_as_tilt = JST_XH4("AS5600_Tilt", 62, 432)
 for Jas, sda_net, scl_net in ((J_as_pan, "I2C_PAN_SDA", "I2C_PAN_SCL"),
                                (J_as_tilt, "I2C_TILT_SDA", "I2C_TILT_SCL")):
     B.net("+3V3", (Jas, 1))
@@ -672,51 +691,56 @@ for Jas, sda_net, scl_net in ((J_as_pan, "I2C_PAN_SDA", "I2C_PAN_SCL"),
     B.net(scl_net, (Jas, 4))
 
 # --- REMAINING I/O CONNECTORS ------------------------------------------------
-J_oled = PINHDR4("OLED", 520, 190)
+J_oled = JST_XH4("OLED", 62, 464)
 B.net("+3V3", (J_oled, 1)); B.net("GND", (J_oled, 2))
 B.net("GPIO13", (J_oled, 3)); B.net("GPIO14", (J_oled, 4))
-r_oled_sda = R("4.7k", 535, 185); r_oled_scl = R("4.7k", 542, 185)
+r_oled_sda = R("4.7k", 185, 402); r_oled_scl = R("4.7k", 199, 402)
 B.net("GPIO13", (r_oled_sda, 1)); B.net("+3V3", (r_oled_sda, 2))
 B.net("GPIO14", (r_oled_scl, 1)); B.net("+3V3", (r_oled_scl, 2))
 
-J_jog = PINHDR4("Enc_Jog", 520, 220)
+J_jog = JST_XH4("Enc_Jog", 62, 496)
 B.net("GPIO15", (J_jog, 1)); B.net("GPIO16", (J_jog, 2))
 B.net("GPIO17", (J_jog, 3)); B.net("GND", (J_jog, 4))
 
-J_angle = PINHDR4("Enc_Angle", 520, 250)
+J_angle = JST_XH4("Enc_Angle", 62, 528)
 B.net("GPIO18", (J_angle, 1)); B.net("GPIO21", (J_angle, 2))
 B.net("GPIO38", (J_angle, 3)); B.net("GND", (J_angle, 4))
 
-J_lim_min = SCREW2("Limit_Min", 520, 280)
+J_lim_min = JST_XH2("Limit_Min", 190, 464)
 B.net("GPIO39", (J_lim_min, 1)); B.net("GND", (J_lim_min, 2))
-J_lim_max = SCREW2("Limit_Max", 520, 300)
+J_lim_max = JST_XH2("Limit_Max", 190, 496)
 B.net("GPIO40", (J_lim_max, 1)); B.net("GND", (J_lim_max, 2))
-J_lim_z = SCREW2("Limit_Z_Home", 520, 320)
+J_lim_z = JST_XH2("Limit_Z_Home", 190, 528)
 B.net("GPIO42", (J_lim_z, 1)); B.net("GND", (J_lim_z, 2))
 
-# --- POWER FLAG SYMBOLS (satisfy ERC "power pin not driven") ---------------
-pwr24 = PWR("+24V", 40, 20)
-B.net("+24V", (pwr24, 1))
-pwr5 = PWR("+5V", 108, 45)
-B.net("+5V", (pwr5, 1))
-pwr3v3 = PWR("+3V3", 70, 65)
-B.net("+3V3", (pwr3v3, 1))
-for gx, gy in [(30, 45), (150, 130), (250, 120), (360, 120), (250, 260), (360, 260),
-               (470, 65), (520, 340)]:
-    g = PWR("GND", gx, gy)
-    B.net("GND", (g, 1))
-
 # PWR_FLAG tells ERC that a rail is externally driven. +24V arrives from the
-# barrel/screw terminal and GND is the return -- neither originates at a
-# power_out pin on this board, and the LM2596's OUT is typed "output" rather
-# than "power_out", so +5V needs one too.
+# screw terminal and GND is the return -- neither originates at a power_out
+# pin on this board, and the LM2596's OUT is typed "output" rather than
+# "power_out", so +5V needs one too.
 def PWR_FLAG(x, y):
     lib_id = B.use_lib("power.kicad_sym", "PWR_FLAG")
     return B.place("#FLG", lib_id, "PWR_FLAG", "PWR_FLAG", "", x, y)
 
-for _rail, _fx, _fy in [("+24V", 45, 20), ("+5V", 115, 45), ("GND", 35, 45)]:
+for _rail, _fx, _fy in [("+24V", 40, 205), ("+5V", 175, 205), ("GND", 108, 205)]:
     _f = PWR_FLAG(_fx, _fy)
     B.net(_rail, (_f, 1))
+
+# --- POWER RAILS AS SYMBOLS, NOT LABELS -------------------------------------
+# 158 of the 331 net connections on this sheet are power rails (90 of them GND
+# alone). Rendering each as a global label buries the actual signal flow in a
+# wall of text. Every power-rail pin instead gets the conventional GND / +3V3
+# / +5V / +24V symbol at the end of its stub, which is both how KiCad
+# schematics are normally drawn and far quicker to read.
+POWER_NETS = ("GND", "+3V3", "+5V", "+24V")
+for _net in POWER_NETS:
+    for _comp, _pin in list(B.nets.get(_net, [])):
+        if _comp.ref.startswith("#PWR"):
+            continue                      # already a rail symbol
+        _x, _y, _rot, _ = _comp.pin_abs(_pin)
+        _dx, _dy = _EXIT_DIR.get(_rot, (-1, 0))
+        _ps = PWR(_net, round(_x + _dx * STUB_LEN, 4),
+                        round(_y + _dy * STUB_LEN, 4))
+        B.nets[_net].append((_ps, "1"))
 
 # auto-extraction (see PINTABLES override above) surfaces every real pin on
 # library symbols like USB-C and TCA9548A, including ones this design never
@@ -746,6 +770,13 @@ for _c in B.components:
         _auto_nc.append(f"{_c.ref}.{_pin}({PINTABLES[_c.pinkey][_pin][0]})")
 print(f"auto no-connect added for {len(_auto_nc)} unused pins:", ", ".join(_auto_nc[:40]),
       "..." if len(_auto_nc) > 40 else "")
+
+SECTIONS.extend([
+    ("POWER  24V IN / 5V BUCK / 3V3 LDO", 40, 50),
+    ("MCU  ESP32-S3-WROOM-1 + USB-C", 255, 40),
+    ("I2C MUX + OFF-BOARD I/O CONNECTORS", 40, 240),
+    ("STEPPER DRIVERS  4x TMC2209", 500, 40),
+])
 
 print("circuit built:", len(B.components), "components,", len(B.nets), "nets")
 
@@ -916,20 +947,22 @@ def build_component_instances(project_name, sheet_uuid):
         out.append(block)
     return "\n".join(out)
 
-# Direction the wire stub runs AWAY from the symbol body, in screen coords.
-# X is unchanged by placement, but Y is negated (see Component.pin_abs), so a
-# pin declared at angle 270 (connection point above the body in library space)
-# exits UPWARD on screen, i.e. toward smaller Y.
-_EXIT_DIR = {0: (-1, 0), 180: (1, 0), 270: (0, -1), 90: (0, 1)}
-STUB_LEN = 2.54
 
 def build_labels():
-    """Every net member gets a real wire stub from the pin out to the label,
-    not just a label sitting on the pin -- matching normal KiCad authoring
-    (label-on-pin-with-no-wire isn't a supported connection mechanism)."""
+    """Every net member gets a real wire stub from the pin out to whatever
+    names its net, rather than a label sitting on the pin (label-on-pin with
+    no wire is not a connection mechanism in KiCad).
+
+    Power rails are named by a GND / +3V3 / +5V / +24V SYMBOL sitting at the
+    end of the stub instead of a text label, so only genuine signals carry
+    label text.
+    """
     out = []
     for net_name, members in B.nets.items():
+        is_power = net_name in POWER_NETS
         for comp, pin in members:
+            if comp.ref.startswith("#PWR"):
+                continue          # the rail symbol itself -- no stub, no label
             x, y, rot, pname = comp.pin_abs(pin)
             dx, dy = _EXIT_DIR.get(rot, (-1, 0))
             ex = round(x + dx * STUB_LEN, 4)
@@ -942,6 +975,8 @@ def build_labels():
                 f'\t\t(uuid "{U()}")\n'
                 f'\t)'
             )
+            if is_power:
+                continue          # named by the rail symbol at (ex, ey)
             out.append(
                 f'\t(global_label "{esc(net_name)}"\n'
                 f'\t\t(shape input)\n'
@@ -959,6 +994,19 @@ def build_labels():
             )
     return "\n".join(out)
 
+
+def build_section_text():
+    out = []
+    for label, x, y in SECTIONS:
+        out.append(
+            f'\t(text "{esc(label)}"\n'
+            f'\t\t(at {x} {y} 0)\n'
+            f'\t\t(effects (font (size 3.5 3.5) (bold yes)) (justify left bottom))\n'
+            f'\t\t(uuid "{U()}")\n'
+            f'\t)'
+        )
+    return "\n".join(out)
+
 def build_no_connects():
     out = []
     for x, y in B.no_connects:
@@ -973,13 +1021,14 @@ def main(project_name="pantiltslide_integrated", title=None, out_dir=None):
     components_txt = build_component_instances(project_name, sheet_uuid)
     labels_txt = build_labels()
     nc_txt = build_no_connects()
+    text_txt = build_section_text()
 
     doc = f'''(kicad_sch
 \t(version 20250114)
 \t(generator "eeschema")
 \t(generator_version "9.0")
 \t(uuid "{sheet_uuid}")
-\t(paper "A2")
+\t(paper "A1")
 \t(title_block
 \t\t(title "{esc(title)}")
 \t\t(company "")
@@ -991,6 +1040,7 @@ def main(project_name="pantiltslide_integrated", title=None, out_dir=None):
 {components_txt}
 {labels_txt}
 {nc_txt}
+{text_txt}
 \t(sheet_instances
 \t\t(path "/"
 \t\t\t(page "1")
@@ -1007,8 +1057,14 @@ def main(project_name="pantiltslide_integrated", title=None, out_dir=None):
     # Ship the two hand-authored symbols as a real, editable library (plus the
     # table entry that registers it) so the custom parts open in the Symbol
     # Editor instead of only existing as an embedded copy in the schematic.
+    # Emit EVERY hand-authored symbol, not just the ones this board happens to
+    # place. The main board and the AS5600 satellite share one New_Library
+    # file; building it from B.custom_syms meant whichever board generated
+    # last silently dropped the other board's symbol.
+    all_custom = {"New_Library:AS5600": custom_AS5600(),
+                  "New_Library:ESP32-S3-WROOM-1": custom_ESP32S3WROOM1()}
     lib_syms = []
-    for _lib_id, _text in B.custom_syms.items():
+    for _lib_id, _text in all_custom.items():
         bare = _lib_id.split(":", 1)[1]
         lib_syms.append(rename_header(_text.strip(), bare).replace(
             f'"{_lib_id}_', f'"{bare}_'))
