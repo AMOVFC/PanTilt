@@ -114,7 +114,7 @@ def main():
         print("  WARNING ref mismatch; netlist-only:", sorted(nl_refs - ours),
               " ours-only:", sorted(ours - nl_refs))
 
-    out = {"components": comps, "nets": nets}
+    out = {"components": comps, "nets": nets, "owner": g.B.owner}
     p = os.path.join(os.path.dirname(__file__), "design.json")
     json.dump(out, open(p, "w", encoding="utf-8"), indent=1)
     from collections import Counter

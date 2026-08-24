@@ -22,12 +22,12 @@ BX0, BY0, BX1, BY1 = 20.0, 20.0, 170.0, 140.0   # board outline, 150 x 120 mm
 # on the board edges; the four drivers get a 2x2 block clear of the MCU.
 CLUSTER_RECT = {
     "mcu":       (30.0, 44.0, 88.0, 64.0),
-    "usb":       (132.0, 23.0, 167.0, 35.0),
+    "usb":       (128.0, 22.0, 167.0, 43.0),
     "mux":       (30.0, 66.0, 88.0, 79.0),
     "power":     (23.0, 82.0, 88.0, 105.0),
     "drv_slide": (92.0, 23.0, 128.0, 62.0),
     "drv_tilt":  (92.0, 66.0, 128.0, 105.0),
-    "drv_pan":   (131.0, 39.0, 167.0, 78.0),
+    "drv_pan":   (131.0, 45.0, 167.0, 80.0),
     "drv_z":     (131.0, 82.0, 167.0, 120.0),
     "motorconn": (92.0, 121.0, 167.0, 138.0),
     "ioconn":    (23.0, 108.0, 88.0, 138.0),
@@ -36,9 +36,20 @@ CLUSTER_RECT = {
 # The ESP32 module's footprint carries a 21mm antenna keepout off its -Y end,
 # so it is pinned at the top edge with the antenna overhanging the board rather
 # than sterilising 21mm of interior copper.
-FIXED = {"U3": (57.0, 27.5, 0.0)}
+FIXED = {
+    "U3": (57.0, 27.5, 0.0),
+    # 3V3 bypass, hard against U3 pin 2 (3V3) at (48.2, 23.5)
+    "C7":  (43.5, 22.5, 90.0),
+    "C8":  (43.5, 26.0, 90.0),
+    "C9":  (43.5, 29.5, 90.0),
+    "C10": (43.5, 33.0, 90.0),   # 10uF bulk ceramic, same column
+}
 
-PLACE_CLEAR = 0.7   # mm of breathing room added around every courtyard
+PLACE_CLEAR = 1.0   # mm of breathing room added around every courtyard
+# Connectors carry two lines of silkscreen (reference above, function below),
+# so they need vertical room reserved for text the courtyard does not include.
+SILK_TEXT_MM = 0.9
+CONN_TEXT_PAD = 2 * (SILK_TEXT_MM + 1.7)   # one text row each side
 STEP = 1.0          # mm search grid for collision-free placement
 
 
@@ -104,6 +115,7 @@ def main():
             y += STEP
         return None
 
+    owner = design.get("owner", {})
     placed, overflow = {}, []
     by_cluster = {}
     for c in design["components"]:
@@ -124,13 +136,43 @@ def main():
                       bb.GetRight() / 1e6, bb.GetBottom() / 1e6))
         placed[c["ref"]] = fp
 
+    def place_at_box(fp, spot, bb):
+        cur = fp.GetPosition()
+        dx = cur.x - (bb.GetLeft() + bb.GetRight()) // 2
+        dy = cur.y - (bb.GetTop() + bb.GetBottom()) // 2
+        fp.SetPosition(pcbnew.VECTOR2I(
+            MM((spot[0] + spot[2]) / 2.0) + dx,
+            MM((spot[1] + spot[3]) / 2.0) + dy))
+
+    def ring_spot(w, h, tx, ty, rect):
+        """Nearest free slot to (tx,ty), searched outward in rings."""
+        r = 0.0
+        while r <= 26.0:
+            n = max(1, int(r * 4))
+            for k in range(n):
+                import math
+                ang = 2 * math.pi * k / n
+                x = tx + r * math.cos(ang) - w / 2.0
+                y = ty + r * math.sin(ang) - h / 2.0
+                if rect and not (rect[0] <= x and x + w <= rect[2]
+                                 and rect[1] <= y and y + h <= rect[3]):
+                    continue
+                cand = (x, y, x + w, y + h)
+                if free(cand):
+                    return cand
+            r += 1.0
+        return None
+
     for cluster, items in sorted(by_cluster.items()):
         rect = CLUSTER_RECT[cluster]
         # biggest first packs far more densely than schematic order
         def area(d):
             f = load_fp(d["fp"]); b = extent_box(f)
             return b.GetWidth() * b.GetHeight()
-        for c in sorted(items, key=area, reverse=True):
+        # ICs first so their bypass caps have something to sit next to
+        def order(d):
+            return (0 if d["ref"].startswith("U") else 1, -area(d))
+        for c in sorted(items, key=order):
             if c["ref"] in FIXED:
                 continue
             fp = load_fp(c["fp"])
@@ -141,7 +183,32 @@ def main():
             bb = extent_box(fp)
             w = bb.GetWidth() / 1e6 + PLACE_CLEAR
             h = bb.GetHeight() / 1e6 + PLACE_CLEAR
-            spot = find_spot(w, h, rect)
+            if c["ref"].startswith("J"):
+                h += CONN_TEXT_PAD
+                # long function names can be wider than the connector itself
+                w = max(w, len(c["value"]) * SILK_TEXT_MM * 0.72 + PLACE_CLEAR)
+            spot = None
+            own = owner.get(c["ref"])
+            if own and own[0] in placed:
+                # A bypass cap is useless far from its pin -- trace inductance
+                # swamps it. Put it as close to the owning pad as will fit.
+                # Pad nets are not applied until after placement, so the target
+                # pad is resolved from the design netlist instead.
+                want = set(pn for r, pn in design["nets"].get(own[1], [])
+                           if r == own[0])
+                opad = None
+                for pad in placed[own[0]].Pads():
+                    if pad.GetNumber() in want:
+                        opad = pad
+                        break
+                if opad is not None:
+                    # search the whole board, not just this cluster's rect
+                    board_rect = (BX0 + 1.0, BY0 + 1.0, BX1 - 1.0, BY1 - 1.0)
+                    spot = ring_spot(w, h,
+                                     opad.GetPosition().x / 1e6,
+                                     opad.GetPosition().y / 1e6, board_rect)
+            if spot is None:
+                spot = find_spot(w, h, rect)
             if spot is None:                       # cluster full -> spill below
                 spot = find_spot(w, h, (rect[0], rect[1], rect[2], BY1 + 60))
                 overflow.append(c["ref"])
@@ -162,6 +229,47 @@ def main():
     for ref, fp in placed.items():
         if "USB_C" in fp.GetFPID().GetUniStringLibItemName():
             fp.SetLocalClearance(MM(0.13))
+
+    # Record on each bypass cap which pin it serves. Nothing in the netlist can
+    # express this, so without it a layout pass has no way to know that C15
+    # belongs beside U4 rather than U7.
+    for ref, (ic, rail) in owner.items():
+        if ref in placed:
+            placed[ref].SetField("Decouples", "%s %s" % (ic, rail))
+            # metadata, not artwork: a new footprint field defaults to VISIBLE
+            # on F.SilkS, which printed 26 extra texts and took DRC 7 -> 168.
+            _f = placed[ref].GetFieldByName("Decouples")
+            if _f is not None:
+                _f.SetVisible(False)
+                _f.SetLayer(pcbnew.F_Fab)
+
+    # ---- silkscreen naming for every connector ------------------------------
+    # A bare "J7" tells you nothing while you are holding the board and a
+    # fistful of identical 4-pin XH harnesses. Each connector therefore gets
+    # its FUNCTION printed on the front silkscreen (Motor_Tilt, AS5600_Pan,
+    # Limit_Z_Home ...), reference above the part and function below it.
+    # By default pcbnew leaves Value hidden and on F.Fab, which is a
+    # fabrication-only layer -- it is not printed on the physical board.
+    for ref, fp in sorted(placed.items()):
+        if not ref.startswith("J"):
+            continue
+        bb = extent_box(fp)
+        top, bot = bb.GetTop(), bb.GetBottom()
+        cx = (bb.GetLeft() + bb.GetRight()) // 2
+
+        rf = fp.Reference()
+        rf.SetVisible(True)
+        rf.SetLayer(pcbnew.F_SilkS)
+        rf.SetTextSize(pcbnew.VECTOR2I(MM(0.9), MM(0.9)))
+        rf.SetTextThickness(MM(0.15))
+        rf.SetPosition(pcbnew.VECTOR2I(cx, top - MM(0.9)))
+
+        vl = fp.Value()
+        vl.SetVisible(True)                 # was hidden -> never printed
+        vl.SetLayer(pcbnew.F_SilkS)         # was F.Fab -> not on the board
+        vl.SetTextSize(pcbnew.VECTOR2I(MM(0.9), MM(0.9)))
+        vl.SetTextThickness(MM(0.15))
+        vl.SetPosition(pcbnew.VECTOR2I(cx, bot + MM(0.9)))
 
     # ---- nets ---------------------------------------------------------------
     netmap = {}
@@ -226,6 +334,20 @@ def main():
     print("pads assigned: %d, missing: %d" % (assigned, missing))
     if overflow:
         print("OVERFLOWED cluster rect (placed below board):", overflow)
+    far = []
+    for ref, (ic, rail) in owner.items():
+        if ref not in placed or ic not in placed:
+            continue
+        want = set(pn for r, pn in design["nets"].get(rail, []) if r == ic)
+        for pad in placed[ic].Pads():
+            if pad.GetNumber() in want:
+                d = ((pad.GetPosition().x - placed[ref].GetPosition().x) ** 2 +
+                     (pad.GetPosition().y - placed[ref].GetPosition().y) ** 2) ** 0.5 / 1e6
+                if d > 10.0:
+                    far.append("%s->%s %.0fmm" % (ref, ic, d))
+                break
+    if far:
+        print("BYPASS CAPS STILL FAR FROM OWNER:", ", ".join(sorted(far)))
     print("saved", out)
     print("footprints: %d  nets: %d  layers: %d"
           % (len(placed), len(netmap), board.GetCopperLayerCount()))

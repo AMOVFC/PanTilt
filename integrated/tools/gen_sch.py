@@ -354,6 +354,7 @@ class Component:
         self.datasheet = datasheet
         self.description = description
         self.dnp = dnp
+        self.mirror = False   # (mirror y) -> pins flip to the other side
         self.extra_props = extra_props or {}
         self.uuid = U()
         self.pin_uuids = {}
@@ -367,6 +368,9 @@ class Component:
         # symbol vertically, which silently maps labels onto the wrong pins.
         num = str(num)
         name, lx, ly, rot = PINTABLES[self.pinkey][num]
+        if self.mirror:            # (mirror y) negates X and flips L/R pin exits
+            lx = -lx
+            rot = {0: 180, 180: 0}.get(rot, rot)
         return (round(self.x + lx, 4), round(self.y - ly, 4), rot, name)
 
 
@@ -376,6 +380,10 @@ class Board:
         self.counters = {}
         self.nets = {}          # net_name -> list of (component, pin_num)
         self.no_connects = []   # list of (x,y)
+        self.direct = []        # (compA,pinA,compB,pinB) real wires
+        self.owner = {}         # cap ref -> (ic ref, rail) for placement
+        self.wired_pins = set() # pins joined by a real wire -> no stub/label
+        self.stub_len = {}      # (ref,pin) -> stub length, for fanned rail symbols
         self.nc_pins = set()    # (ref, pin_num) already no-connected, dedup guard
         self.lib_needed = set()  # (lib_file, sym_name) for extract_symbol
         self.custom_syms = {}    # lib_id -> sexp text
@@ -402,6 +410,27 @@ class Board:
                     lst.append((comp, str(p)))
             else:
                 lst.append((comp, str(pins)))
+
+    def wire(self, a, pa, b, pb, net=None, suppress="both"):
+        """Draw a REAL wire between two pins instead of naming both with a
+        global label.
+
+        Series topology (input -> fuse -> rail, switch node -> inductor) cannot
+        be read off a label, and two pins of the same part carelessly given the
+        same label silently short it out -- which is exactly how the input fuse
+        ended up bypassed. A drawn wire makes the current path explicit.
+        """
+        pa, pb = str(pa), str(pb)
+        self.direct.append((a, pa, b, pb, net))
+        # `suppress` says which ends lose their own stub/label. A chip supply
+        # pin keeps its rail symbol (that is where the power comes from) while
+        # the cap end is fed entirely by this wire.
+        if suppress in ("both", "a"):
+            self.wired_pins.add((a.ref, pa))
+        if suppress in ("both", "b"):
+            self.wired_pins.add((b.ref, pb))
+        if net:
+            self.net(net, (a, pa), (b, pb))
 
     def nc(self, comp, pin_num):
         pin_num = str(pin_num)
@@ -479,7 +508,9 @@ print("board builder ready")
 
 # --- POWER SECTION ---------------------------------------------------------
 J_pwr = SCREW2("24V_In", 48, 75)
-F1 = FUSE("2A", 75, 71)
+J_pwr.mirror = True          # pins face right, toward the fuse
+# F1 sits in line with J_pwr pin 1 so input -> fuse is a straight wire
+F1 = FUSE("2A", 75, 78.81)
 U_buck = B.place("U", B.use_lib("Regulator_Switching.kicad_sym", "LM2596S-5"),
                   "LM2596S-5", "LM2596S-5", "Package_TO_SOT_SMD:TO-263-5_TabPin3", 118, 82,
                   datasheet="http://www.ti.com/lit/ds/symlink/lm2596.pdf",
@@ -487,26 +518,39 @@ U_buck = B.place("U", B.use_lib("Regulator_Switching.kicad_sym", "LM2596S-5"),
 L1 = L("100uH", 165, 78)
 D1 = DSCHOTTKY("SS34", 143, 103, footprint="Diode_SMD:D_SMC")
 C_cin_bulk = CP("100uF_35V", 92, 110)
+B.owner[C_cin_bulk.ref] = (U_buck.ref, "+24V")
 C_cin_hf = C("100nF", 106, 110)
+B.owner[C_cin_hf.ref] = (U_buck.ref, "+24V")
 C_cout_bulk = CP("220uF_25V", 182, 110)
+B.owner[C_cout_bulk.ref] = (U_buck.ref, "+5V")
 U_ldo = B.place("U", B.use_lib("Regulator_Linear.kicad_sym", "AMS1117-3.3"),
                  "AMS1117-3.3", "AMS1117-3.3", "Package_TO_SOT_SMD:SOT-223-3_TabPin2", 118, 155,
                  datasheet="http://www.advanced-monolithic.com/pdf/ds1117.pdf",
                  description="5V->3.3V LDO, 1A, SOT-223")
 C_ldo_in = C("10uF", 92, 172)
+B.owner[C_ldo_in.ref] = (U_ldo.ref, "+5V")
 C_ldo_out = C("22uF", 152, 172)
+B.owner[C_ldo_out.ref] = (U_ldo.ref, "+3V3")
 D_usb_or = DSCHOTTKY("SS14", 62, 130, footprint="Diode_SMD:D_SOD-123")
 
-B.net("+24V", (J_pwr, 1), (F1, 1))
+# The raw input side of the fuse MUST be its own net. Putting both fuse
+# terminals on "+24V" shorts the fuse out and removes all overcurrent
+# protection -- the failure mode that hides behind label-only wiring.
+B.wire(J_pwr, 1, F1, 1, net="+24V_RAW")
 B.net("GND", (J_pwr, 2))
 
 # fuse output rail (post-fuse, protected 24V rail feeding the buck) is
 # also called "+24V" for simplicity (single 24V domain on this board)
+# post-fuse, protected rail -- everything downstream hangs off this
 B.net("+24V", (F1, 2), (U_buck, 1), (C_cin_bulk, 1), (C_cin_hf, 1))
-B.net("SW_NODE", (U_buck, 2), (D1, 1), (L1, 1))
-B.net("+5V", (L1, 2), (U_buck, 4), (C_cout_bulk, 1), (U_ldo, 3), (C_ldo_in, 1), (D_usb_or, 2))
+# switch node: regulator OUT -> catch diode cathode -> inductor.
+# Drawn, because the ORDER of this node is the whole buck topology.
+B.wire(U_buck, 2, L1, 1, net="SW_NODE")
+B.wire(D1, 1, L1, 1, net="SW_NODE")
+B.net("+5V", (L1, 2), (U_buck, 4), (C_cout_bulk, 1), (U_ldo, 3), (C_ldo_in, 1),
+       (D_usb_or, 1))   # cathode -> current flows USB_VBUS into +5V
 B.net("+3V3", (U_ldo, 2), (C_ldo_out, 1))
-B.net("USB_VBUS", (D_usb_or, 1))  # extra member added when J_usb placed below
+B.net("USB_VBUS", (D_usb_or, 2))  # anode; J_usb VBUS joins this net below
 
 for comp, pin in [(U_buck, 3), (U_buck, 5), (D1, 2), (C_cin_bulk, 2), (C_cin_hf, 2),
                    (C_cout_bulk, 2), (U_ldo, 1), (C_ldo_in, 2), (C_ldo_out, 2)]:
@@ -526,7 +570,11 @@ SW_boot = SWPUSH("BOOT", 418, 104)
 SW_rst = SWPUSH("RESET", 258, 52)
 
 C_esp_dec = [C("100nF", 286 + i * 18, 205) for i in range(3)]
-C_esp_bulk = CP("10uF", 358, 205)
+# 10uF ceramic, not a radial electrolytic: lower ESR for MCU bulk, and
+# small enough to sit in the bypass column right beside the 3V3 pin.
+C_esp_bulk = C("10uF", 358, 205, footprint="Capacitor_SMD:C_0805_2012Metric")
+for _c in C_esp_dec + [C_esp_bulk]:
+    B.owner[_c.ref] = (U_esp.ref, "+3V3")
 
 J_usb = B.place("J", B.use_lib("Connector.kicad_sym", "USB_C_Receptacle_USB2.0_14P"), "USB_C_Receptacle_USB2.0_14P",
                  "USB_PROG", "Connector_USB:USB_C_Receptacle_GCT_USB4085", 405, 175)
@@ -612,31 +660,35 @@ for d in DRIVERS:
     rsa_net = f"RSA_{d['name']}"
     rsb_net = f"RSB_{d['name']}"
 
-    c_cpicpo = C("22nF", x + 42, y - 6)
+    c_cpicpo = C("22nF", x + 52, y - 4)
     B.net(cpi_cpo, (Utmc, "5"), (c_cpicpo, 1))
     B.net(cpi_cpo + "_B", (Utmc, "4"), (c_cpicpo, 2))  # CPO isolated node (cap's other leg)
 
-    c_vcpvs = C("100nF", x + 20, y - 48)
+    c_vcpvs = C("100nF", x + 70, y - 40)
+    B.owner[c_vcpvs.ref] = (Utmc.ref, "+24V")
     B.net(vcp_net, (Utmc, "6"), (c_vcpvs, 1))
     B.net("+24V", (c_vcpvs, 2))
 
-    c_5vout = C("4.7uF", x + 58, y - 26)
+    c_5vout = C("4.7uF", x + 52, y - 30)
+    B.owner[c_5vout.ref] = (Utmc.ref, fivev_net)
     B.net(fivev_net, (Utmc, "8"), (c_5vout, 1))
     B.net("GND", (c_5vout, 2))
 
-    c_vs_hf = C("100nF", x - 30, y - 48)
-    c_vs_bulk = CP("100uF_35V", x - 48, y - 48)
+    c_vs_hf = C("100nF", x - 11, y - 40)
+    c_vs_bulk = CP("100uF_35V", x - 27, y - 40)
+    B.owner[c_vs_hf.ref] = (Utmc.ref, "+24V")
+    B.owner[c_vs_bulk.ref] = (Utmc.ref, "+24V")
     B.net("+24V", (c_vs_hf, 1), (c_vs_bulk, 1))
     B.net("GND", (c_vs_hf, 2), (c_vs_bulk, 2))
 
-    r_sa = R("0.11", x + 42, y + 36)
-    r_sb = R("0.11", x + 56, y + 36)
+    r_sa = R("0.11", x + 52, y + 17)
+    r_sb = R("0.11", x + 66, y + 17)
     B.net(rsa_net, (Utmc, "23"), (r_sa, 1))
     B.net("GND", (r_sa, 2))
     B.net(rsb_net, (Utmc, "27"), (r_sb, 1))
     B.net("GND", (r_sb, 2))
 
-    J_motor = JST_XH4(f"Motor_{d['name']}", x + 78, y + 4)
+    J_motor = JST_XH4(f"Motor_{d['name']}", x + 82, y - 2)
     B.net(f"MOTOR_{d['name']}_A1", (Utmc, "24"), (J_motor, 1))
     B.net(f"MOTOR_{d['name']}_A2", (Utmc, "21"), (J_motor, 2))
     B.net(f"MOTOR_{d['name']}_B1", (Utmc, "26"), (J_motor, 3))
@@ -663,6 +715,7 @@ B.net("I2C_PAN_SDA", (U_mux, "4"))
 B.net("I2C_TILT_SCL", (U_mux, "7"))
 B.net("I2C_TILT_SDA", (U_mux, "6"))
 C_mux_dec = C("100nF", 68, 300)
+B.owner[C_mux_dec.ref] = (U_mux.ref, "+3V3")
 B.net("+3V3", (C_mux_dec, 1)); B.net("GND", (C_mux_dec, 2))
 
 r_i2c0_sda = R("4.7k", 185, 258); r_i2c0_scl = R("4.7k", 199, 258)
@@ -725,6 +778,24 @@ for _rail, _fx, _fy in [("+24V", 40, 205), ("+5V", 175, 205), ("GND", 108, 205)]
     _f = PWR_FLAG(_fx, _fy)
     B.net(_rail, (_f, 1))
 
+# --- BYPASS CAPS WIRED TO THE PIN THEY SERVE --------------------------------
+# The rail side of each bypass cap is drawn onto its chip's own supply pin
+# instead of onto a shared rail symbol, so the schematic states which pin the
+# cap belongs to. The GND side still goes to a GND symbol -- ground is a plane,
+# not a routed net.
+_by_ref = {c.ref: c for c in B.components}
+for _cap_ref, (_ic_ref, _rail) in sorted(B.owner.items()):
+    _cap = _by_ref.get(_cap_ref)
+    _ic = _by_ref.get(_ic_ref)
+    if _cap is None or _ic is None or _rail not in B.nets:
+        continue
+    _cap_pins = [p for c, p in B.nets[_rail] if c.ref == _cap_ref]
+    _ic_pins = [p for c, p in B.nets[_rail] if c.ref == _ic_ref]
+    if not _cap_pins or not _ic_pins:
+        continue
+    # already on the same net -- this only draws it, so pass net=None
+    B.wire(_ic, _ic_pins[0], _cap, _cap_pins[0], net=None, suppress="b")
+
 # --- POWER RAILS AS SYMBOLS, NOT LABELS -------------------------------------
 # 158 of the 331 net connections on this sheet are power rails (90 of them GND
 # alone). Rendering each as a global label buries the actual signal flow in a
@@ -732,14 +803,29 @@ for _rail, _fx, _fy in [("+24V", 40, 205), ("+5V", 175, 205), ("GND", 108, 205)]
 # / +5V / +24V symbol at the end of its stub, which is both how KiCad
 # schematics are normally drawn and far quicker to read.
 POWER_NETS = ("GND", "+3V3", "+5V", "+24V")
+_rail_pins = []
 for _net in POWER_NETS:
     for _comp, _pin in list(B.nets.get(_net, [])):
         if _comp.ref.startswith("#PWR"):
             continue                      # already a rail symbol
-        _x, _y, _rot, _ = _comp.pin_abs(_pin)
+        _rail_pins.append((_net, _comp, _pin))
+
+# fan out rail symbols that share a side of the same part, so their names clear
+_by_side = {}
+for _net, _comp, _pin in _rail_pins:
+    if (_comp.ref, str(_pin)) in B.wired_pins:
+        continue                      # fed by a drawn wire, not a rail symbol
+    _x, _y, _rot, _ = _comp.pin_abs(_pin)
+    _by_side.setdefault((_comp.ref, _rot), []).append((_y, _x, _net, _comp, _pin))
+_FAN = [7.62, 13.97, 20.32, 26.67]
+for _key, _grp in _by_side.items():
+    _grp.sort()
+    for _i, (_y, _x, _net, _comp, _pin) in enumerate(_grp):
+        _rot = _key[1]
         _dx, _dy = _EXIT_DIR.get(_rot, (-1, 0))
-        _ps = PWR(_net, round(_x + _dx * STUB_LEN, 4),
-                        round(_y + _dy * STUB_LEN, 4))
+        _len = _FAN[_i % len(_FAN)] if len(_grp) > 1 else STUB_LEN
+        B.stub_len[(_comp.ref, str(_pin))] = _len
+        _ps = PWR(_net, round(_x + _dx * _len, 4), round(_y + _dy * _len, 4))
         B.nets[_net].append((_ps, "1"))
 
 # auto-extraction (see PINTABLES override above) surfaces every real pin on
@@ -877,39 +963,71 @@ def build_lib_symbols():
     return "\n".join(out)
 
 def label_rot_justify(rot):
-    # returns (label_rot, justify_str) so text reads away from the pin
-    if rot == 0:      # pin exits left -> label extends further left
-        return 180, ' (justify right)'
-    if rot == 180:    # pin exits right -> label extends further right
-        return 0, ''
-    if rot == 270:    # pin exits up -> label extends further up
-        return 90, ''
-    if rot == 90:     # pin exits down -> label extends further down
-        return 270, ''
-    return 0, ''
+    """(label_rot, justify) -- ALWAYS horizontal text.
+
+    Label rotations 90/270 render the text vertically, which is unreadable
+    without turning the sheet sideways. Every resistor and capacitor has its
+    pins pointing up/down, so the naive "rotate the label to match the pin"
+    rule turned every passive's net name on its side. Labels are kept
+    horizontal regardless of which way the pin points:
+
+      pin exits left / up / down -> text ends AT the wire (right-justified)
+      pin exits right           -> text starts AT the wire (left-justified)
+
+    so labels form a flush column down each side of a symbol.
+    """
+    if rot == 180:    # pin exits right -> text runs rightwards, away from body
+        return 0, ' (justify left)'
+    return 180, ' (justify right)'
+
+
+# Pins pointing up/down get a longer stub so their horizontal label clears the
+# neighbouring part instead of colliding with it.
+VERT_STUB_LEN = 5.08
 
 def build_component_instances(project_name, sheet_uuid):
     out = []
     for c in B.components:
         props = []
-        hidden = c.ref.startswith("#PWR") or c.ref.startswith("#FLG")
+        is_rail = c.ref.startswith("#PWR") or c.ref.startswith("#FLG")
+        # A rail symbol's VALUE is its name (GND / +24V / +3V3) -- it is the
+        # only thing identifying which rail the symbol represents, so it must
+        # stay visible. Only the meaningless auto reference (#PWR07) is hidden.
+        hide_ref = is_rail
+        hide_val = False
         # Put Reference above the topmost pin and Value below the bottommost,
         # so text clears the symbol body instead of landing inside tall parts
         # like the TMC2209 (body spans ~48mm) or the ESP32 module.
         _ys = [c.pin_abs(p)[1] for p in PINTABLES[c.pinkey]]
         ref_y = round(min(_ys) - 2.54, 4)
         val_y = round(max(_ys) + 2.54, 4)
+        if is_rail:
+            # rail name sits clear of the glyph: below a GND stub, above a
+            # supply arrow, matching which way the symbol points
+            up = PINTABLES[c.pinkey]["1"][3] == 270
+            val_y = round(c.y + (3.6 if up else -3.6), 4)
         props.append(f'(property "Reference" "{esc(c.ref)}" (at {c.x} {ref_y} 0) '
                      f'(show_name no) (effects (font (size 1.27 1.27))'
-                     + (' (hide yes))' if hidden else ')') + ')')
+                     + (' (hide yes))' if hide_ref else ')') + ')')
+        # rail names are set smaller than signal labels: they repeat constantly
+        # and should read as subordinate annotation, not compete with net names
+        _vs = '1 1' if is_rail else '1.27 1.27'
         props.append(f'(property "Value" "{esc(c.value)}" (at {c.x} {val_y} 0) '
-                     f'(show_name no) (effects (font (size 1.27 1.27))'
-                     + (' (hide yes))' if hidden else ')') + ')')
+                     f'(show_name no) (effects (font (size {_vs}))'
+                     + (' (hide yes))' if hide_val else ')') + ')')
         if c.footprint:
             props.append(f'(property "Footprint" "{esc(c.footprint)}" (at {c.x} {c.y} 0) '
                          f'(show_name no) (effects (font (size 1.27 1.27)) (hide yes)))')
         if c.datasheet:
             props.append(f'(property "Datasheet" "{esc(c.datasheet)}" (at {c.x} {c.y} 0) '
+                         f'(effects (font (size 1.27 1.27)) (hide yes)))')
+        _own = B.owner.get(c.ref)
+        if _own:
+            # hidden on the sheet, but visible in the symbol/footprint fields
+            # and in the BOM -- this is the only record of which pin the cap
+            # is bypassing, since its net names cannot say.
+            props.append(f'(property "Decouples" "{esc(_own[0])} {esc(_own[1])}" '
+                         f'(at {c.x} {c.y} 0) '
                          f'(effects (font (size 1.27 1.27)) (hide yes)))')
         if c.description:
             props.append(f'(property "Description" "{esc(c.description)}" (at {c.x} {c.y} 0) '
@@ -936,7 +1054,8 @@ def build_component_instances(project_name, sheet_uuid):
             f'\t(symbol\n'
             f'\t\t(lib_id "{esc(c.lib_id)}")\n'
             f'\t\t(at {c.x} {c.y} 0)\n'
-            f'\t\t(unit 1)\n'
+            + ('\t\t(mirror y)\n' if c.mirror else '')
+            + f'\t\t(unit 1)\n'
             f'\t\t(exclude_from_sim no) (in_bom yes) (on_board yes) (dnp {"yes" if c.dnp else "no"})\n'
             f'\t\t(uuid "{c.uuid}")\n'
             f'\t\t{props_txt}\n'
@@ -963,10 +1082,15 @@ def build_labels():
         for comp, pin in members:
             if comp.ref.startswith("#PWR"):
                 continue          # the rail symbol itself -- no stub, no label
+            if (comp.ref, pin) in B.wired_pins:
+                continue          # already joined by a drawn wire
             x, y, rot, pname = comp.pin_abs(pin)
             dx, dy = _EXIT_DIR.get(rot, (-1, 0))
-            ex = round(x + dx * STUB_LEN, 4)
-            ey = round(y + dy * STUB_LEN, 4)
+            stub = B.stub_len.get((comp.ref, pin))
+            if stub is None:
+                stub = VERT_STUB_LEN if (dy and not is_power) else STUB_LEN
+            ex = round(x + dx * stub, 4)
+            ey = round(y + dy * stub, 4)
             lrot, justify = label_rot_justify(rot)
             out.append(
                 f'\t(wire\n'
@@ -1007,6 +1131,54 @@ def build_section_text():
         )
     return "\n".join(out)
 
+def build_direct_wires():
+    """Orthogonal wires for explicitly-wired pin pairs, plus junction dots
+    wherever three or more wire ends meet at one point."""
+    out = []
+    ends = {}
+    labelled = set()
+    for a, pa, b, pb, netname in B.direct:
+        ax, ay, _, _ = a.pin_abs(pa)
+        bx, by, _, _ = b.pin_abs(pb)
+        if abs(ax - bx) < 0.001 or abs(ay - by) < 0.001:
+            pts = [(ax, ay), (bx, by)]               # straight run
+        else:
+            pts = [(ax, ay), (bx, ay), (bx, by)]     # L-shaped dogleg
+        for i in range(len(pts) - 1):
+            x1, y1 = pts[i]
+            x2, y2 = pts[i + 1]
+            out.append(
+                "\t(wire\n"
+                "\t\t(pts (xy {} {}) (xy {} {}))\n".format(x1, y1, x2, y2) +
+                "\t\t(stroke (width 0) (type default))\n"
+                "\t\t(uuid \"{}\")\n".format(U()) +
+                "\t)"
+            )
+        if netname and netname not in labelled and netname not in POWER_NETS:
+            labelled.add(netname)
+            mx = round((pts[0][0] + pts[1][0]) / 2.0, 4)
+            my = round((pts[0][1] + pts[1][1]) / 2.0, 4)
+            out.append(
+                '\t(label "{}"\n'.format(esc(netname)) +
+                '\t\t(at {} {} 0)\n'.format(mx, my) +
+                '\t\t(effects (font (size 1.27 1.27)) (justify left bottom))\n' +
+                '\t\t(uuid "{}")\n'.format(U()) +
+                '\t)'
+            )
+        for _r, _p, pt in ((a.ref, pa, (ax, ay)), (b.ref, pb, (bx, by))):
+            ends[pt] = ends.get(pt, 0) + 1
+            if (_r, _p) not in B.wired_pins:
+                ends[pt] = ends.get(pt, 0) + 1   # also has its own rail stub
+    for (x, y), n in ends.items():
+        if n >= 3:
+            out.append(
+                "\t(junction (at {} {}) (diameter 0) (color 0 0 0 0) "
+                "(uuid \"{}\"))".format(x, y, U())
+            )
+    return "\n".join(out)
+
+
+
 def build_no_connects():
     out = []
     for x, y in B.no_connects:
@@ -1021,6 +1193,7 @@ def main(project_name="pantiltslide_integrated", title=None, out_dir=None):
     components_txt = build_component_instances(project_name, sheet_uuid)
     labels_txt = build_labels()
     nc_txt = build_no_connects()
+    dw_txt = build_direct_wires()
     text_txt = build_section_text()
 
     doc = f'''(kicad_sch
@@ -1039,6 +1212,7 @@ def main(project_name="pantiltslide_integrated", title=None, out_dir=None):
 \t)
 {components_txt}
 {labels_txt}
+{dw_txt}
 {nc_txt}
 {text_txt}
 \t(sheet_instances

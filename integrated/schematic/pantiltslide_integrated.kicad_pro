@@ -459,7 +459,7 @@
   "net_settings": {
     "classes": [
       {
-        "bus_width": 12.0,
+        "bus_width": 12,
         "clearance": 0.2,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
@@ -474,13 +474,17 @@
         "track_width": 0.25,
         "via_diameter": 0.6,
         "via_drill": 0.3,
-        "wire_width": 6.0
+        "wire_width": 6
       }
     ],
     "meta": {
       "version": 4
     },
-    "net_colors": null,
+    "net_colors": {
+      "+24V": "rgb(255, 0, 0)",
+      "+3V3": "rgb(255, 247, 0)",
+      "+5V": "rgb(255, 134, 52)"
+    },
     "netclass_assignments": null,
     "netclass_patterns": []
   },
@@ -611,6 +615,11 @@
     "subpart_first_id": 65,
     "subpart_id_separator": 0
   },
-  "sheets": [],
+  "sheets": [
+    [
+      "8e5294a4-7a48-41a6-8056-bb25f46b4ae8",
+      "Root"
+    ]
+  ],
   "text_variables": {}
 }

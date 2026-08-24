@@ -70,8 +70,8 @@ One board: `schematic/pantiltslide_integrated.*`
 | Footprints | 80 |
 | ERC | **0** |
 | Schematic parity | **0** |
-| DRC (excl. routing) | 9, all cosmetic silk |
-| **Routing** | **not routed — 254 ratsnest connections** |
+| DRC (excl. routing) | 7 (4 cosmetic silk, 2 antenna-overhang silk, 1 benign keepout layer-set) |
+| **Routing** | **not routed — 253 ratsnest connections** |
 
 **The board is placed and netted, not routed.** Every pad carries its correct net so the ratsnest is complete and correct, but no copper tracks exist yet. Routing is the next step — either by hand in KiCad, or by exporting Specctra DSN (File → Export → Specctra DSN, GUI only — `kicad-cli` has no DSN export) and running Freerouting.
 
@@ -89,6 +89,8 @@ Everything that leaves the board is **JST XH** — polarised so a harness can't 
 | `J10`, `J11` | Encoders: jog / angle | XH 4-pin — `A, B, push, GND` |
 | `J12`–`J14` | Limit switches: slide min / max / Z home | XH 2-pin |
 
+Every connector prints its **function on the front silkscreen** (`Motor_Tilt`, `AS5600_Pan`, `Limit_Z_Home` …) directly below its reference designator, so the board can be wired without the schematic to hand. pcbnew's default leaves the Value field hidden and on `F.Fab`, which is a documentation layer and never reaches the physical board — both were changed for all 14 connectors, and the placement packer reserves vertical room for the two text rows.
+
 The AS5600s are **off-the-shelf breakout modules** mounted at the pan and tilt joints, not parts on this board — the sensor has to sit within a few mm of a diametrically-magnetised magnet on the rotating shaft. Two things to check on whichever module you buy:
 
 - **Pin order.** `J7`/`J8` are wired `1=3V3, 2=GND, 3=SDA, 4=SCL`. Most AS5600 breakouts use that order, but confirm before crimping — a swapped 3V3/GND will destroy the module.
@@ -105,6 +107,8 @@ Placement is programmatic: components are clustered by subsystem with guaranteed
 - **ESP32 module overhangs the top edge.** Its footprint carries a 21 mm antenna keepout; letting it hang off the edge keeps the antenna clear instead of sterilising 21 mm of interior copper. The keepout is present on all four copper layers in the board file.
 - **4 layers**, with In1 a solid ground plane directly under the signal layers — chosen because four switching stepper drivers, a 24 V buck, and an RF module on one board make return-path integrity the dominant risk.
 - **Design rules live in the `.kicad_pro`**, set to PCBWay's standard process (0.15 mm track/clearance, 0.2 mm min hole, 0.45/0.13 mm vias). This matters: KiCad reads DRC constraints from the *project* file, not the `.kicad_pcb`, so limits set only on the board object are ignored at DRC time.
+- **Every bypass cap is WIRED to the pin it serves**, not hung on a shared rail symbol. A cap drawn as `+24V -> cap -> GND` is electrically right but tells layout nothing, since all 26 look identical; drawing its rail side onto the chip's own supply pin makes the association part of the schematic and impossible to lose. The GND side still uses a GND symbol (ground is a plane, not a routed net). This is a drawing change only -- the netlist is byte-identical, verified by diffing before/after: **0 pins changed nets**.
+- **Every bypass cap also carries a `Decouples` field** naming the pin it serves (`C15` -> `U4 +24V`). A rail-to-GND cap is indistinguishable from every other one in the netlist, so without this a layout pass has no way to know `C15` belongs beside `U4` rather than `U7`. The field is hidden and on `F.Fab` -- it is metadata, not silkscreen. `tools/check_decoupling.py` re-measures every cap's distance to its owner and flags anything over 10mm; run it after any placement change.
 - **Zones are defined but unfilled.** `pcbnew`'s zone filler segfaults outside the GUI; KiCad fills them on open, or press `B`.
 
 ### Remaining DRC items (all benign)
