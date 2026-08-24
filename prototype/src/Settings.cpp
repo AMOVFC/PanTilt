@@ -12,9 +12,10 @@
 // to NVS. Changing a default here only affects boards that have never had
 // that setting saved (or one that has been reset to defaults).
 //
-// Trimmed from the final rig's Settings.cpp: no Z axis, no Shot subsystem.
-// Everything else (Drivers/Mechanical/Slide/Pan-Tilt/Interface) is
-// unchanged, row for row.
+// Trimmed from the final rig's Settings.cpp: no Z axis. The Shot subsystem
+// IS included (see motion::SHOT_* below) -- same tuning knobs, same
+// defaults, row for row -- so shot behavior tuned here carries straight
+// over to the final rig.
 
 namespace tmc {
 uint16_t MICROSTEPS = 64;
@@ -62,6 +63,10 @@ float TILT_MAX_DEG = 90.0f;
 
 uint32_t ROTARY_DRIFT_CHECK_INTERVAL_MS = 2000;
 int32_t ROTARY_DRIFT_THRESHOLD_STEPS = 80;
+
+float SHOT_LINEAR_ACCEL_MULTIPLIER = 6.0f;
+uint8_t SHOT_SCURVE_SEGMENTS = 16;
+uint32_t SHOT_SCURVE_MIN_SEGMENT_MS = 40;
 }  // namespace motion
 
 namespace ui {
@@ -116,6 +121,11 @@ const Desc kSettings[] = {
     {"rotDriftStp", "Pan / Tilt", "Drift correction threshold", "steps", Type::I32, &motion::ROTARY_DRIFT_THRESHOLD_STEPS, 1, 10000, false},
     {"panZero", "Pan / Tilt", "Pan magnet zero offset", "deg", Type::F32, &calibration::PAN_ZERO_OFFSET_DEG, -360, 360, true},
     {"tiltZero", "Pan / Tilt", "Tilt magnet zero offset", "deg", Type::F32, &calibration::TILT_ZERO_OFFSET_DEG, -360, 360, true},
+
+    // --- Shots ---
+    {"shotLinAccel", "Shots", "LINEAR accel multiplier", "x", Type::F32, &motion::SHOT_LINEAR_ACCEL_MULTIPLIER, 1, 50, false},
+    {"shotSegs", "Shots", "S-curve segments", "", Type::U8, &motion::SHOT_SCURVE_SEGMENTS, 2, 64, false},
+    {"shotMinSegMs", "Shots", "Min segment duration", "ms", Type::U32, &motion::SHOT_SCURVE_MIN_SEGMENT_MS, 5, 1000, false},
 
     // --- Interface ---
     {"btnDebounce", "Interface", "Button debounce", "ms", Type::U32, &ui::BUTTON_DEBOUNCE_MS, 1, 500, false},

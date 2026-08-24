@@ -18,6 +18,11 @@
 //                are fitted. Compile-time, not exposed to the web UI.
 //   extern     — tunables, defined in Settings.cpp, loaded from NVS at boot
 //                and editable live over the web UI.
+//
+// Now includes the Shot/ShotSequencer keyframe system (motion::SHOT_*
+// below): same duration-matching + S-curve algorithm as the final rig,
+// scoped to slide/pan/tilt so movements meant for the final build can be
+// authored, tuned, and played back here before Z hardware exists.
 
 #include <cstdint>
 
@@ -156,6 +161,20 @@ extern float TILT_MAX_DEG;
 // against the AS5600. Only runs while the axis is idle.
 extern uint32_t ROTARY_DRIFT_CHECK_INTERVAL_MS;
 extern int32_t ROTARY_DRIFT_THRESHOLD_STEPS;
+
+// Programmed shots (see Shot.h): EaseType::LINEAR moves use this multiplier
+// on the axis's normal configured acceleration, shrinking the ramp phase to
+// near-negligible so the move reads as a sharp snap rather than a cinematic
+// ease.
+extern float SHOT_LINEAR_ACCEL_MULTIPLIER;
+
+// EaseType::EASE_IN_OUT moves are driven as a jerk-limited S-curve: the
+// move's quintic position profile is sampled into this many waypoints and
+// replayed as a timed sequence of short trapezoidal moves (see Shot.cpp).
+// SHOT_SCURVE_MIN_SEGMENT_MS floors the segment count on short/fast moves
+// so segments never get so brief they're meaningless.
+extern uint8_t SHOT_SCURVE_SEGMENTS;
+extern uint32_t SHOT_SCURVE_MIN_SEGMENT_MS;
 }  // namespace motion
 
 // ---------- UI timing ----------

@@ -20,7 +20,7 @@ stay easy.
 | Qty | Part | Notes |
 |---|---|---|
 | 1 | ESP32-S3 DevKitC-1 N16R8 | 16MB flash / 8MB PSRAM, same as final rig |
-| 3 | TMC2209 stepper driver breakout board | Generic module (BTT/Watterott-style), UART pin exposed on the header — connect by Dupont jumper, no bodge wire |
+| 3 | TMC2209 stepper driver breakout board | Confirmed BigTreeTech, with separate TX/RX pads (between CLK and MS2) and a 3.7kΩ resistor already on the board between them — connect by Dupont jumper, no bodge wire, no external resistor |
 | 3 | NEMA17 stepper motor | Slide, pan, tilt |
 | 3 | Rotary encoder (EC11 or similar, with integrated push button) | Slide, pan, tilt — one knob per axis |
 | 2 | AS5600 magnetic angle sensor breakout | Pan, tilt |
@@ -29,7 +29,6 @@ stay easy.
 | 2 | Mechanical limit switch | Slide min / slide max only — no Z axis, so no Z switch |
 | 1 | SSD1306 OLED (128x64, I2C) | Optional — status display, carried over from the final rig's code. Firmware runs fine with nothing plugged into the OLED bus. |
 | — | Stepper motor power supply (12–24V, sized to the 3 motors) | Separate from the ESP32's own 5V/3.3V supply |
-| — | ~1kΩ resistor | In-line on the UART TX line for the shared half-duplex bus (skip if your breakout already has one in-line with its UART pin) |
 
 ## Pin map
 
@@ -89,20 +88,22 @@ shows up as "driver not responding," not a silent misconfiguration.
 
 ### TMC2209 UART bus (shared, half-duplex)
 
-Since these breakout boards expose UART/PDN directly on a header pin
-(unlike the final rig's bare stepstick carriers, which need a bodge wire
-onto the driver IC), this is a straightforward 3-way Dupont bus:
+These are BigTreeTech TMC2209 breakout boards with separate **TX** and
+**RX** pads (between CLK and MS2 on the header) rather than a single bare
+PDN_UART pin — both pads land on the same PDN_UART pin inside the chip,
+with a resistor already on the board between its own TX and RX pads
+(confirmed 3.7kΩ by multimeter). Because that resistor is on-board, wiring
+is a plain two-net bus with no discrete parts needed:
 
-- ESP32 **GPIO41 (RX)** → tied directly to all 3 drivers' UART pins.
-- ESP32 **GPIO47 (TX)** → through a ~1kΩ resistor → the same shared bus
-  node → all 3 drivers' UART pins. (Skip the discrete resistor only if the
-  breakout board already has one in series with its UART pin — check the
-  silkscreen/schematic before assuming.)
+- All 3 drivers' **TX** pads → one common node → ESP32 **GPIO41 (RX)**,
+  direct wire.
+- All 3 drivers' **RX** pads → one common node → ESP32 **GPIO47 (TX)**,
+  direct wire.
 
-This is the standard TMC single-wire half-duplex scheme: TX and RX share
-one physical wire per driver, with the resistor preventing bus contention
-when the ESP32's TX driver and a TMC's TX driver are both technically
-capable of driving the line.
+Normal UART TX-talks-to-RX pairing, just fanned out to 3 boards on each
+side. Each board's own onboard resistor (not a shared external one) is
+what prevents bus contention when the ESP32's TX driver and a TMC's TX
+driver are both technically capable of driving the line at once.
 
 ### Rotary encoders (slide / pan / tilt)
 
@@ -136,6 +137,15 @@ mux:
 Pan and tilt read their absolute angle from the AS5600 on every power-up,
 so neither needs a homing move — same as the final rig.
 
+**Per-AS5600 wiring is only 4 wires**: VCC, GND, SDA, SCL (into the mux
+channel above) — that's everything `Mux.cpp` touches, since it reads the
+angle purely over I2C. Two pins on the AS5600 breakout are deliberately not
+wired to the ESP32 at all: **DIR** is a static strap on the sensor board
+itself (tie to GND or VDD to set which rotation direction reads as
+increasing angle — most breakout boards already tie this to GND at the
+factory, but check yours), and **OUT** (plus any board-specific **GPO**
+pin) is the analog/PWM angle output, which nothing in this firmware reads.
+
 ### OLED (optional)
 
 If fitted: SDA/SCL → GPIO13/14, VCC → 3.3V, GND → GND, on its own I2C bus
@@ -156,17 +166,40 @@ Two mechanical switches (min/max), each wired one leg to its GPIO
 | Axes | Slide, pan, tilt, Z | Slide, pan, tilt (no Z motor, no Z limit switch) |
 | TMC2209s | 4, soldered carriers (bodge wire for UART) | 3, breakout boards (UART on a header pin) |
 | Rotary control | 1 jog encoder (slide) + 1 shared angle encoder with axis-select button (pan/tilt) | 1 dedicated encoder per axis (slide/pan/tilt) — no select button |
-| Programmed shots | `Shot`/`ShotSequencer`: keyframe playback with duration-matching + S-curve easing across all 4 axes | Not included — nothing yet needs synchronized multi-axis moves; the interface (`beginProgrammedMove`/`endProgrammedMove`/`isMoveComplete`) is still present on every axis class if this gets added later |
+| Programmed shots | `Shot`/`ShotSequencer`: keyframe playback with duration-matching + S-curve easing across all 4 axes | Same algorithm, same tuning knobs, scoped to 3 axes — `Keyframe` has no `zMm` field and `ShotSequencer::begin()` takes 3 axis references instead of 4. See "Programmed shots" below. |
 | Web config, BLE record trigger, OLED status, NVS-backed settings | Yes | Yes, unchanged in behavior (separate NVS namespace so the two firmwares' saved settings never collide on the same chip) |
 
 Everything not in that table — `SlideAxis`, `RotaryAxis` (plus one added
 method, `setTargetDeg()`), `Mux`, `DebouncedButton`, `BleRecorder`,
-`Settings`, `WebConfig` — is either byte-identical to the final rig's
-version or differs only in the descriptor rows that don't apply (no Z, no
-shot tuning). If the final rig grows a 4th axis on this same encoder-per-
-axis scheme later, or this prototype grows toward the final rig's feature
-set, the two should reconcile with small, obvious diffs rather than a
-rewrite.
+`Settings`, `WebConfig`, `Shot`/`ShotSequencer` — is either byte-identical
+to the final rig's version or differs only in the descriptor rows/fields
+that don't apply (no Z). If the final rig grows a 4th axis on this same
+encoder-per-axis scheme later, or this prototype grows toward the final
+rig's feature set, the two should reconcile with small, obvious diffs
+rather than a rewrite.
+
+## Programmed shots
+
+Same subsystem as the final rig (see the [4-axis README](../README.md) for
+the full design rationale — duration-matching so every axis starts and
+arrives together, quintic S-curve easing sampled into timed waypoints),
+scoped to slide/pan/tilt. A shot authored and tuned here ports to the final
+rig by adding a `zMm` field to each keyframe; a final-rig shot ports here by
+dropping it. Everything else about a keyframe — `durationS`, `EaseType`,
+how the governing duration is computed, how `LINEAR` vs `EASE_IN_OUT` play
+back — is identical code, not just identical behavior.
+
+This means the prototype can validate every pan/tilt/slide movement planned
+for the final build (framing moves, reveal timing, S-curve feel, keyframe
+counts and durations) before Z hardware exists — the one thing it can't
+test is anything that depends on Z motion itself, since there's no Z motor
+to move.
+
+Trigger the built-in test shot over serial: `s` to run, `c` to cancel
+(`main.cpp`'s `kTestShot` — same slide/pan move as the final rig's test
+shot, with tilt held level). Config writes over the web UI are rejected
+with HTTP 409 while a shot is running, same reasoning as the final rig: a
+move in flight already has its waypoints computed against the old values.
 
 ## Before first hardware run
 
