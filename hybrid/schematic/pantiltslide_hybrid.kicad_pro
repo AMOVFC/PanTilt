@@ -662,8 +662,8 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "pantiltslide_integrated.kicad_sch",
-        "name": "pantiltslide_integrated",
+        "filename": "pantiltslide_hybrid.kicad_sch",
+        "name": "pantiltslide_hybrid",
         "uuid": "6aeaba58-c4a3-4609-addc-7a42b936b6ea"
       }
     ],
@@ -673,27 +673,27 @@
   "sheets": [
     [
       "6aeaba58-c4a3-4609-addc-7a42b936b6ea",
-      "pantiltslide_integrated"
+      "pantiltslide_hybrid"
     ],
     [
-      "ee0be0e1-ed29-4553-bdcf-84050164f546",
-      "usb"
-    ],
-    [
-      "c2e86750-44fc-4e58-bb75-613c49908bbe",
-      "stepper drivers"
-    ],
-    [
-      "8d1b21f8-d514-4828-821c-e8d8dc843bf9",
+      "84816ee2-e538-5e14-8ac7-bce85df965b7",
       "power"
     ],
     [
-      "ab26fd2b-bc96-48de-8966-a62c3cbb4a3b",
+      "96b14aab-1078-5355-a01a-5e93360545d9",
+      "usb"
+    ],
+    [
+      "48739d19-b8e1-51eb-9ea1-6cdf547ae69a",
+      "esp32"
+    ],
+    [
+      "394d3447-83df-5934-85d7-f92cb49f132c",
       "I2C-IO"
     ],
     [
-      "4b1243d7-891f-4f69-96d0-74d3113958e3",
-      "esp32"
+      "13038ef3-ee35-58e3-bead-b8f35eb4f599",
+      "stepper drivers"
     ]
   ],
   "text_variables": {},
