@@ -1,0 +1,9 @@
+# Regenerable from gen_hybrid.py and kicad-cli -- see ../README.md
+__pycache__/
+*.kicad_prl
+*-backups/
+erc.json
+net.net
+hybrid_draft.pdf
+preview/
+~*.lck
