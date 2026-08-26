@@ -1,86 +1,111 @@
-# PanTilt — 3+1 axis motorised camera slider
+# Motorized 4-Axis Camera Slider — ESP32-S3
 
-Slide, pan, tilt and a spare fourth axis, driven by an ESP32-S3 with TMC2209
-stepper drivers. Configured entirely from a built-in web UI: no reflash needed
-to change pins, mechanics, speeds, limits or control bindings.
+DIY motorized camera slider built around a salvaged 2020 aluminium V-slot
+extrusion. Four motorized axes, live knob control, and a programmed keyframe
+system for smooth multi-axis cinematic moves. The camera is a phone running the
+Blackmagic Camera app; recording is triggered wirelessly over BLE HID.
 
-| | |
-|---|---|
-| Controller | ESP32-S3-WROOM-1 N16R8 (DevKitC-1 on sockets) |
-| Drivers | 4 × TMC2209 SilentStepStick, shared UART bus |
-| Feedback | 2 × AS5600 absolute magnetic encoders (pan, tilt) via TCA9548A |
-| Controls | 4 × EC11 encoders, 4 × transport buttons, SSD1306 OLED |
-| Camera | BLE HID record trigger (Blackmagic Camera app) |
-| Firmware | `platformio.ini`, `src/`, `include/` — see [docs/firmware.md](docs/firmware.md) |
-| Board | `pantiltslide/` (KiCad 9) |
+## Axes
 
-## Firmware
+| Axis | Drive | Reduction | Position sensing |
+|---|---|---|---|
+| Slide | GT2 belt along the 2020 rail, V-wheel carriage | 1:1 | 2× limit switches (min/max) |
+| Pan | 2-stage GT2 belt (20T:20T jackshaft, then 20T:80T) | 4:1 | AS5600 absolute encoder — no homing |
+| Tilt | Same 2-stage scheme as pan | 4:1 | AS5600 absolute encoder — no homing |
+| Z (height) | Integrated leadscrew NEMA 17, anti-backlash nut | 8 mm lead | 1× limit switch, then step-counted |
 
-Frozen at **v2.0.0**. Builds clean; 22.5 % RAM, 24.6 % of the 6.25 MB app
-partition.
+Pan and tilt read absolute angle on every power-up, so they never need a homing
+move. Slide and Z home against physical switches.
 
-```bash
-pio run -t upload
-```
+## Board versions
 
-Then join WiFi `CamSlider` / `sliderpad` and open `http://192.168.4.1`.
+Three hardware variants exist in parallel. They share one firmware — the pin
+map and mechanics are runtime configuration, not compile-time constants, so the
+same binary serves all three.
 
-Full flashing and bring-up instructions, the pin map, and the design notes
-that matter on the bench are in **[docs/firmware.md](docs/firmware.md)**. Read
-the bring-up order before energising motors — the shipped soft limits are
-placeholders and pan has no limit switch.
+| Version | Directory | What it is | Status |
+|---|---|---|---|
+| **Prototype** | [`prototype/`](prototype/README.md) | 3-axis hand-wired build on breakouts, one encoder per axis. The build this project started from. | Working reference |
+| **Carrier** | [`pantiltslide/`](pantiltslide/) | 4-axis board of sockets and connectors: ESP32 DevKitC, 4× TMC2209 stepsticks, TCA9548A breakout all plug in. No onboard regulation. | Schematic + PCB exist |
+| **Integrated** | [`integrated/`](integrated/README.md) | Everything soldered: ESP32-S3-WROOM-1, 4× TMC2209-LA (QFN28), TCA9548A, 24 V→5 V buck, 3.3 V LDO, USB-C. | Schematic + placement done, **not routed** |
+
+A fourth option is on the table: **integrated ESP32 with TMC2209 stepsticks
+still socketed.** That keeps the regulation, USB-C and soldered ESP32 of the
+integrated board while leaving the four drivers as plug-in modules — replaceable
+after a blown driver, and cheaper to assemble than four QFN28 packages with
+their full application circuits.
 
 ## Manufacturing constraint
 
 **PCBWay have confirmed they will fabricate the PCB *and* source and assemble
 all components, provided the total comes in under USD $150.**
 
-That budget covers everything: bare board, assembly, and every part on the
-BOM. Design decisions from here should be checked against it — this is the
-governing constraint on the final board, not board area or layer count.
+That budget covers everything: bare board, assembly, and every part on the BOM.
+It is the governing constraint on which board version gets built — not board
+area, not layer count.
 
-Worth knowing before costing it out: the four TMC2209 SilentStepStick modules
-and the ESP32-S3 DevKitC-1 are the dominant line items and are likely to eat a
-large share of $150 on their own, well before fabrication and assembly are
-counted. The motors, PSU and mechanical parts are separate and are not part of
-this budget.
+If the fully-integrated version cannot land under $150, the fallback order is:
 
-The current board is a carrier: sockets, connectors, screw terminals, one
-fuse, and four driver modules. There are no ICs to place beyond the modules
-themselves, which keeps assembly cost low.
+1. Integrated ESP32 + socketed TMC2209 stepsticks (the mix)
+2. Carrier board
 
-Nothing here has been costed yet. Generating a real BOM with distributor part
-numbers and a total is the next step, and it should happen *before* the board
-is finalised, not after.
+Motors, PSU, AS5600 modules, OLED, encoders and mechanical parts sit outside
+this budget — they are wired in over connectors, not assembled onto the board.
 
-## Board status
+**Nothing has been costed yet.** A real BOM with distributor part numbers and a
+total needs to happen before a board is finalised.
 
-The schematic is generated by `pantiltslide/tools/gen_wiring.py`, which is the
-source of truth for wiring. `hardware/final_wiring_diagram_v3.svg` is **stale**
-— it predates the four-axis / UART revision.
+## Firmware
 
-Two things to resolve before the final PCB:
+See **[docs/firmware.md](docs/firmware.md)** for flashing, bring-up order, the
+pin map, and the design notes that matter on the bench.
 
-- **No bulk capacitance on the 24 V motor rail.** The schematic has no
-  electrolytics anywhere. TMC2209s want substantial bulk capacitance close to
-  their VM pins; without it, motor current transients put spikes on the rail,
-  and destroying SilentStepSticks this way is a common and avoidable failure.
-  This is worth settling on the prototype.
-- **No decoupling on the 3.3 V rail.** Same reasoning, smaller stakes.
+```bash
+pio run -t upload
+```
+
+Everything describing a particular machine — pin map, mechanics, speeds, soft
+limits, control bindings, network — is runtime configuration persisted to the
+ESP32's filesystem and edited from a built-in web UI. `include/config.h` holds
+factory defaults only, so reflashing does not discard a working setup, and one
+firmware image covers all three board versions.
+
+Read the bring-up order before energising motors. Nothing homes at power-on,
+and the shipped soft limits are placeholders.
+
+## TMC2209 drivers over UART
+
+All four drivers share one half-duplex UART bus. Motion runs on STEP/DIR
+through FastAccelStepper; UART sets run current and microstepping, and verifies
+each driver actually responded.
+
+Why it matters: in standalone mode current is a trimpot and microstepping is a
+jumper, so firmware's assumed steps-per-mm can silently disagree with the
+hardware — the classic "it moves the wrong distance" bug. Over UART the
+firmware is the single source of truth.
+
+In UART mode MS1/MS2 stop selecting microstepping and become address selects:
+
+| Driver | MS1 | MS2 | Address |
+|---|---|---|---|
+| Slide | LOW | LOW | 0 |
+| Pan | HIGH | LOW | 1 |
+| Tilt | LOW | HIGH | 2 |
+| Z | HIGH | HIGH | 3 |
+
+**On stepstick-based builds this costs bench work.** The Jeanoko carrier boards
+do not break out the TMC2209's `PDN_UART` pad, so each of the four drivers needs
+a wire soldered directly to that pad on the module. All four tie together into
+one bus: RX connects directly, TX through a ~1 kΩ resistor. The integrated board
+removes this problem entirely by routing PDN_UART on the PCB.
 
 ## Repository layout
 
 ```
-src/, include/     ESP32-S3 firmware (see docs/firmware.md for what owns what)
+src/, include/     Firmware (see docs/firmware.md for what owns what)
 docs/firmware.md   Flashing, bring-up order, pin map, design notes
-pantiltslide/      KiCad project — schematic, PCB, footprints
-  tools/           Schematic generator (authoritative wiring source)
-hardware/          Wiring diagram (stale, superseded by tools/)
+prototype/         3-axis hand-wired build — schematic, wiring, its own firmware
+pantiltslide/      4-axis carrier board — KiCad project
+integrated/        4-axis fully-integrated board — KiCad project
+hardware/          Wiring diagram (stale; superseded by the board projects)
 ```
-
-## Future options already supported
-
-The partition table (`default_16MB.csv`) provides two 6.25 MB app slots, so
-over-the-air firmware updates can be added later without changing the flash
-layout — useful once the electronics are in an enclosure on a rail. The
-firmware does not currently implement OTA.
