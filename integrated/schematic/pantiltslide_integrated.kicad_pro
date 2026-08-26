@@ -667,13 +667,33 @@
         "uuid": "6aeaba58-c4a3-4609-addc-7a42b936b6ea"
       }
     ],
-    "used_designators": "",
+    "used_designators": "C1-5,C11-16,C32-80,R6-11,R22-45,J1,J3,J15-30,U1-2,U4,U9-17,L1,#PWR1-2,#PWR4-11,#PWR27-40,#PWR92-93,#PWR96-107,#PWR117-135,#PWR207,#PWR209,#PWR211,#PWR213,#PWR243,#PWR245,#PWR247,#PWR249,#PWR262-263,#PWR265,#PWR267,#PWR273-320,D1-3,F1,SW3-4",
     "variants": []
   },
   "sheets": [
     [
       "6aeaba58-c4a3-4609-addc-7a42b936b6ea",
       "pantiltslide_integrated"
+    ],
+    [
+      "ee0be0e1-ed29-4553-bdcf-84050164f546",
+      "usb"
+    ],
+    [
+      "c2e86750-44fc-4e58-bb75-613c49908bbe",
+      "stepper drivers"
+    ],
+    [
+      "8d1b21f8-d514-4828-821c-e8d8dc843bf9",
+      "power"
+    ],
+    [
+      "ab26fd2b-bc96-48de-8966-a62c3cbb4a3b",
+      "I2C-IO"
+    ],
+    [
+      "4b1243d7-891f-4f69-96d0-74d3113958e3",
+      "esp32"
     ]
   ],
   "text_variables": {},
