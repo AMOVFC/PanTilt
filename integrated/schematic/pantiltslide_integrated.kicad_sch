@@ -1,0 +1,248 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "6aeaba58-c4a3-4609-addc-7a42b936b6ea")
+	(paper "A1")
+	(title_block
+		(title "PanTilt Slide -- Integrated Controller (PCBWay assembly)")
+		(rev "A")
+	)
+	(lib_symbols)
+	(sheet
+		(at 495.3 24.13)
+		(size 212.09 196.85)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "4b1243d7-891f-4f69-96d0-74d3113958e3")
+		(property "Sheetname" "esp32"
+			(at 495.3 23.4184 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "esp32.kicad_sch"
+			(at 495.3 221.5646 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "pantiltslide_integrated"
+				(path "/6aeaba58-c4a3-4609-addc-7a42b936b6ea"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 31.75 35.56)
+		(size 170.18 158.75)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "8d1b21f8-d514-4828-821c-e8d8dc843bf9")
+		(property "Sheetname" "power"
+			(at 31.75 34.8484 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power.kicad_sch"
+			(at 31.75 194.8946 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "pantiltslide_integrated"
+				(path "/6aeaba58-c4a3-4609-addc-7a42b936b6ea"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 29.21 234.95)
+		(size 190.5 327.66)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "ab26fd2b-bc96-48de-8966-a62c3cbb4a3b")
+		(property "Sheetname" "I2C-IO"
+			(at 29.21 234.2384 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "I2C-IO.kicad_sch"
+			(at 29.21 563.1946 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "pantiltslide_integrated"
+				(path "/6aeaba58-c4a3-4609-addc-7a42b936b6ea"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 378.46 233.68)
+		(size 412.75 308.61)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "c2e86750-44fc-4e58-bb75-613c49908bbe")
+		(property "Sheetname" "stepper drivers"
+			(at 378.46 232.9684 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "untitled.kicad_sch"
+			(at 378.46 542.8746 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "pantiltslide_integrated"
+				(path "/6aeaba58-c4a3-4609-addc-7a42b936b6ea"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 242.57 379.73)
+		(size 86.36 71.12)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "ee0be0e1-ed29-4553-bdcf-84050164f546")
+		(property "Sheetname" "usb"
+			(at 242.57 379.0184 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "usb.kicad_sch"
+			(at 242.57 451.4346 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "pantiltslide_integrated"
+				(path "/6aeaba58-c4a3-4609-addc-7a42b936b6ea"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)
