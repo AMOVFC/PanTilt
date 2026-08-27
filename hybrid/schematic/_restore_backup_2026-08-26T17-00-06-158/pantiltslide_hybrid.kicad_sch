@@ -1,0 +1,831 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "825f346b-4849-5b5a-a953-9cdb2b698938")
+	(paper "A3")
+	(title_block
+		(title "PanTilt Slide -- Hybrid Controller (integrated MCU + power, plug-in drivers and mux)")
+		(rev "A")
+	)
+	(lib_symbols)
+	(text "Plug-in:  4x TMC2209 SilentStepStick, TCA9548A breakout, and every motor, sensor and switch."
+		(exclude_from_sim no)
+		(at 22 38 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "1efb8b37-fda4-56a5-ba9a-38c8076204f6")
+	)
+	(text "Driver interface -- wired to the firmware pin map in include/config.h"
+		(exclude_from_sim no)
+		(at 232.41 46.53 0)
+		(effects
+			(font
+				(size 1.7 1.7)
+			)
+			(justify left bottom)
+		)
+		(uuid "38f45df5-add2-5f50-bd94-af21e0df25fc")
+	)
+	(text "Soldered down:  ESP32-S3-WROOM-1-N16R8, 24V->5V buck, 5V->3V3 LDO, USB-C."
+		(exclude_from_sim no)
+		(at 22 33 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left bottom)
+		)
+		(uuid "aed223bc-4900-50ed-9e09-7f7d6627c5ca")
+	)
+	(text "DIAG0-3 go to the PDN_DIAG headers inside the driver sheet; unused at board level."
+		(exclude_from_sim no)
+		(at 232.41 152.05 0)
+		(effects
+			(font
+				(size 1.7 1.7)
+			)
+			(justify left bottom)
+		)
+		(uuid "cf39df37-873b-5245-8cec-356d9021bc2d")
+	)
+	(text "HYBRID CONTROLLER"
+		(exclude_from_sim no)
+		(at 22 26 0)
+		(effects
+			(font
+				(size 4.5 4.5)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "d5c0d286-37b4-5def-81f3-3d96e622e6d1")
+	)
+	(text "Slide=0  Pan=1  Tilt=2  Z=3   (MS1/MS2 strap the UART address)"
+		(exclude_from_sim no)
+		(at 232.41 157.05 0)
+		(effects
+			(font
+				(size 1.7 1.7)
+			)
+			(justify left bottom)
+		)
+		(uuid "fde2e09d-9349-5e4a-b8a0-fe0521dbb9f2")
+	)
+	(no_connect
+		(at 232.41 133.35)
+		(uuid "2534ecca-e8f7-53d9-a229-df7e418a1345")
+	)
+	(no_connect
+		(at 232.41 120.65)
+		(uuid "3a336d87-c3fa-5e92-9111-2e4e8c972fba")
+	)
+	(no_connect
+		(at 232.41 127)
+		(uuid "a0bcd38f-f278-55a8-8d42-4aaffb01178e")
+	)
+	(no_connect
+		(at 232.41 139.7)
+		(uuid "e4af1f69-2640-5430-adb6-54f22940a038")
+	)
+	(wire
+		(pts
+			(xy 257.81 101.6) (xy 232.41 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "010a257e-9d0f-57c3-ac8e-4099c7f46965")
+	)
+	(wire
+		(pts
+			(xy 257.81 69.85) (xy 232.41 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0c82525e-2de4-58d7-adac-e5edf81555f2")
+	)
+	(wire
+		(pts
+			(xy 257.81 139.7) (xy 232.41 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "36f7a0a0-980f-5cb4-9d5c-205f4a65b878")
+	)
+	(wire
+		(pts
+			(xy 257.81 114.3) (xy 232.41 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8e9d61b8-2e35-5dee-b12b-dbe567b3bbc0")
+	)
+	(wire
+		(pts
+			(xy 257.81 133.35) (xy 232.41 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ab24a70d-b3b6-5258-a49d-37d36e2a8e0f")
+	)
+	(wire
+		(pts
+			(xy 257.81 127) (xy 232.41 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b3729a0b-a25e-54e4-b166-aa0327c97ea2")
+	)
+	(wire
+		(pts
+			(xy 257.81 107.95) (xy 232.41 107.95)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c31e0367-d1ef-598e-a72f-7a46ec56532e")
+	)
+	(wire
+		(pts
+			(xy 257.81 57.15) (xy 232.41 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d179c0fb-8c3f-5967-b0e5-8fbc39b98ad3")
+	)
+	(wire
+		(pts
+			(xy 257.81 82.55) (xy 232.41 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d33e8ae2-60bd-5702-8d3f-fea474f3759a")
+	)
+	(wire
+		(pts
+			(xy 257.81 63.5) (xy 232.41 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d69028f6-bb66-5372-bcab-dec8baf9c734")
+	)
+	(wire
+		(pts
+			(xy 257.81 120.65) (xy 232.41 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eced0080-731a-5435-afe0-84b53be66ad7")
+	)
+	(wire
+		(pts
+			(xy 257.81 88.9) (xy 232.41 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f2db616b-d6de-5ebb-b151-4d88b7694daf")
+	)
+	(wire
+		(pts
+			(xy 257.81 76.2) (xy 232.41 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f6dedd4f-9d05-5a85-b9ef-917c61dbefb1")
+	)
+	(wire
+		(pts
+			(xy 257.81 95.25) (xy 232.41 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fe6778d6-2e19-5268-b0ae-2f4147827ba3")
+	)
+	(global_label "GPIO6"
+		(shape output)
+		(at 232.41 69.85 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2cbe5ca1-0e84-52d2-bdc2-53af3df21dd3")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 232.41 69.85 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GPIO9"
+		(shape output)
+		(at 232.41 88.9 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "79beb6d7-b670-550e-b037-00258f8d7c24")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 232.41 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GPIO1"
+		(shape output)
+		(at 232.41 95.25 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8eeb693e-5e7c-52b6-887e-4851b2b7d8c1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 232.41 95.25 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GPIO4"
+		(shape output)
+		(at 232.41 57.15 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b6d105a8-a8a3-5e32-8c8a-e26dae59877b")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 232.41 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GPIO8"
+		(shape output)
+		(at 232.41 82.55 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b8f175e4-9539-5989-ba3a-c538bb5dd1aa")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 232.41 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "TMC_UART"
+		(shape bidirectional)
+		(at 232.41 114.3 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c9675700-b3ea-5425-9f5d-665e59adeb8c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 232.41 114.3 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GPIO10"
+		(shape output)
+		(at 232.41 107.95 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "d228ff54-3036-5387-8ef3-42b6ecc876c1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 232.41 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GPIO2"
+		(shape output)
+		(at 232.41 101.6 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e8835ff5-4dec-5e1a-8f93-e1afb37ef2bb")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 232.41 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GPIO5"
+		(shape output)
+		(at 232.41 63.5 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f20eddf3-a7e0-592b-813d-74a1a4ab8676")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 232.41 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GPIO7"
+		(shape output)
+		(at 232.41 76.2 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f6c082b4-e9c6-5315-9af7-3ec76fcc9e9c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 232.41 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(sheet
+		(at 257.81 49.53)
+		(size 119.38 96.52)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "13038ef3-ee35-58e3-bead-b8f35eb4f599")
+		(property "Sheetname" "stepper drivers"
+			(at 257.81 48.8184 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tmc2209_driver_stepstick.kicad_sch"
+			(at 257.81 146.7646 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "STEP0" input
+			(at 257.81 57.15 180)
+			(uuid "f970c51e-d82f-5317-98f1-dcde2ac40186")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DIR0" input
+			(at 257.81 63.5 180)
+			(uuid "ca888b9a-d692-5f1b-ba59-47b21f8fb592")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "STEP1" input
+			(at 257.81 69.85 180)
+			(uuid "b230b5b1-715c-5633-9f70-4280120f353f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DIR1" input
+			(at 257.81 76.2 180)
+			(uuid "27fd0d95-485d-50f9-80ba-dd1cd2db146e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "STEP2" input
+			(at 257.81 82.55 180)
+			(uuid "ab30bebc-459b-568d-92b7-2966fa97da58")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DIR2" input
+			(at 257.81 88.9 180)
+			(uuid "7b90b091-d085-5054-bd32-8f8a75d1f34e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "STEP3" input
+			(at 257.81 95.25 180)
+			(uuid "19c8e9d3-2b69-52cf-bf24-cb8db5f5397d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DIR3" input
+			(at 257.81 101.6 180)
+			(uuid "e0250aa0-7909-5fbc-933a-6120213bd38e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "EN" input
+			(at 257.81 107.95 180)
+			(uuid "14aeb174-0b44-553b-8f81-c12a1dcd6d81")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "UART" bidirectional
+			(at 257.81 114.3 180)
+			(uuid "5fa13f32-0f87-5df2-9441-98e4efcf2a85")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DIAG0" output
+			(at 257.81 120.65 180)
+			(uuid "581130ef-461b-5776-bc86-60862f264578")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DIAG1" output
+			(at 257.81 127 180)
+			(uuid "ff5f82cd-0640-56c8-9815-6b3cef93c99f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DIAG2" output
+			(at 257.81 133.35 180)
+			(uuid "67004f85-d2d9-5b93-a463-3e72c7b27c88")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DIAG3" output
+			(at 257.81 139.7 180)
+			(uuid "ce2f8b31-a1d7-5973-bfd0-5a19dfb31aac")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "pantiltslide_hybrid"
+				(path "/6aeaba58-c4a3-4609-addc-7a42b936b6ea"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 119.38 149.86)
+		(size 95.25 48.26)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "394d3447-83df-5934-85d7-f92cb49f132c")
+		(property "Sheetname" "I2C-IO"
+			(at 119.38 149.1484 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "i2c_io_plugin.kicad_sch"
+			(at 119.38 198.8346 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "pantiltslide_hybrid"
+				(path "/6aeaba58-c4a3-4609-addc-7a42b936b6ea"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 21.59 149.86)
+		(size 85.09 48.26)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "48739d19-b8e1-51eb-9ea1-6cdf547ae69a")
+		(property "Sheetname" "esp32"
+			(at 21.59 149.1484 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "esp32.kicad_sch"
+			(at 21.59 198.8346 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "pantiltslide_hybrid"
+				(path "/6aeaba58-c4a3-4609-addc-7a42b936b6ea"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 21.59 49.53)
+		(size 85.09 48.26)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "84816ee2-e538-5e14-8ac7-bce85df965b7")
+		(property "Sheetname" "power"
+			(at 21.59 48.8184 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power.kicad_sch"
+			(at 21.59 98.5046 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "pantiltslide_hybrid"
+				(path "/6aeaba58-c4a3-4609-addc-7a42b936b6ea"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 21.59 107.95)
+		(size 85.09 31.75)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "96b14aab-1078-5355-a01a-5e93360545d9")
+		(property "Sheetname" "usb"
+			(at 21.59 107.2384 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "usb.kicad_sch"
+			(at 21.59 140.4146 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "pantiltslide_hybrid"
+				(path "/6aeaba58-c4a3-4609-addc-7a42b936b6ea"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

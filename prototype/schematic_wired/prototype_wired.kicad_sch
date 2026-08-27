@@ -4363,7 +4363,7 @@
 	)
 	(symbol
 		(lib_id "Conn4L")
-		(at 560.07 439.42 0)
+		(at 297.18 207.01 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4374,7 +4374,7 @@
 		(fields_autoplaced yes)
 		(uuid "b946dd53-f63e-44ba-9a05-92a95ef11f79")
 		(property "Reference" "J11"
-			(at 560.07 427.42 0)
+			(at 297.18 195.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4384,7 +4384,7 @@
 			)
 		)
 		(property "Value" "Conn4L"
-			(at 560.07 430.02 0)
+			(at 297.18 197.61 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4394,7 +4394,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 560.07 439.42 0)
+			(at 297.18 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4404,7 +4404,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 560.07 439.42 0)
+			(at 297.18 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4414,7 +4414,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 560.07 439.42 0)
+			(at 297.18 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
