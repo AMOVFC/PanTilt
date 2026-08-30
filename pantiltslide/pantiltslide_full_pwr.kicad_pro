@@ -41,7 +41,7 @@
         "pads": {
           "drill": 0.8,
           "height": 1.27,
-          "width": 2.54
+          "width": 1.27
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -110,9 +110,9 @@
         "missing_tuning_profile": "warning",
         "net_conflict": "warning",
         "nonmirrored_text_on_back_layer": "warning",
-        "npth_inside_courtyard": "ignore",
+        "npth_inside_courtyard": "error",
         "padstack": "warning",
-        "pth_inside_courtyard": "ignore",
+        "pth_inside_courtyard": "error",
         "shorting_items": "error",
         "silk_edge_clearance": "warning",
         "silk_over_copper": "warning",
@@ -139,14 +139,12 @@
         "zones_intersect": "error"
       },
       "rules": {
-        "allow_blind_buried_vias": false,
-        "allow_microvias": false,
         "max_error": 0.005,
-        "min_clearance": 0.15,
+        "min_clearance": 0.0,
         "min_connection": 0.0,
-        "min_copper_edge_clearance": 0.3,
+        "min_copper_edge_clearance": 0.5,
         "min_groove_width": 0.0,
-        "min_hole_clearance": 0.2,
+        "min_hole_clearance": 0.25,
         "min_hole_to_hole": 0.25,
         "min_microvia_diameter": 0.2,
         "min_microvia_drill": 0.1,
@@ -154,10 +152,10 @@
         "min_silk_clearance": 0.0,
         "min_text_height": 0.8,
         "min_text_thickness": 0.08,
-        "min_through_hole_diameter": 0.2,
-        "min_track_width": 0.15,
-        "min_via_annular_width": 0.13,
-        "min_via_diameter": 0.45,
+        "min_through_hole_diameter": 0.3,
+        "min_track_width": 0.2,
+        "min_via_annular_width": 0.1,
+        "min_via_diameter": 0.5,
         "solder_mask_to_copper_clearance": 0.0,
         "use_height_for_length_calcs": true
       },
@@ -242,7 +240,7 @@
       "internal_id": "",
       "mfg": "",
       "mpn": "",
-      "sch_revision": "A"
+      "sch_revision": ""
     },
     "layer_pairs": [],
     "layer_presets": [],
@@ -491,7 +489,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "pantiltslide_hybrid.kicad_pro",
+    "filename": "pantiltslide_full_pwr.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -509,7 +507,7 @@
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "priority": 2147483647,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.25,
+        "track_width": 0.2,
         "tuning_profile": "",
         "via_diameter": 0.6,
         "via_drill": 0.3,
@@ -528,7 +526,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "../../../Downloads/New folder (2)/",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "",
@@ -596,6 +594,18 @@
         },
         {
           "group_by": true,
+          "label": "Exclude from Simulation",
+          "name": "${EXCLUDE_FROM_SIM}",
+          "show": true
+        },
+        {
+          "group_by": true,
+          "label": "Exclude from Position Files",
+          "name": "${EXCLUDE_FROM_POS_FILES}",
+          "show": true
+        },
+        {
+          "group_by": true,
           "label": "Footprint",
           "name": "Footprint",
           "show": true
@@ -658,38 +668,18 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "pantiltslide_hybrid.kicad_sch",
-        "name": "pantiltslide_hybrid",
-        "uuid": "6aeaba58-c4a3-4609-addc-7a42b936b6ea"
+        "filename": "pantiltslide_full_pwr.kicad_sch",
+        "name": "pantiltslide_full_pwr",
+        "uuid": "069dac62-ca78-4a21-b689-b9421532705f"
       }
     ],
-    "used_designators": "C1-23,C32-80,R1-14,R22-45,J1-6,J15-30,U1-7,U9-17,L1,#PWR1-2,#PWR4-11,#PWR18-55,#PWR92-93,#PWR96-107,#PWR117-135,#PWR207,#PWR209,#PWR211,#PWR213,#PWR243,#PWR245,#PWR247,#PWR249,#PWR262-263,#PWR265,#PWR267,#PWR273-320,D1-3,F1,SW3-4,A1-4,TP1-4",
+    "used_designators": "5Vin1,J1-16,J24,F1,U1,#PWR1-6,24Vin1",
     "variants": []
   },
   "sheets": [
     [
-      "6aeaba58-c4a3-4609-addc-7a42b936b6ea",
-      "pantiltslide_hybrid"
-    ],
-    [
-      "84816ee2-e538-5e14-8ac7-bce85df965b7",
-      "power"
-    ],
-    [
-      "96b14aab-1078-5355-a01a-5e93360545d9",
-      "usb"
-    ],
-    [
-      "48739d19-b8e1-51eb-9ea1-6cdf547ae69a",
-      "esp32"
-    ],
-    [
-      "394d3447-83df-5934-85d7-f92cb49f132c",
-      "I2C-IO"
-    ],
-    [
-      "13038ef3-ee35-58e3-bead-b8f35eb4f599",
-      "stepper drivers"
+      "069dac62-ca78-4a21-b689-b9421532705f",
+      "pantiltslide_full_pwr"
     ]
   ],
   "text_variables": {},
