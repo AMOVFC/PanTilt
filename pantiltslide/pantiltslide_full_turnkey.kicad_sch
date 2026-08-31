@@ -4949,170 +4949,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "PCM_SparkFun-Resistor:1k_0402"
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "R"
-				(at 0 -2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "1k"
-				(at 0 2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "PCM_SparkFun-Resistor:R_0402_1005Metric"
-				(at 0 -4.572 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
-				(at -1.27 -8.89 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Resistor"
-				(at 0 -11.43 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "PROD_ID" "RES-14342"
-				(at 0 -6.858 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "SparkFun R res resistor"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_fp_filters" "R_*"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "1k_0402_0_1"
-				(polyline
-					(pts
-						(xy -1.524 0) (xy -1.143 1.016) (xy -0.762 0) (xy -0.381 -1.016) (xy 0 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0) (xy 0.381 1.016) (xy 0.762 0) (xy 1.143 -1.016) (xy 1.524 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "1k_0402_1_1"
-				(pin passive line
-					(at -2.54 0 0)
-					(length 1.016)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 2.54 0 180)
-					(length 1.016)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "power:+24V"
 			(power global)
 			(pin_numbers
@@ -7498,7 +7334,7 @@
 	)
 	(text "TX\n"
 		(exclude_from_sim no)
-		(at 300.228 291.338 0)
+		(at 297.688 291.338 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7597,6 +7433,12 @@
 		(uuid "195bb1fc-bca3-5de0-8c24-af65483e97f9")
 	)
 	(junction
+		(at 328.93 290.83)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "269bbe24-1f0e-4694-9b4c-8a5fd5fd0dc6")
+	)
+	(junction
 		(at 123.19 345.44)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -7625,12 +7467,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "5ac6d3ab-cb6c-5d42-955d-efe50002c559")
-	)
-	(junction
-		(at 328.93 290.83)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "78e31458-ba37-4c32-a891-ccca7bf46b22")
 	)
 	(junction
 		(at 59.69 345.44)
@@ -8276,7 +8112,7 @@
 	)
 	(wire
 		(pts
-			(xy 514.92 212.54) (xy 507.3 212.54)
+			(xy 514.35 209.55) (xy 506.73 209.55)
 		)
 		(stroke
 			(width 0)
@@ -8376,7 +8212,7 @@
 	)
 	(wire
 		(pts
-			(xy 514.92 210) (xy 507.3 210)
+			(xy 514.35 207.01) (xy 506.73 207.01)
 		)
 		(stroke
 			(width 0)
@@ -8523,6 +8359,16 @@
 			(type default)
 		)
 		(uuid "5ea05d4b-f34d-48dc-8825-6a037ba3e1e9")
+	)
+	(wire
+		(pts
+			(xy 327.66 290.83) (xy 328.93 290.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "639982f6-f6f4-41be-a157-5a0fb78a9ca9")
 	)
 	(wire
 		(pts
@@ -9136,6 +8982,16 @@
 	)
 	(wire
 		(pts
+			(xy 318.77 290.83) (xy 320.04 290.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a91d326d-596d-4c87-bd87-5ac2c212e0f4")
+	)
+	(wire
+		(pts
 			(xy 365.08 115) (xy 372.7 115)
 		)
 		(stroke
@@ -9496,7 +9352,7 @@
 	)
 	(wire
 		(pts
-			(xy 312.42 290.83) (xy 313.69 290.83)
+			(xy 309.88 290.83) (xy 311.15 290.83)
 		)
 		(stroke
 			(width 0)
@@ -9513,16 +9369,6 @@
 			(type default)
 		)
 		(uuid "d390e285-8a0c-474a-bfcd-e05e022dbd69")
-	)
-	(wire
-		(pts
-			(xy 322.58 290.83) (xy 321.31 290.83)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d59af706-ac8b-4ed1-a77b-f13491c79296")
 	)
 	(wire
 		(pts
@@ -9924,16 +9770,6 @@
 		)
 		(uuid "fe224db1-8590-4cd0-89e4-c2eb02dbcc63")
 	)
-	(wire
-		(pts
-			(xy 327.66 290.83) (xy 328.93 290.83)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ff5b4a94-1cde-462d-a16e-4b12b9133a1b")
-	)
 	(label "A1"
 		(at 514.35 41.91 180)
 		(effects
@@ -10214,7 +10050,7 @@
 	)
 	(global_label "GPIO_47"
 		(shape input)
-		(at 312.42 290.83 180)
+		(at 309.88 290.83 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -10223,7 +10059,7 @@
 		)
 		(uuid "0a441e11-78e7-457f-bac1-a43565a93b86")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 312.42 290.83 0)
+			(at 309.88 290.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11183,7 +11019,7 @@
 	)
 	(global_label "GND"
 		(shape input)
-		(at 507.3 212.54 180)
+		(at 506.73 209.55 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -11192,7 +11028,7 @@
 		)
 		(uuid "3e5f80e9-594c-48d1-bb33-0bfc333a9028")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 507.3 212.54 0)
+			(at 506.73 209.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11391,6 +11227,28 @@
 		(uuid "4f6c3cf0-d830-44c1-9047-70ff52b083ca")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 506.73 29.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GPIO_48"
+		(shape input)
+		(at 506.73 207.01 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "4fe74606-2c26-4c54-89b7-af4d98e69859")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 506.73 207.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14800,7 +14658,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 317.5 297.688 90)
 			(hide yes)
 			(show_name no)
@@ -15335,97 +15193,6 @@
 			(project "pantiltslide_full_turnkey"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J37")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "PCM_SparkFun-Resistor:1k_0402")
-		(at 325.12 290.83 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "3fe4dd8a-e3a2-491b-9492-1c778bcf8e9f")
-		(property "Reference" "R9"
-			(at 325.12 284.48 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "1k"
-			(at 325.12 287.02 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "PCM_SparkFun-Resistor:R_0402_1005Metric"
-			(at 325.12 295.402 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
-			(at 323.85 299.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 325.12 302.26 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "PROD_ID" "RES-14342"
-			(at 325.12 297.688 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "2"
-			(uuid "441dd91d-241f-4edd-ab2d-c067b7750a09")
-		)
-		(pin "1"
-			(uuid "374725ff-d56b-46a5-bf82-2ac6052f0ea9")
-		)
-		(instances
-			(project "pantiltslide_full_turnkey"
-				(path "/069dac62-ca78-4a21-b689-b9421532705f"
-					(reference "R9")
 					(unit 1)
 				)
 			)
@@ -17659,6 +17426,85 @@
 			(project "pantiltslide_full_turnkey"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#FLG03")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 323.85 290.83 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "8988cc44-84fb-455b-8e29-caa690fd36b0")
+		(property "Reference" "R12"
+			(at 323.596 288.29 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1k R"
+			(at 323.85 290.83 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 323.85 292.608 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 323.85 290.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 323.85 290.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "fedc2d30-d9c6-45ce-9e79-2b1e0a180db8")
+		)
+		(pin "2"
+			(uuid "7ba9aa69-f0a3-4967-bda8-e2d1814a7df9")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R12")
 					(unit 1)
 				)
 			)
@@ -20286,7 +20132,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 317.5 290.83 90)
+		(at 314.96 290.83 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -20296,7 +20142,7 @@
 		(dnp no)
 		(uuid "dec7d606-a3b0-4f14-87e0-e4cb347c7acd")
 		(property "Reference" "R10"
-			(at 317.246 288.29 90)
+			(at 314.706 288.29 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -20306,7 +20152,7 @@
 			)
 		)
 		(property "Value" "100R"
-			(at 317.5 290.83 90)
+			(at 314.96 290.83 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -20315,8 +20161,8 @@
 				)
 			)
 		)
-		(property "Footprint" ""
-			(at 317.5 292.608 90)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 314.96 292.608 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20327,7 +20173,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 317.5 290.83 0)
+			(at 314.96 290.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20338,7 +20184,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 317.5 290.83 0)
+			(at 314.96 290.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20826,7 +20672,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
-		(at 520 210 0)
+		(at 519.43 207.01 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -20837,7 +20683,7 @@
 		(fields_autoplaced yes)
 		(uuid "ecaf3b31-14fb-496e-abfb-8a592f3f3571")
 		(property "Reference" "J33"
-			(at 523.24 209.9999 0)
+			(at 522.67 207.0099 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -20848,7 +20694,7 @@
 			)
 		)
 		(property "Value" "Btn_SetKeyframe"
-			(at 523.24 212.5399 0)
+			(at 522.67 209.5499 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -20859,7 +20705,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical"
-			(at 520 210 0)
+			(at 519.43 207.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20870,7 +20716,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 520 210 0)
+			(at 519.43 207.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20881,7 +20727,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 520 210 0)
+			(at 519.43 207.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
