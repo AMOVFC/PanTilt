@@ -691,7 +691,7 @@
         "uuid": "069dac62-ca78-4a21-b689-b9421532705f"
       }
     ],
-    "used_designators": "5Vin1,J1-16,J24,F1,U1,#PWR1-6,24Vin1",
+    "used_designators": "R9-11,5Vin1,J1-16,J24,J39-41,F1,U1,#PWR1-6,24Vin1",
     "variants": []
   },
   "sheets": [
