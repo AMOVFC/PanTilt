@@ -7486,6 +7486,26 @@
 		)
 		(uuid "0d22039c-b06d-5cb8-af3c-3c44bf9beae1")
 	)
+	(text "RX\n"
+		(exclude_from_sim no)
+		(at 299.974 296.418 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "22b57749-5b01-403d-b0f8-3f96cb50f176")
+	)
+	(text "TX\n"
+		(exclude_from_sim no)
+		(at 300.228 291.338 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "4da80ce8-b69c-4937-91a5-e8ceefbdb1d4")
+	)
 	(text "DECOUPLING  -  every cap carries a `Decouples` field naming the pin it belongs beside"
 		(exclude_from_sim no)
 		(at 40.64 330.2 0)
@@ -7826,7 +7846,7 @@
 	)
 	(wire
 		(pts
-			(xy 514.92 280) (xy 507.3 280)
+			(xy 511.81 274.32) (xy 504.19 274.32)
 		)
 		(stroke
 			(width 0)
@@ -8066,7 +8086,7 @@
 	)
 	(wire
 		(pts
-			(xy 514.92 245) (xy 507.3 245)
+			(xy 513.08 243.84) (xy 505.46 243.84)
 		)
 		(stroke
 			(width 0)
@@ -8446,7 +8466,7 @@
 	)
 	(wire
 		(pts
-			(xy 514.92 282.54) (xy 507.3 282.54)
+			(xy 511.81 276.86) (xy 504.19 276.86)
 		)
 		(stroke
 			(width 0)
@@ -9716,7 +9736,7 @@
 	)
 	(wire
 		(pts
-			(xy 514.92 247.54) (xy 507.3 247.54)
+			(xy 513.08 246.38) (xy 505.46 246.38)
 		)
 		(stroke
 			(width 0)
@@ -10192,7 +10212,7 @@
 			)
 		)
 	)
-	(global_label "GPIO_41"
+	(global_label "GPIO_47"
 		(shape input)
 		(at 312.42 290.83 180)
 		(effects
@@ -10896,28 +10916,6 @@
 			)
 		)
 	)
-	(global_label "GPIO_47"
-		(shape input)
-		(at 507.3 210 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "2ec51b1d-613a-44b4-8077-2ec8b857f95e")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 507.3 210 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
 	(global_label "AUX_M2A"
 		(shape input)
 		(at 372.7 267.54 0)
@@ -11469,6 +11467,28 @@
 			)
 		)
 	)
+	(global_label "GPIO_3"
+		(shape input)
+		(at 505.46 243.84 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "52dfc2e3-0472-4a9f-a7d1-823b49a93f9f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 505.46 243.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
 	(global_label "UART"
 		(shape input)
 		(at 332.74 290.83 0)
@@ -11525,28 +11545,6 @@
 		(uuid "561ac2a5-5ebf-4b23-a6cd-97c2502fcd66")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 442.7 207.46 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "GPIO_3"
-		(shape input)
-		(at 507.3 245 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "5647a489-51a6-479d-a776-5aee3a3e0230")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 507.3 245 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11733,7 +11731,7 @@
 			)
 		)
 	)
-	(global_label "GPIO_48"
+	(global_label "GPIO_42"
 		(shape input)
 		(at 506.73 184.15 180)
 		(effects
@@ -12063,6 +12061,28 @@
 			)
 		)
 	)
+	(global_label "GPIO_45"
+		(shape input)
+		(at 504.19 274.32 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "78a3217a-0c2a-445e-a69e-465621cdefd7")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 504.19 274.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
 	(global_label "GPIO_13"
 		(shape input)
 		(at 442.7 122.54 0)
@@ -12371,7 +12391,7 @@
 			)
 		)
 	)
-	(global_label "GPIO_42"
+	(global_label "GPIO_41"
 		(shape input)
 		(at 312.42 295.91 180)
 		(effects
@@ -13581,28 +13601,6 @@
 			)
 		)
 	)
-	(global_label "GPIO_45"
-		(shape input)
-		(at 507.3 280 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "d1f5615e-9a63-4cfb-bc46-8f58bfd50da3")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 507.3 280 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
 	(global_label "GPIO_7"
 		(shape input)
 		(at 307.34 113.03 0)
@@ -14067,7 +14065,7 @@
 	)
 	(global_label "GND"
 		(shape input)
-		(at 507.3 247.54 180)
+		(at 505.46 246.38 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -14076,7 +14074,7 @@
 		)
 		(uuid "eb6012f2-af91-45e3-a48f-c74851404cec")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 507.3 247.54 0)
+			(at 505.46 246.38 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14177,7 +14175,7 @@
 	)
 	(global_label "GND"
 		(shape input)
-		(at 507.3 282.54 180)
+		(at 504.19 276.86 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -14186,7 +14184,7 @@
 		)
 		(uuid "f708c090-af7f-426b-9835-1a90e17ba97d")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 507.3 282.54 0)
+			(at 504.19 276.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -18258,7 +18256,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
-		(at 520 245 0)
+		(at 518.16 243.84 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -18269,7 +18267,7 @@
 		(fields_autoplaced yes)
 		(uuid "a63ee592-13f1-421d-87ce-3a748ce49ec9")
 		(property "Reference" "J34"
-			(at 523.24 244.9999 0)
+			(at 521.4 243.8399 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -18280,7 +18278,7 @@
 			)
 		)
 		(property "Value" "Btn_ClearKeyframe"
-			(at 523.24 247.5399 0)
+			(at 521.4 246.3799 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -18291,7 +18289,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical"
-			(at 520 245 0)
+			(at 518.16 243.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -18302,7 +18300,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 520 245 0)
+			(at 518.16 243.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -18313,7 +18311,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 520 245 0)
+			(at 518.16 243.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -21353,7 +21351,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
-		(at 520 280 0)
+		(at 516.89 274.32 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -21364,7 +21362,7 @@
 		(fields_autoplaced yes)
 		(uuid "fcd980a3-824a-4007-8624-8e3a8cbabd55")
 		(property "Reference" "J35"
-			(at 523.24 279.9999 0)
+			(at 520.13 274.3199 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -21375,7 +21373,7 @@
 			)
 		)
 		(property "Value" "Btn_PlayPause"
-			(at 523.24 282.5399 0)
+			(at 520.13 276.8599 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -21386,7 +21384,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical"
-			(at 520 280 0)
+			(at 516.89 274.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -21397,7 +21395,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 520 280 0)
+			(at 516.89 274.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -21408,7 +21406,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 520 280 0)
+			(at 516.89 274.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
