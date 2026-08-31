@@ -17,43 +17,37 @@ Blackmagic Camera app; recording is triggered wirelessly over BLE HID.
 Pan and tilt read absolute angle on every power-up, so they never need a homing
 move. Slide and Z home against physical switches.
 
-## Board versions
+## The board
 
-Three hardware variants exist in parallel. They share one firmware — the pin
-map and mechanics are runtime configuration, not compile-time constants, so the
-same binary serves all three.
+**`pantiltslide/pantiltslide_full_turnkey`** is the production board. It is the
+only one being manufactured, and the firmware's factory defaults describe it.
 
-| Version | Directory | What it is | Status |
-|---|---|---|---|
-| **Prototype** | [`prototype/`](prototype/README.md) | 3-axis hand-wired build on breakouts, one encoder per axis. The build this project started from. | Working reference |
-| **Carrier** | [`pantiltslide/`](pantiltslide/) | 4-axis board of sockets and connectors: ESP32 DevKitC, 4× TMC2209 stepsticks, TCA9548A breakout all plug in. No onboard regulation. | Schematic + PCB exist |
-| **Integrated** | [`integrated/`](integrated/README.md) | Everything soldered: ESP32-S3-WROOM-1, 4× TMC2209-LA (QFN28), TCA9548A, 24 V→5 V buck, 3.3 V LDO, USB-C. | Schematic + placement done, **not routed** |
+A DevKitC-1 drops into two 22-pin sockets; four TMC2209 SilentStepSticks, a
+TCA9548A breakout, the AS5600 heads, OLED, four encoders, four buttons and
+three limit switches all plug in over connectors. PCBWay build it turnkey.
 
-A fourth option is on the table: **integrated ESP32 with TMC2209 stepsticks
-still socketed.** That keeps the regulation, USB-C and soldered ESP32 of the
-integrated board while leaving the four drivers as plug-in modules — replaceable
-after a blown driver, and cheaper to assemble than four QFN28 packages with
-their full application circuits.
+The full source/destination pin map is **[docs/pinout.md](docs/pinout.md)** —
+that table and `include/config.h` are locked to each other.
 
-## Manufacturing constraint
+### Superseded
+
+These exist in history and in the tree, but are not being built. Nothing in the
+firmware targets them.
+
+| Variant | Directory | Why it stopped |
+|---|---|---|
+| Prototype | [`prototype/`](prototype/README.md) | 3-axis hand-wired origin of the project |
+| Integrated | [`integrated/`](integrated/README.md) | everything soldered incl. 4x QFN28; never routed |
+| Hybrid | [`hybrid/`](hybrid/README.md) | soldered MCU + power, plug-in drivers; superseded by turnkey |
+
+## Manufacturing
 
 **PCBWay have confirmed they will fabricate the PCB *and* source and assemble
 all components, provided the total comes in under USD $150.**
 
-That budget covers everything: bare board, assembly, and every part on the BOM.
-It is the governing constraint on which board version gets built — not board
-area, not layer count.
-
-If the fully-integrated version cannot land under $150, the fallback order is:
-
-1. Integrated ESP32 + socketed TMC2209 stepsticks (the mix)
-2. Carrier board
-
 Motors, PSU, AS5600 modules, OLED, encoders and mechanical parts sit outside
-this budget — they are wired in over connectors, not assembled onto the board.
-
-**Nothing has been costed yet.** A real BOM with distributor part numbers and a
-total needs to happen before a board is finalised.
+that budget -- they wire in over connectors rather than being assembled onto
+the board.
 
 ## Firmware
 

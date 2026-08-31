@@ -130,12 +130,21 @@ default. Worth renaming it to `Z_Home` while the schematic is still open.
 GPIO0 is the only spare general-purpose pin left. Everything else is
 allocated.
 
-## Outstanding board change
+## Verified against the board
 
-**`J33` Btn_SetKeyframe must move to GPIO_48 (J2.16).** It previously shared
-GPIO_1 with `U4`'s STEP output — a button shorting an actively-toggling output
-to ground. The firmware is already locked to GPIO48; the schematic edit is the
-only thing left.
+Cross-checked against the schematic netlist: **no firmware pin is missing from
+the board, and no board pin is unclaimed by firmware.** `J33` Btn_SetKeyframe
+is on GPIO_48, and GPIO_1 carries only `U4`'s STEP — the earlier collision
+between the two is resolved.
+
+### Two bring-up notes
+
+**Flash over the DevKitC-1's UART port, not its native USB port.** GPIO19/20
+carry Encoder Z and are also the S3's native USB D-/D+. Configuring them as
+GPIO releases the USB pad automatically (the IDF HAL clears
+`USB_SERIAL_JTAG_USB_PAD_ENABLE` for those two pins), so the encoder works —
+but native USB stops. Do not plug a cable into that port with the encoder
+wired.
 
 GPIO48 also drives the DevKitC-1's onboard addressable RGB LED. Harmless as a
 switch input — the WS2812's data pin is high-impedance — provided no LED
