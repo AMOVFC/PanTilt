@@ -114,29 +114,32 @@ is the single authority, and `include/config.h` is locked to match it. Summary:
 
 | Function | GPIO |
 |---|---|
-| Slide STEP / DIR (addr 0) | 4 / 5 |
-| Pan STEP / DIR (addr 1) | 6 / 7 |
-| Tilt STEP / DIR (addr 2) | 8 / 9 |
-| Z STEP / DIR (addr 3) | 1 / 2 |
+| Stepper A STEP / DIR (slide, addr 0) | 4 / 5 |
+| Stepper B STEP / DIR (pan, addr 1) | 6 / 7 |
+| Stepper C STEP / DIR (tilt, addr 2) | 8 / 9 |
+| Stepper Z STEP / DIR (z, addr 3) | 1 / 2 |
 | Driver EN (shared, active low) | 10 |
 | TMC2209 UART TX / RX | 47 / 41 |
 | Mux I2C SDA / SCL (bus A) | 11 / 12 |
 | OLED I2C SDA / SCL (bus B) | 13 / 14 |
-| Jog encoder A / B / push | 15 / 16 / 17 |
-| Angle encoder A / B / push | 18 / 21 / 38 |
+| Encoder A / B / C / Z (A,B pairs) | 15,16 / 17,18 / 21,38 / 19,20 |
 | Limit slide min / max | 39 / 40 |
-| Limit Z home | 42 |
+| Limit Z max | 42 |
+| Buttons: set kf / clear kf / play / reset | 48 / 3 / 45 / 46 |
 
 GPIO 22–25 do not exist on this part, 26–32 are the SPI flash bus and 33–37
-are the octal PSRAM bus; the config API rejects all of them. Free for future
-use: GPIO3, 45, 46, 48.
+are the octal PSRAM bus; the config API rejects all of them. GPIO0 (BOOT) is
+the only spare pin left.
 
 ## Things worth knowing
 
-**Two encoders, not four.** The board carries a jog wheel and an angle wheel,
-each with a push switch. Encoder and button slots 3 and 4 exist in the config
-model but have no connector, so they ship disabled. GPIO19/20 are the native
-USB D-/D+ and belong to the USB-C port.
+**Encoder Z sits on the USB pins.** GPIO19/20 are the ESP32-S3's native USB
+D-/D+. They work here because the DevKitC-1 enumerates over its separate UART
+bridge, but it does mean native USB is unavailable on this build.
+
+**Button "set keyframe" shares GPIO48 with the DevKitC-1's RGB LED.** Harmless
+as a switch input, since the WS2812 data pin is high-impedance -- but do not
+enable an LED library on this board.
 
 **Microstepping comes from the UART now, not the straps.** On this board MS1
 and MS2 select each driver's UART slave address, so they no longer select

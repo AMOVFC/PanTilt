@@ -281,8 +281,8 @@ void Settings::setDefaults() {
     a.holdCurrentPct = tmc::HOLD_CURRENT_PCT;
     a.stealthChop = true;
     a.motorStepsPerRev = mech::MOTOR_STEPS_PER_REV;
-    a.beltPitchMm = mech::SLIDE_BELT_PITCH_MM;
-    a.pulleyTeeth = mech::SLIDE_PULLEY_TEETH;
+    a.beltPitchMm = mech::A_BELT_PITCH_MM;
+    a.pulleyTeeth = mech::A_PULLEY_TEETH;
     a.gearRatio = mech::ROTARY_GEAR_RATIO;
     a.softLimits = true;
     a.limitActiveLow = true;
@@ -292,52 +292,52 @@ void Settings::setDefaults() {
     a.driftThresholdDeg = motion::DRIFT_THRESHOLD_DEG;
   }
 
-  AxisConfig &slide = axes[fw::AXIS_SLIDE];
-  copyStr(slide.name, sizeof(slide.name), "Slide");
-  slide.kind = AxisKind::LINEAR;
-  slide.stepPin = pins::SLIDE_STEP;
-  slide.dirPin = pins::SLIDE_DIR;
-  slide.tmcAddress = 0;
-  slide.maxSpeed = motion::SLIDE_MAX_SPEED_MM_S;
-  slide.accel = motion::SLIDE_ACCEL_MM_S2;
-  slide.minLimit = motion::SLIDE_MIN_MM;
-  slide.maxLimit = motion::SLIDE_MAX_MM;
-  slide.homing = HomingMode::LIMIT_MIN;
-  slide.limitMinPin = pins::LIMIT_SLIDE_MIN;
-  slide.limitMaxPin = pins::LIMIT_SLIDE_MAX;
-  slide.homingSpeed = motion::SLIDE_HOMING_SPEED_MM_S;
-  slide.homingBackoff = motion::SLIDE_HOMING_BACKOFF_MM;
+  AxisConfig &a = axes[fw::AXIS_A];
+  copyStr(a.name, sizeof(a.name), "A");
+  a.kind = AxisKind::LINEAR;
+  a.stepPin = pins::A_STEP;
+  a.dirPin = pins::A_DIR;
+  a.tmcAddress = 0;
+  a.maxSpeed = motion::A_MAX_SPEED_MM_S;
+  a.accel = motion::A_ACCEL_MM_S2;
+  a.minLimit = motion::A_MIN_MM;
+  a.maxLimit = motion::A_MAX_MM;
+  a.homing = HomingMode::LIMIT_MIN;
+  a.limitMinPin = pins::LIMIT_A_MIN;
+  a.limitMaxPin = pins::LIMIT_A_MAX;
+  a.homingSpeed = motion::A_HOMING_SPEED_MM_S;
+  a.homingBackoff = motion::A_HOMING_BACKOFF_MM;
 
-  AxisConfig &pan = axes[fw::AXIS_PAN];
-  copyStr(pan.name, sizeof(pan.name), "Pan");
-  pan.kind = AxisKind::ROTARY;
-  pan.stepPin = pins::PAN_STEP;
-  pan.dirPin = pins::PAN_DIR;
-  pan.tmcAddress = 1;
-  pan.maxSpeed = motion::ROTARY_MAX_SPEED_DEG_S;
-  pan.accel = motion::ROTARY_ACCEL_DEG_S2;
-  pan.minLimit = motion::PAN_MIN_DEG;
-  pan.maxLimit = motion::PAN_MAX_DEG;
-  pan.homing = HomingMode::SENSOR;
-  pan.feedback = FeedbackType::AS5600;
-  pan.muxChannel = mux_channel::PAN;
+  AxisConfig &b = axes[fw::AXIS_B];
+  copyStr(b.name, sizeof(b.name), "B");
+  b.kind = AxisKind::ROTARY;
+  b.stepPin = pins::B_STEP;
+  b.dirPin = pins::B_DIR;
+  b.tmcAddress = 1;
+  b.maxSpeed = motion::ROTARY_MAX_SPEED_DEG_S;
+  b.accel = motion::ROTARY_ACCEL_DEG_S2;
+  b.minLimit = motion::B_MIN_DEG;
+  b.maxLimit = motion::B_MAX_DEG;
+  b.homing = HomingMode::SENSOR;
+  b.feedback = FeedbackType::AS5600;
+  b.muxChannel = mux_channel::B_PAN;
 
-  AxisConfig &tilt = axes[fw::AXIS_TILT];
-  copyStr(tilt.name, sizeof(tilt.name), "Tilt");
-  tilt.kind = AxisKind::ROTARY;
-  tilt.stepPin = pins::TILT_STEP;
-  tilt.dirPin = pins::TILT_DIR;
-  tilt.tmcAddress = 2;
-  tilt.maxSpeed = motion::ROTARY_MAX_SPEED_DEG_S;
-  tilt.accel = motion::ROTARY_ACCEL_DEG_S2;
-  tilt.minLimit = motion::TILT_MIN_DEG;
-  tilt.maxLimit = motion::TILT_MAX_DEG;
-  tilt.homing = HomingMode::SENSOR;
-  tilt.feedback = FeedbackType::AS5600;
-  tilt.muxChannel = mux_channel::TILT;
+  AxisConfig &c = axes[fw::AXIS_C];
+  copyStr(c.name, sizeof(c.name), "C");
+  c.kind = AxisKind::ROTARY;
+  c.stepPin = pins::C_STEP;
+  c.dirPin = pins::C_DIR;
+  c.tmcAddress = 2;
+  c.maxSpeed = motion::ROTARY_MAX_SPEED_DEG_S;
+  c.accel = motion::ROTARY_ACCEL_DEG_S2;
+  c.minLimit = motion::C_MIN_DEG;
+  c.maxLimit = motion::C_MAX_DEG;
+  c.homing = HomingMode::SENSOR;
+  c.feedback = FeedbackType::AS5600;
+  c.muxChannel = mux_channel::C_TILT;
 
-  // Z is a leadscrew column, homed once against a single switch and then
-  // step-counted. The linear model takes mm/rev as belt_pitch * teeth, so an
+  // Stepper Z drives the leadscrew column, homed once against a single switch
+  // and then step-counted. The linear model takes mm/rev as belt_pitch * teeth, so an
   // 8mm lead is expressed as 8.0 x 1.
   AxisConfig &z = axes[fw::AXIS_Z];
   copyStr(z.name, sizeof(z.name), "Z");
@@ -351,65 +351,54 @@ void Settings::setDefaults() {
   z.accel = motion::Z_ACCEL_MM_S2;
   z.minLimit = motion::Z_MIN_MM;
   z.maxLimit = motion::Z_MAX_MM;
-  z.homing = HomingMode::LIMIT_MIN;
-  z.limitMinPin = pins::LIMIT_Z_HOME;
-  z.limitMaxPin = pins::LIMIT_Z_HOME;
+  // One switch, at the top (J41 "Aux_Max"). Both pins carry it; Axis reads
+  // the homing mode to decide which end is the real one.
+  z.homing = HomingMode::LIMIT_MAX;
+  z.limitMinPin = pins::LIMIT_Z_MAX;
+  z.limitMaxPin = pins::LIMIT_Z_MAX;
   z.homingSpeed = motion::Z_HOMING_SPEED_MM_S;
   z.homingBackoff = motion::Z_HOMING_BACKOFF_MM;
 
-  // The board carries two encoders, each with a push switch: a jog wheel and
-  // an angle wheel. Encoder slots 2 and 3 exist in the config model but have
-  // no connector on this board, so they ship disabled.
+  // One encoder per stepper (J29-J32), A/B only -- the connectors leave the
+  // wheels' push switches unconnected.
   const uint8_t encPins[fw::ENCODER_COUNT][2] = {
-      {pins::ENC_JOG_A, pins::ENC_JOG_B},
-      {pins::ENC_ANGLE_A, pins::ENC_ANGLE_B},
-      {0, 0},
-      {0, 0}};
-  const char *encNames[fw::ENCODER_COUNT] = {"Jog wheel", "Angle wheel",
-                                             "Enc 3 (n/c)", "Enc 4 (n/c)"};
+      {pins::ENC_A_A, pins::ENC_A_B},
+      {pins::ENC_B_A, pins::ENC_B_B},
+      {pins::ENC_C_A, pins::ENC_C_B},
+      {pins::ENC_Z_A, pins::ENC_Z_B}};
+  const char *encNames[fw::ENCODER_COUNT] = {"Enc A", "Enc B", "Enc C", "Enc Z"};
   for (uint8_t i = 0; i < fw::ENCODER_COUNT; ++i) {
     EncoderConfig &e = encoders[i];
     copyStr(e.name, sizeof(e.name), encNames[i]);
+    e.enabled = true;
     e.pinA = encPins[i][0];
     e.pinB = encPins[i][1];
+    e.axis = i;
     e.countsPerDetent = controls::COUNTS_PER_DETENT;
     e.detentsForMaxSpeed = controls::COUNTS_FOR_MAX_SPEED;
-    e.enabled = i < 2;
-    if (i == 0) {
-      // Jog wheel drives the slide as a speed dial.
-      e.axis = fw::AXIS_SLIDE;
-      e.mode = EncoderMode::VELOCITY;
-      e.unitsPerDetent = controls::MM_PER_DETENT;
-    } else if (i == 1) {
-      // Angle wheel steps the selected rotary axis' target per click. Which
-      // axis that is follows the "select next axis" action, but it has to
-      // start somewhere.
-      e.axis = fw::AXIS_PAN;
-      e.mode = EncoderMode::POSITION;
-      e.unitsPerDetent = controls::DEG_PER_DETENT;
-    } else {
-      e.axis = i;
-      e.mode = EncoderMode::OFF;
-      e.unitsPerDetent = controls::DEG_PER_DETENT;
-    }
+    // The slide is long and gets a speed dial; the rest step their target per
+    // click, which is what you want when framing a shot.
+    e.mode = i == fw::AXIS_A ? EncoderMode::VELOCITY : EncoderMode::POSITION;
+    e.unitsPerDetent = axes[i].kind == AxisKind::ROTARY ? controls::DEG_PER_DETENT
+                                                        : controls::MM_PER_DETENT;
   }
 
-  // The only buttons on the board are the two encoder push switches. Slots 2
-  // and 3 have no connector and ship disabled.
-  const uint8_t btnPins[fw::BUTTON_COUNT] = {pins::ENC_JOG_SW, pins::ENC_ANGLE_SW,
-                                             0, 0};
-  const char *btnNames[fw::BUTTON_COUNT] = {"Jog push", "Angle push",
-                                            "Btn 3 (n/c)", "Btn 4 (n/c)"};
+  // Four transport buttons (J33-J36), active low to GND.
+  const uint8_t btnPins[fw::BUTTON_COUNT] = {
+      pins::BTN_SET_KEYFRAME, pins::BTN_CLEAR_KEYFRAME, pins::BTN_PLAY_PAUSE,
+      pins::BTN_RESET};
+  const char *btnNames[fw::BUTTON_COUNT] = {"Set keyframe", "Clear keyframe",
+                                            "Play/pause", "Reset"};
   const ButtonAction shortActions[fw::BUTTON_COUNT] = {
-      ButtonAction::PLAY_PAUSE, ButtonAction::SELECT_NEXT_AXIS,
-      ButtonAction::NONE, ButtonAction::NONE};
+      ButtonAction::KEYFRAME_ADD, ButtonAction::KEYFRAME_DELETE_LAST,
+      ButtonAction::PLAY_PAUSE, ButtonAction::SEQ_STOP};
   const ButtonAction longActions[fw::BUTTON_COUNT] = {
-      ButtonAction::REC_TOGGLE, ButtonAction::HOME_ALL,
-      ButtonAction::NONE, ButtonAction::NONE};
+      ButtonAction::REC_TOGGLE, ButtonAction::KEYFRAME_CLEAR,
+      ButtonAction::SEQ_RESTART, ButtonAction::HOME_ALL};
   for (uint8_t i = 0; i < fw::BUTTON_COUNT; ++i) {
     ButtonConfig &b = buttons[i];
     copyStr(b.name, sizeof(b.name), btnNames[i]);
-    b.enabled = i < 2;
+    b.enabled = true;
     b.pin = btnPins[i];
     b.activeLow = true;
     b.shortPress = shortActions[i];
@@ -605,10 +594,13 @@ bool Settings::checkPinConflicts(String &error) const {
     claim(a.stepPin, "STEP", a.name);
     claim(a.dirPin, "DIR", a.name);
     if (a.homing == HomingMode::LIMIT_MIN || a.homing == HomingMode::LIMIT_MAX) {
-      claim(a.limitMinPin, "limit min", a.name);
-      // A single-switch axis sets min == max; claiming it twice would make
-      // the axis collide with itself.
-      if (a.limitMaxPin != a.limitMinPin) claim(a.limitMaxPin, "limit max", a.name);
+      // A single-switch axis stores the same pin as both ends; claim it once.
+      if (a.limitMinPin == a.limitMaxPin) {
+        claim(a.limitMinPin, "limit", a.name);
+      } else {
+        claim(a.limitMinPin, "limit min", a.name);
+        claim(a.limitMaxPin, "limit max", a.name);
+      }
     }
   }
   for (const auto &e : encoders) {

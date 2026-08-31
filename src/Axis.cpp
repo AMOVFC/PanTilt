@@ -186,9 +186,17 @@ bool Axis::limitTriggered(uint8_t pin) const {
   return digitalRead(pin) == (cfg().limitActiveLow ? LOW : HIGH);
 }
 
+// A single-switch axis stores the same pin as both ends. Only the end it
+// actually homes against is real -- treating one switch as both would let a
+// triggered home block motion in both directions and strand the axis on its
+// own limit. Which end is real follows the homing mode, so this works for a
+// switch at the top (Z / Aux_Max) as well as one at the bottom.
 bool Axis::limitMinTriggered() const {
   const AxisConfig &c = cfg();
   if (c.homing != HomingMode::LIMIT_MIN && c.homing != HomingMode::LIMIT_MAX) {
+    return false;
+  }
+  if (c.limitMinPin == c.limitMaxPin && c.homing != HomingMode::LIMIT_MIN) {
     return false;
   }
   return limitTriggered(c.limitMinPin);
@@ -199,10 +207,9 @@ bool Axis::limitMaxTriggered() const {
   if (c.homing != HomingMode::LIMIT_MIN && c.homing != HomingMode::LIMIT_MAX) {
     return false;
   }
-  // Z has a single home switch, expressed as min == max. Reporting the same
-  // switch as both ends would let a triggered home block motion in both
-  // directions, stranding the axis on its own limit.
-  if (c.limitMaxPin == c.limitMinPin) return false;
+  if (c.limitMinPin == c.limitMaxPin && c.homing != HomingMode::LIMIT_MAX) {
+    return false;
+  }
   return limitTriggered(c.limitMaxPin);
 }
 

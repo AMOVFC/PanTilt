@@ -22,10 +22,14 @@ constexpr uint8_t ENCODER_COUNT = 4;
 constexpr uint8_t BUTTON_COUNT = 4;
 constexpr uint8_t MAX_KEYFRAMES = 32;
 
-constexpr uint8_t AXIS_SLIDE = 0;
-constexpr uint8_t AXIS_PAN = 1;
-constexpr uint8_t AXIS_TILT = 2;
-constexpr uint8_t AXIS_Z = 3;
+// Steppers are identified by letter, matching the board silkscreen and the
+// TMC2209 UART addresses. The axis each one drives is a property of the
+// machine, not of the electronics, so it lives in the comment rather than in
+// the name.
+constexpr uint8_t AXIS_A = 0;  // slide  -- GT2 belt along the rail
+constexpr uint8_t AXIS_B = 1;  // pan    -- 2-stage belt, AS5600 on mux ch0
+constexpr uint8_t AXIS_C = 2;  // tilt   -- 2-stage belt, AS5600 on mux ch1
+constexpr uint8_t AXIS_Z = 3;  // z      -- leadscrew column
 }  // namespace fw
 
 // ---------- Pin map (defaults) ----------
@@ -38,17 +42,17 @@ namespace pins {
 // STEP pulses onto whatever else sits on that line. See docs/pinout.md for
 // the full source/destination table.
 //
-// Free after this allocation: GPIO3, GPIO45, GPIO46, GPIO48
+// Free after this allocation: GPIO0 (BOOT strap) only.
 // (plus GPIO0 = BOOT strap, GPIO43/44 = USB-serial console).
 // ---------------------------------------------------------------------------
 
-// U3/U5/U6/U7 STEP+DIR. Enable is one shared active-low line across all four.
-constexpr uint8_t SLIDE_STEP = 4, SLIDE_DIR = 5;   // driver addr 0
-constexpr uint8_t PAN_STEP = 6, PAN_DIR = 7;       // driver addr 1
-constexpr uint8_t TILT_STEP = 8, TILT_DIR = 9;     // driver addr 2
+// Stepper A/B/C/Z STEP+DIR. Enable is one shared active-low line across all four.
+constexpr uint8_t A_STEP = 4, A_DIR = 5;   // stepper A (slide), addr 0
+constexpr uint8_t B_STEP = 6, B_DIR = 7;   // stepper B (pan),   addr 1
+constexpr uint8_t C_STEP = 8, C_DIR = 9;   // stepper C (tilt),  addr 2
 // Z is on GPIO1/2, NOT 47/48. 47 is the TMC UART TX; putting Z STEP there
 // would tie two outputs together.
-constexpr uint8_t Z_STEP = 1, Z_DIR = 2;           // driver addr 3
+constexpr uint8_t Z_STEP = 1, Z_DIR = 2;   // stepper Z (z),     addr 3
 constexpr uint8_t DRIVER_EN = 10;
 
 // Shared half-duplex TMC2209 UART. TX joins the bus through a 1k series
@@ -61,14 +65,29 @@ constexpr uint8_t I2C_MUX_SCL = 12;
 constexpr uint8_t I2C_OLED_SDA = 13;  // bus B: OLED, isolated from the mux bus
 constexpr uint8_t I2C_OLED_SCL = 14;
 
-// Two encoders, each with a push switch: a jog wheel and an angle wheel.
-// This is the board's actual control scheme -- not one encoder per axis.
-constexpr uint8_t ENC_JOG_A = 15, ENC_JOG_B = 16, ENC_JOG_SW = 17;
-constexpr uint8_t ENC_ANGLE_A = 18, ENC_ANGLE_B = 21, ENC_ANGLE_SW = 38;
+// One encoder per stepper, A/B only -- the connectors leave each encoder's
+// push switch as a no-connect, so the transport buttons below are separate
+// parts rather than the wheels' own switches.
+constexpr uint8_t ENC_A_A = 15, ENC_A_B = 16;   // J29
+constexpr uint8_t ENC_B_A = 17, ENC_B_B = 18;   // J30
+constexpr uint8_t ENC_C_A = 21, ENC_C_B = 38;   // J31
+// GPIO19/20 are the native USB D-/D+. Wired here because the DevKitC-1
+// enumerates over its separate UART bridge, but it does rule out native USB.
+constexpr uint8_t ENC_Z_A = 19, ENC_Z_B = 20;   // J32
 
-constexpr uint8_t LIMIT_SLIDE_MIN = 39;  // idle HIGH, LOW = triggered
-constexpr uint8_t LIMIT_SLIDE_MAX = 40;
-constexpr uint8_t LIMIT_Z_HOME = 42;
+constexpr uint8_t LIMIT_A_MIN = 39;  // J26, idle HIGH, LOW = triggered
+constexpr uint8_t LIMIT_A_MAX = 40;  // J27
+// Stepper Z has one switch, at the max end (connector is named Aux_Max). If
+// yours is physically at the bottom, flip Homing to limit_min in the web UI.
+constexpr uint8_t LIMIT_Z_MAX = 42;  // J41
+
+// Transport buttons, active-low to GND on internal pull-ups.
+// GPIO48 also drives the DevKitC-1's onboard RGB LED; harmless as a switch
+// input (the WS2812 data pin is high-Z) as long as no LED library runs.
+constexpr uint8_t BTN_SET_KEYFRAME = 48;    // J33
+constexpr uint8_t BTN_CLEAR_KEYFRAME = 3;   // J34
+constexpr uint8_t BTN_PLAY_PAUSE = 45;      // J35
+constexpr uint8_t BTN_RESET = 46;           // J36
 }  // namespace pins
 
 // ---------- I2C ----------
@@ -79,8 +98,8 @@ constexpr uint8_t OLED = 0x3C;
 }  // namespace i2c_addr
 
 namespace mux_channel {
-constexpr uint8_t PAN = 0;
-constexpr uint8_t TILT = 1;
+constexpr uint8_t B_PAN = 0;   // stepper B / pan joint AS5600
+constexpr uint8_t C_TILT = 1;  // stepper C / tilt joint AS5600
 }  // namespace mux_channel
 
 // ---------- TMC2209 ----------
@@ -97,8 +116,8 @@ constexpr uint16_t MICROSTEPS = 16;
 // ---------- Mechanics ----------
 namespace mech {
 constexpr float MOTOR_STEPS_PER_REV = 200.0f;  // 1.8 deg NEMA17
-constexpr float SLIDE_BELT_PITCH_MM = 2.0f;    // GT2
-constexpr float SLIDE_PULLEY_TEETH = 20.0f;
+constexpr float A_BELT_PITCH_MM = 2.0f;    // GT2
+constexpr float A_PULLEY_TEETH = 20.0f;
 constexpr float ROTARY_GEAR_RATIO = 4.0f;      // 1:1 jackshaft x 20T:80T
 // Z is a leadscrew. The linear axis model computes mm/rev as
 // belt_pitch * pulley_teeth, so a lead of 8mm is expressed as 8.0 x 1.
@@ -107,12 +126,12 @@ constexpr float Z_LEAD_MM = 8.0f;
 
 // ---------- Motion ----------
 namespace motion {
-constexpr float SLIDE_MAX_SPEED_MM_S = 200.0f;
-constexpr float SLIDE_ACCEL_MM_S2 = 500.0f;
-constexpr float SLIDE_HOMING_SPEED_MM_S = 37.5f;
-constexpr float SLIDE_HOMING_BACKOFF_MM = 5.0f;
-constexpr float SLIDE_MIN_MM = 0.0f;
-constexpr float SLIDE_MAX_MM = 800.0f;  // measure your rail and set this
+constexpr float A_MAX_SPEED_MM_S = 200.0f;
+constexpr float A_ACCEL_MM_S2 = 500.0f;
+constexpr float A_HOMING_SPEED_MM_S = 37.5f;
+constexpr float A_HOMING_BACKOFF_MM = 5.0f;
+constexpr float A_MIN_MM = 0.0f;
+constexpr float A_MAX_MM = 800.0f;  // measure your rail and set this
 
 constexpr float Z_MAX_SPEED_MM_S = 15.0f;
 constexpr float Z_ACCEL_MM_S2 = 60.0f;
@@ -127,8 +146,8 @@ constexpr float ROTARY_ACCEL_DEG_S2 = 90.0f;
 // Neither pan nor tilt has a limit switch, so these soft limits are the only
 // thing stopping the operator from winding cabling past the mechanical
 // range. Placeholders -- tune to the as-built range in the web UI.
-constexpr float PAN_MIN_DEG = -170.0f, PAN_MAX_DEG = 170.0f;
-constexpr float TILT_MIN_DEG = -45.0f, TILT_MAX_DEG = 90.0f;
+constexpr float B_MIN_DEG = -170.0f, B_MAX_DEG = 170.0f;
+constexpr float C_MIN_DEG = -45.0f, C_MAX_DEG = 90.0f;
 
 // Open-loop drift check against the AS5600. Runs only while the axis is
 // idle, so a correction never yanks a target mid-move.
