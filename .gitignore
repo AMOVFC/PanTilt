@@ -2,3 +2,6 @@
 .vscode/
 /pantiltslide/.history
 /integrated/schematic/.history
+/hybrid/schematic/.history
+~*.lck
+/prototype/schematic_wired/.history
