@@ -77,9 +77,11 @@ constexpr uint8_t ENC_Z_A = 19, ENC_Z_B = 20;   // J32
 
 constexpr uint8_t LIMIT_A_MIN = 39;  // J26, idle HIGH, LOW = triggered
 constexpr uint8_t LIMIT_A_MAX = 40;  // J27
-// Stepper Z has one switch, at the max end (connector is named Aux_Max). If
-// yours is physically at the bottom, flip Homing to limit_min in the web UI.
-constexpr uint8_t LIMIT_Z_MAX = 42;  // J41
+// Stepper Z has a single switch. Which end it represents is a mechanical
+// choice, not an electrical one, so it is runtime config: set Homing to
+// limit_min or limit_max in the web UI. Defaults to limit_min.
+// (The board connector is silkscreened "Aux_Max" -- worth renaming to Z_Home.)
+constexpr uint8_t LIMIT_Z_HOME = 42;  // J41
 
 // Transport buttons, active-low to GND on internal pull-ups.
 // GPIO48 also drives the DevKitC-1's onboard RGB LED; harmless as a switch

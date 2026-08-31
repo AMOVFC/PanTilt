@@ -100,15 +100,21 @@ default to position mode, stepping their target one click at a time.
 | J1.14 | 46 | BTN_RESET | `J36`.1 |
 | J2.9 | 39 | LIMIT_A_MIN | `J26`.1 |
 | J2.8 | 40 | LIMIT_A_MAX | `J27`.1 |
-| J2.6 | 42 | LIMIT_Z_MAX | `J41`.1 Aux_Max |
+| J2.6 | 42 | LIMIT_Z_HOME | `J41`.1 (silkscreened Aux_Max) |
 
 All active LOW to GND on internal pull-ups.
 
-Stepper Z has **one** switch, at the max end. In config that is stored as
-`limit_min_pin == limit_max_pin` with `homing = limit_max`; `Axis` reads the
-homing mode to decide which end is real, so a single switch can never block
-motion in both directions. If your switch is physically at the bottom, change
-Homing to `limit_min` in the web UI — no reflash.
+Stepper Z has **one** switch. Which end it represents is a mechanical choice,
+not an electrical one, so it is runtime configuration: set **Homing** to
+`limit_min` or `limit_max` in the web UI's Axes tab, no reflash.
+
+It defaults to **`limit_min`** — a height column wants a known zero at the
+bottom and travels upward from it. In config a single switch is stored as
+`limit_min_pin == limit_max_pin`, and `Axis` reads the homing mode to decide
+which end is real, so one switch can never block motion in both directions.
+
+The board connector is silkscreened `Aux_Max`, which now disagrees with the
+default. Worth renaming it to `Z_Home` while the schematic is still open.
 
 ## Power and unused
 

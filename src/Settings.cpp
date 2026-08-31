@@ -351,11 +351,13 @@ void Settings::setDefaults() {
   z.accel = motion::Z_ACCEL_MM_S2;
   z.minLimit = motion::Z_MIN_MM;
   z.maxLimit = motion::Z_MAX_MM;
-  // One switch, at the top (J41 "Aux_Max"). Both pins carry it; Axis reads
-  // the homing mode to decide which end is the real one.
-  z.homing = HomingMode::LIMIT_MAX;
-  z.limitMinPin = pins::LIMIT_Z_MAX;
-  z.limitMaxPin = pins::LIMIT_Z_MAX;
+  // One switch. Defaulting to the bottom: a height column wants a known zero
+  // at the bottom and travel upward from it. Both pins carry the same GPIO and
+  // Axis reads the homing mode to decide which end is real, so moving the
+  // switch to the top later is a dropdown in the web UI, not a reflash.
+  z.homing = HomingMode::LIMIT_MIN;
+  z.limitMinPin = pins::LIMIT_Z_HOME;
+  z.limitMaxPin = pins::LIMIT_Z_HOME;
   z.homingSpeed = motion::Z_HOMING_SPEED_MM_S;
   z.homingBackoff = motion::Z_HOMING_BACKOFF_MM;
 
