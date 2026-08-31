@@ -25,47 +25,50 @@ constexpr uint8_t MAX_KEYFRAMES = 32;
 constexpr uint8_t AXIS_SLIDE = 0;
 constexpr uint8_t AXIS_PAN = 1;
 constexpr uint8_t AXIS_TILT = 2;
-constexpr uint8_t AXIS_AUX = 3;
+constexpr uint8_t AXIS_Z = 3;
 }  // namespace fw
 
 // ---------- Pin map (defaults) ----------
 namespace pins {
-// U1..U4 STEP/DIR. Enable is one shared active-low line across all four.
-constexpr uint8_t SLIDE_STEP = 4, SLIDE_DIR = 5;
-constexpr uint8_t PAN_STEP = 6, PAN_DIR = 7;
-constexpr uint8_t TILT_STEP = 8, TILT_DIR = 9;
-constexpr uint8_t AUX_STEP = 47, AUX_DIR = 48;
+// ---------------------------------------------------------------------------
+// LOCKED PIN MAP -- hybrid controller, rev A.
+//
+// This must agree with hybrid/schematic/ exactly. Every value here is a
+// physical fact about the board, not a preference: getting one wrong drives
+// STEP pulses onto whatever else sits on that line. See docs/pinout.md for
+// the full source/destination table.
+//
+// Free after this allocation: GPIO3, GPIO45, GPIO46, GPIO48
+// (plus GPIO0 = BOOT strap, GPIO43/44 = USB-serial console).
+// ---------------------------------------------------------------------------
+
+// U3/U5/U6/U7 STEP+DIR. Enable is one shared active-low line across all four.
+constexpr uint8_t SLIDE_STEP = 4, SLIDE_DIR = 5;   // driver addr 0
+constexpr uint8_t PAN_STEP = 6, PAN_DIR = 7;       // driver addr 1
+constexpr uint8_t TILT_STEP = 8, TILT_DIR = 9;     // driver addr 2
+// Z is on GPIO1/2, NOT 47/48. 47 is the TMC UART TX; putting Z STEP there
+// would tie two outputs together.
+constexpr uint8_t Z_STEP = 1, Z_DIR = 2;           // driver addr 3
 constexpr uint8_t DRIVER_EN = 10;
 
-// Shared half-duplex TMC2209 UART. TX goes to header pin 12 (through the
-// module's onboard 1k), RX to pin 11 (PDN, direct) -- both are the same
-// PDN_UART node on the chip.
-constexpr uint8_t TMC_TX = 41;
-constexpr uint8_t TMC_RX = 42;
+// Shared half-duplex TMC2209 UART. TX joins the bus through a 1k series
+// resistor (R10), RX sits directly on it; both are the same PDN_UART node.
+constexpr uint8_t TMC_TX = 47;
+constexpr uint8_t TMC_RX = 41;
 
 constexpr uint8_t I2C_MUX_SDA = 11;   // bus A: TCA9548A -> AS5600s
 constexpr uint8_t I2C_MUX_SCL = 12;
 constexpr uint8_t I2C_OLED_SDA = 13;  // bus B: OLED, isolated from the mux bus
 constexpr uint8_t I2C_OLED_SCL = 14;
 
-// One quadrature encoder per axis (J29..J32). The board leaves each
-// encoder's push switch as a no-connect, so encoders are A/B only.
-constexpr uint8_t ENC_SLIDE_A = 15, ENC_SLIDE_B = 16;
-constexpr uint8_t ENC_PAN_A = 17, ENC_PAN_B = 18;
-constexpr uint8_t ENC_TILT_A = 21, ENC_TILT_B = 38;
-// GPIO19/20 are the ESP32-S3's native USB D-/D+. They work as an encoder
-// input on a DevKitC-1 (which enumerates over the separate UART bridge),
-// but the USB PHY holds them, so this encoder ships disabled by default.
-constexpr uint8_t ENC_AUX_A = 19, ENC_AUX_B = 20;
+// Two encoders, each with a push switch: a jog wheel and an angle wheel.
+// This is the board's actual control scheme -- not one encoder per axis.
+constexpr uint8_t ENC_JOG_A = 15, ENC_JOG_B = 16, ENC_JOG_SW = 17;
+constexpr uint8_t ENC_ANGLE_A = 18, ENC_ANGLE_B = 21, ENC_ANGLE_SW = 38;
 
 constexpr uint8_t LIMIT_SLIDE_MIN = 39;  // idle HIGH, LOW = triggered
 constexpr uint8_t LIMIT_SLIDE_MAX = 40;
-
-// Transport buttons, all active-low to GND on internal pull-ups.
-constexpr uint8_t BTN_SET_KEYFRAME = 1;
-constexpr uint8_t BTN_CLEAR_KEYFRAME = 3;
-constexpr uint8_t BTN_PLAY_PAUSE = 45;
-constexpr uint8_t BTN_RESET = 46;
+constexpr uint8_t LIMIT_Z_HOME = 42;
 }  // namespace pins
 
 // ---------- I2C ----------
@@ -97,6 +100,9 @@ constexpr float MOTOR_STEPS_PER_REV = 200.0f;  // 1.8 deg NEMA17
 constexpr float SLIDE_BELT_PITCH_MM = 2.0f;    // GT2
 constexpr float SLIDE_PULLEY_TEETH = 20.0f;
 constexpr float ROTARY_GEAR_RATIO = 4.0f;      // 1:1 jackshaft x 20T:80T
+// Z is a leadscrew. The linear axis model computes mm/rev as
+// belt_pitch * pulley_teeth, so a lead of 8mm is expressed as 8.0 x 1.
+constexpr float Z_LEAD_MM = 8.0f;
 }  // namespace mech
 
 // ---------- Motion ----------
@@ -107,6 +113,13 @@ constexpr float SLIDE_HOMING_SPEED_MM_S = 37.5f;
 constexpr float SLIDE_HOMING_BACKOFF_MM = 5.0f;
 constexpr float SLIDE_MIN_MM = 0.0f;
 constexpr float SLIDE_MAX_MM = 800.0f;  // measure your rail and set this
+
+constexpr float Z_MAX_SPEED_MM_S = 15.0f;
+constexpr float Z_ACCEL_MM_S2 = 60.0f;
+constexpr float Z_MIN_MM = 0.0f;
+constexpr float Z_MAX_MM = 150.0f;      // measure your column and set this
+constexpr float Z_HOMING_SPEED_MM_S = 5.0f;
+constexpr float Z_HOMING_BACKOFF_MM = 3.0f;
 
 constexpr float ROTARY_MAX_SPEED_DEG_S = 45.0f;
 constexpr float ROTARY_ACCEL_DEG_S2 = 90.0f;

@@ -199,6 +199,10 @@ bool Axis::limitMaxTriggered() const {
   if (c.homing != HomingMode::LIMIT_MIN && c.homing != HomingMode::LIMIT_MAX) {
     return false;
   }
+  // Z has a single home switch, expressed as min == max. Reporting the same
+  // switch as both ends would let a triggered home block motion in both
+  // directions, stranding the axis on its own limit.
+  if (c.limitMaxPin == c.limitMinPin) return false;
   return limitTriggered(c.limitMaxPin);
 }
 

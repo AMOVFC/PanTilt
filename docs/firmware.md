@@ -1,7 +1,6 @@
 # Camera slider firmware — flashing and bring-up
 
-Firmware for the ESP32-S3 on `pantiltslide`. Four axes (slide / pan / tilt /
-aux), TMC2209 drivers over a shared UART, four encoders, four transport
+Firmware for the ESP32-S3 on `pantiltslide`. Four axes (slide / pan / tilt / Z), TMC2209 drivers over a shared UART, four encoders, four transport
 buttons, an OLED, BLE record trigger, and a web UI for configuring all of it.
 
 Everything that describes *your* machine — pin map, mechanics, speeds, limits,
@@ -108,40 +107,36 @@ list, so the two can never drift apart.
 **System** — driver and sensor diagnostics, network setup, the raw pin map,
 config export/import, and factory reset.
 
-## Pin map (defaults)
+## Pin map
 
-Matches `pantiltslide/tools/gen_wiring.py`, which generates the current
-schematic.
+The locked source/destination table lives in **[pinout.md](pinout.md)** — that
+is the single authority, and `include/config.h` is locked to match it. Summary:
 
 | Function | GPIO |
 |---|---|
-| Slide STEP / DIR (U1, addr 0) | 4 / 5 |
-| Pan STEP / DIR (U2, addr 1) | 6 / 7 |
-| Tilt STEP / DIR (U3, addr 2) | 8 / 9 |
-| Aux STEP / DIR (U4, addr 3) | 47 / 48 |
+| Slide STEP / DIR (addr 0) | 4 / 5 |
+| Pan STEP / DIR (addr 1) | 6 / 7 |
+| Tilt STEP / DIR (addr 2) | 8 / 9 |
+| Z STEP / DIR (addr 3) | 1 / 2 |
 | Driver EN (shared, active low) | 10 |
-| TMC2209 UART TX / RX | 41 / 42 |
+| TMC2209 UART TX / RX | 47 / 41 |
 | Mux I2C SDA / SCL (bus A) | 11 / 12 |
 | OLED I2C SDA / SCL (bus B) | 13 / 14 |
-| Encoder: slide A/B | 15 / 16 |
-| Encoder: pan A/B | 17 / 18 |
-| Encoder: tilt A/B | 21 / 38 |
-| Encoder: aux A/B | 19 / 20 |
-| Limit min / max (slide) | 39 / 40 |
-| Button: set keyframe | 1 |
-| Button: clear keyframe | 3 |
-| Button: play/pause | 45 |
-| Button: reset | 46 |
+| Jog encoder A / B / push | 15 / 16 / 17 |
+| Angle encoder A / B / push | 18 / 21 / 38 |
+| Limit slide min / max | 39 / 40 |
+| Limit Z home | 42 |
 
 GPIO 22–25 do not exist on this part, 26–32 are the SPI flash bus and 33–37
-are the octal PSRAM bus; the config API rejects all of them.
+are the octal PSRAM bus; the config API rejects all of them. Free for future
+use: GPIO3, 45, 46, 48.
 
 ## Things worth knowing
 
-**The aux encoder ships disabled.** GPIO19/20 are the ESP32-S3's native USB
-D-/D+. They work as an encoder input on a DevKitC-1, which enumerates over its
-separate UART bridge, but the USB PHY holds those pads, so it is an opt-in
-rather than a default. Enable it in Controls if your build uses it.
+**Two encoders, not four.** The board carries a jog wheel and an angle wheel,
+each with a push switch. Encoder and button slots 3 and 4 exist in the config
+model but have no connector, so they ship disabled. GPIO19/20 are the native
+USB D-/D+ and belong to the USB-C port.
 
 **Microstepping comes from the UART now, not the straps.** On this board MS1
 and MS2 select each driver's UART slave address, so they no longer select
@@ -157,7 +152,7 @@ the steppers' step counting. See `include/QuadEncoder.h`.
 
 **Open-loop everywhere except pan and tilt.** DIAG is a no-connect on this
 board, so there is no StallGuard and no sensorless homing. Lost steps on the
-slide and aux axes are simply not detectable; pan and tilt are checked against
+slide and Z axes are simply not detectable; pan and tilt are checked against
 their AS5600 while idle and resynced if they drift.
 
 **`hardware/final_wiring_diagram_v3.svg` is stale.** It predates the four-axis
