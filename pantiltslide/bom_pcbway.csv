@@ -1,20 +1,19 @@
-Item,Designator,Qty,Value,Package,Manufacturer,MPN,LCSC,Type,Notes
-1,C1,1,470uF 50V,Radial D10.0mm P5.00mm,Yageo,ERJ1HM471G16C35T,C2916286,THT,24V bulk at fuse output
-2,"C2,C3,C4,C5",4,100uF 50V,Radial D8.0mm P3.50mm,Aishi,KM107M050F12RR0VH2FP0,C2749,THT,one per stepper driver VM
-3,"C6,C7,C8,C9",4,100nF 50V,0805,YAGEO,CC0805KRX7R9BB104,C49678,SMD,one per stepper driver VM
-4,C10,1,100uF 25V,Radial D6.3mm P2.50mm,Aishi,KS107M025E07RR0VH2FP0,C44587,THT,5V input bulk; 25V used in place of 16V
-5,"C11,C13,C14,C15,C16,C17",6,100nF 50V,0805,YAGEO,CC0805KRX7R9BB104,C49678,SMD,rail decoupling
-6,C12,1,22uF 16V,0805,HGC,HGC0805R5226K160NSLJ,C7472967,SMD,3.3V bulk
-7,F1,2,Fuse clip 5x20mm,Clip P5.00mm hole 1.05mm,Generic,5x20mm PCB fuse clip,C3130,THT,"TWO clips per board. VERIFY 5.00mm leg pitch - see notes"
-8,"J1,J2",2,Female header 1x22 2.54mm,PinSocket 1x22 P2.54mm,Ckmtw,ZX-PM2.54-1-22PY,C7499337,THT,ESP32-S3 DevKitC sockets
-9,"J17,J18,J19,J21,J22,J28",6,JST XH 4-pin,B4B-XH-A P2.50mm,JST,B4B-XH-A(LF)(SN),C144395,THT,motors and AS5600 heads
-10,"J20,J24",2,Female header 1x12 2.54mm,PinSocket 1x12 P2.54mm,Ckmtw,KH-2.54FH-1X12P-H8.5,C2905419,THT,TCA9548A breakout socket
-11,J23,1,Female header 1x4 2.54mm,PinSocket 1x04 P2.54mm,Ckmtw,2.54-1*4P,C2718488,THT,OLED socket
-12,"J26,J27,J33,J34,J35,J36,J41",7,JST XH 2-pin,B2B-XH-A P2.50mm,JST,B2B-XH-A(LF)(SN),C158012,THT,limits buttons Z-home
-13,"J29,J30,J31,J32",4,JST XH 3-pin,B3B-XH-A P2.50mm,JST,B3B-XH-A(LF)(SN),C144394,THT,rotary encoders
-14,"J37,J38",2,Screw terminal 2P 5.0mm,MX126-5.0-02P,MaiXu,MX126-5.0-02P-GN01-Cu-S-A,C5188434,THT,5V in and 24V in
-15,"R1,R2,R3,R4",4,4.7k 1%,0805,Uniroyal,0805W8F4701T5E,C17673,SMD,I2C pull-ups bus A and B
-16,"R5,R6,R7,R8",4,2.2k 1%,0805,Uniroyal,0805W8F2201T5E,C17520,SMD,I2C pull-ups mux channels 0 and 1
-17,"R10,R11",2,100R 1%,0603,Royal Ohm,RCA03100RFLF,C22369795,SMD,TMC UART series
-18,R12,1,1k 1%,0603,Uniroyal,0603WAF1001T5E,C21190,SMD,TMC UART TX series
-19,"U1,U2,U3,U4",8,Female header 1x8 2.54mm,PinSocket 1x08 P2.54mm,Ckmtw,2.54-1*8P,C27438,THT,"TWO 1x8 sockets per driver position = 8 total. Pads 17/18 of each driver footprint are NOT populated."
+Item,Designator,Qty,Package,Manufacturer,MPN,LCSC,Type,Notes
+1,C1,1,CP_Radial_D10.0mm_P5.00mm,Yageo,ERJ1HM471G16C35T,C2916286,THT,24V bulk at fuse output
+2,C2-C5,4,CP_Radial_D8.0mm_P3.50mm,Aishi,KM107M050F12RR0VH2FP0,C2749,THT,per-driver VM bulk
+3,"C6-C9,C11,C13-C17",10,C_0805_2012Metric,Yageo,CC0805KRX7R9BB104,C49678,SMD,"per-driver VM ceramic,rail decoupling"
+4,C10,1,CP_Radial_D6.3mm_P2.50mm,Aishi,KS107M025E07RR0VH2FP0,C44587,THT,5V input bulk; 25V part
+5,C12,1,C_0805_2012Metric,HGC,HGC0805R5226K160NSLJ,C7472967,SMD,"3.3V bulk, 16V"
+6,F1,2,Fuseholder_Clip-5x20mm_Littelfuse_111_Inline_P20.00x5.00mm_D1.05mm_Horizontal,Generic,5x20mm PCB fuse clip,C3130,THT,TWO clips per board; verify 5.00mm leg pitch
+7,"J1,J2",2,PinSocket_1x22_P2.54mm_Vertical,Ckmtw,ZX-PM2.54-1-22PY,C7499337,THT,ESP32-S3 DevKitC socket
+8,"J17-J19,J21,J22,J28",6,JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical,JST,B4B-XH-A(LF)(SN),C144395,THT,motors / AS5600 heads
+9,"J20,J24",2,PinSocket_1x12_P2.54mm_Vertical,Ckmtw,KH-2.54FH-1X12P-H8.5,C2905419,THT,TCA9548A breakout socket
+10,J23,1,PinSocket_1x04_P2.54mm_Vertical,Ckmtw,2.54-1*4P,C2718488,THT,OLED socket
+11,"J26,J27,J33-J36,J41",7,JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical,JST,B2B-XH-A(LF)(SN),C158012,THT,limits / buttons / Z home
+12,J29-J32,4,JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical,JST,B3B-XH-A(LF)(SN),C144394,THT,rotary encoders
+13,"J37,J38",2,TerminalBlock_MaiXu_MX126-5.0-02P_1x02_P5.00mm,MaiXu,MX126-5.0-02P-GN01-Cu-S-A,C5188434,THT,5V in / 24V in
+14,R1-R4,4,R_0805_2012Metric,Uniroyal,0805W8F4701T5E,C17673,SMD,I2C pull-ups bus A/B
+15,R5-R8,4,R_0805_2012Metric,Uniroyal,0805W8F2201T5E,C17520,SMD,I2C pull-ups mux ch0/ch1
+16,"R10,R11",2,R_0603_1608Metric,Royal Ohm,RCA03100RFLF,C22369795,SMD,TMC UART series
+17,R12,1,R_0603_1608Metric,Uniroyal,0603WAF1001T5E,C21190,SMD,TMC UART TX series
+18,U1-U4,8,TMC2209_SilentStepStick_Socket_18P,Ckmtw,2.54-1*8P,C27438,THT,TWO 1x8 sockets per driver; pads 17/18 not populated
