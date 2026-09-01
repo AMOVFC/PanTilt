@@ -49,20 +49,72 @@ Motors, PSU, AS5600 modules, OLED, encoders and mechanical parts sit outside
 that budget -- they wire in over connectors rather than being assembled onto
 the board.
 
-## Firmware
+## Flashing
 
-See **[docs/firmware.md](docs/firmware.md)** for flashing, bring-up order, the
-pin map, and the design notes that matter on the bench.
+Install [PlatformIO](https://platformio.org/) (the VS Code extension, or
+`pip install platformio`). Then, from the repo root:
 
 ```bash
 pio run -t upload
 ```
 
+and watch it boot:
+
+```bash
+pio device monitor
+```
+
+The web UI is compiled into the image and the filesystem formats itself on
+first boot, so there is no `uploadfs` step and nothing else to copy across.
+
+### Which USB port
+
+**Use the DevKitC-1's `UART` port, not its `USB` port.**
+
+The board wires Encoder Z to GPIO19/20, which are also the S3's native USB
+D-/D+. As soon as the firmware configures those as GPIO the USB pad is
+released and native USB stops enumerating — so the native port cannot flash
+this build, and you should not plug a cable into it while the encoder is
+wired. The `UART` port goes through the on-board bridge to GPIO43/44 and is
+unaffected.
+
+If upload fails to find the board, hold **BOOT**, tap **RESET**, release
+**BOOT**, and re-run. Specify the port explicitly if you have several devices:
+
+```bash
+pio run -t upload --upload-port COM5
+```
+
+### First boot
+
+The board comes up as its own access point:
+
+| | |
+|---|---|
+| SSID | `CamSlider` |
+| Password | `sliderpad` |
+| Web UI | `http://192.168.4.1` or `http://camslider.local` |
+
+The OLED's bottom line shows the address it is actually reachable at. Point it
+at your own network later from **System → Network**; the access point stays as
+a fallback, so a mistyped password cannot lock you out of the machine.
+
+### Flashing with the board assembled
+
+Pull **24 V** before connecting USB. The DevKit can sit in its sockets while
+you flash — the 5 V rail from the bridge back-feeds nothing harmful — but the
+motor rail should be down until you have checked the driver currents.
+
+## Firmware
+
+See **[docs/firmware.md](docs/firmware.md)** for the full bring-up order and
+the design notes that matter on the bench, and
+**[docs/pinout.md](docs/pinout.md)** for the locked pin map.
+
 Everything describing a particular machine — pin map, mechanics, speeds, soft
 limits, control bindings, network — is runtime configuration persisted to the
-ESP32's filesystem and edited from a built-in web UI. `include/config.h` holds
-factory defaults only, so reflashing does not discard a working setup, and one
-firmware image covers all three board versions.
+ESP32's filesystem and edited from the built-in web UI. `include/config.h`
+holds factory defaults only, so reflashing never discards a working setup.
 
 Read the bring-up order before energising motors. Nothing homes at power-on,
 and the shipped soft limits are placeholders.

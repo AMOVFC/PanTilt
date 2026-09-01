@@ -41,6 +41,64 @@ web UI's **System → Network** tab you can point it at your own WiFi instead;
 the access point stays as a fallback so a wrong password can never lock you
 out of the machine.
 
+## Testing the steppers with nothing else wired
+
+You do not need encoders, buttons, limit switches, AS5600 heads or the OLED to
+move a motor. The web UI is the primary control surface; the physical controls
+are conveniences layered on top. Everything below happens from the **Control**
+tab in a browser.
+
+What the unwired inputs do meanwhile: buttons and limit switches are read with
+internal pull-ups and active-low logic, so an unconnected one reads *released*
+and *not triggered*. An absent AS5600 logs a warning and leaves that axis at
+zero. An absent OLED fails its init and is skipped. None of them block motion.
+
+### Do this first
+
+**Disable the encoders.** In **Controls**, untick *Enabled* on all four and
+save. This is the one unwired input that is not inert: an encoder pin sitting
+on a weak internal pull-up next to unshielded stepper wiring can pick up a
+glitch, and encoder A is a *velocity* control — a single phantom count is a
+standing "move the slide" command. Two clicks now, re-enable when the wheels
+are actually wired.
+
+**Understand that you have no overrun protection.** Unwired limit switches read
+as not-triggered, so nothing will stop an axis mechanically. Keep the moves
+short, keep a hand on the browser, and remember `Esc` fires the e-stop.
+
+### Then
+
+1. **24 V on, drivers seated.** The TMC2209s need VM to do anything; USB alone
+   powers the logic only.
+2. **System → Stepper drivers.** All four should say `ok`. This matters more
+   than it looks: if UART fails, MS1/MS2 revert to selecting *microstepping*
+   rather than the address, and each driver lands on a different resolution —
+   1/8, 1/2, 1/4, 1/16 for addresses 0-3 respectively. Positions would be
+   silently wrong per axis. Do not proceed past a `no reply`.
+3. **Axes → set Run current low.** 400-600 mA is plenty to see a shaft turn.
+   Check *Sense resistor* under System → Hardware matches your modules
+   (0.11 Ω on most SilentStepSticks).
+4. **Jog speed slider to 10 %**, then press and hold a jog arrow on one axis.
+   A motor with nothing attached will whine and turn; that is success.
+5. **If it runs backwards**, tick *Invert direction* on that axis rather than
+   swapping motor wires.
+
+### What will and will not work un-homed
+
+Jogging and go-to both work without homing — the firmware does not gate motion
+on it. Soft limits do apply, and every axis starts at position 0:
+
+| Axis | Starts at | Jog direction available |
+|---|---|---|
+| A slide | 0 mm, `min_limit` = 0 | positive only |
+| B pan | 0°, range ±170° | both |
+| C tilt | 0°, range -45…+90° | both |
+| Z | 0 mm, `min_limit` = 0 | positive only |
+
+So A and Z will refuse to jog *negative* until homed or until you widen the
+soft limit — that is the guard working, not a fault. Either jog positive, or
+untick *Enforce soft limits* on that axis while you are on the bench.
+
 ## Bring-up order
 
 Work down this list. Each step depends on the one above it, and each one is
