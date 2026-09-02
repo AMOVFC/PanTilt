@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "pantiltslide.kicad_pro",
-  "current": "2026-08-19_1201",
+  "current": "2026-08-31_1738-2",
   "runs": {
     "2026-08-19_1201": {
       "source_hashes": {
@@ -16,6 +16,35 @@
         "schematic": "analyze_schematic.py pantiltslide.kicad_sch"
       },
       "generated": "2026-08-19T12:01:59-04:00",
+      "pinned": false
+    },
+    "2026-08-31_1738": {
+      "source_hashes": {
+        "pantiltslide_full_turnkey.kicad_sch": "sha256:ad9c7520529e20a0d35c5c7679a473ae5291148110672c192e9782a900598e84"
+      },
+      "outputs": {
+        "schematic": "schematic.json",
+        "pcb": "pcb.json"
+      },
+      "scripts": {
+        "schematic": "analyze_schematic.py pantiltslide_full_turnkey.kicad_sch"
+      },
+      "generated": "2026-08-31T17:38:57-04:00",
+      "pinned": false
+    },
+    "2026-08-31_1738-2": {
+      "source_hashes": {
+        "pantiltslide_full_turnkey.kicad_pcb": "sha256:3a8cec609358eb6dbe621e52b80735bcb23b447935b9aa3621f5404d5241afbf",
+        "pantiltslide_full_turnkey.kicad_sch": "sha256:ad9c7520529e20a0d35c5c7679a473ae5291148110672c192e9782a900598e84"
+      },
+      "outputs": {
+        "schematic": "schematic.json",
+        "pcb": "pcb.json"
+      },
+      "scripts": {
+        "pcb": "analyze_pcb.py pantiltslide_full_turnkey.kicad_pcb"
+      },
+      "generated": "2026-08-31T17:57:49-04:00",
       "pinned": false
     }
   }
