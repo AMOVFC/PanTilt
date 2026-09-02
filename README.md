@@ -69,7 +69,17 @@ first boot, so there is no `uploadfs` step and nothing else to copy across.
 
 ### Which USB port
 
-**Use the DevKitC-1's `UART` port, not its `USB` port.**
+**No external programmer is needed.** The USB-to-UART bridge is already on the
+DevKitC-1. It has two USB sockets side by side (Micro-USB on v1.0/v1.1):
+
+| Silkscreen | Goes to | Use it? |
+|---|---|---|
+| `UART` | on-board bridge -> GPIO43/44 | **yes** -- flash and monitor here |
+| `USB` | native USB -> GPIO19/20 | no -- Encoder Z lives on those pins |
+
+Plug an ordinary USB cable from your machine into the socket marked **`UART`**.
+The bridge drives DTR/RTS into EN and GPIO0, so auto-reset works and you should
+not need to touch the buttons.
 
 The board wires Encoder Z to GPIO19/20, which are also the S3's native USB
 D-/D+. As soon as the firmware configures those as GPIO the USB pad is
@@ -101,9 +111,18 @@ a fallback, so a mistyped password cannot lock you out of the machine.
 
 ### Flashing with the board assembled
 
-Pull **24 V** before connecting USB. The DevKit can sit in its sockets while
-you flash — the 5 V rail from the bridge back-feeds nothing harmful — but the
-motor rail should be down until you have checked the driver currents.
+`J37` feeds 5 V into the DevKit through `VCC_5V`, so plugging USB in as well
+ties two 5 V sources together on the same rail. Power from one at a time.
+
+For a first flash, the least surprising order is:
+
+1. DevKit out of the socket (or the board unpowered) -> plug the `UART` port ->
+   `pio run -t upload`
+2. Confirm it boots and the access point appears
+3. Unplug USB, seat the DevKit, then bring up the board
+
+After that you can flash it in-socket, with the 5 V supply off. Pull **24 V**
+either way until you have checked driver currents.
 
 ## Firmware
 
