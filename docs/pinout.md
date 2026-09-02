@@ -146,9 +146,21 @@ GPIO releases the USB pad automatically (the IDF HAL clears
 but native USB stops. Do not plug a cable into that port with the encoder
 wired.
 
-GPIO48 also drives the DevKitC-1's onboard addressable RGB LED. Harmless as a
-switch input — the WS2812's data pin is high-impedance — provided no LED
-library is ever enabled.
+**The DevKit's RGB LED sits on one of our pins, and which one depends on the
+board revision.** v1.0 drives it from GPIO48 (our Btn_SetKeyframe); v1.1 moved
+it to GPIO38 (our Enc_Tilt B). Harmless either way — the WS2812's data pin is a
+high-impedance input, so the switch and the encoder both read cleanly — but do
+not enable an LED library on this board.
+
+**GPIO43/44 are not spare.** They read as unused on our schematic, but the
+DevKitC-1 wires them to its on-board USB-to-UART bridge, which is soldered down
+and always present. They are the serial console and cannot be reassigned.
+
+**Native USB is unavailable by design.** GPIO19/20 carry Encoder Z, and
+configuring them as GPIO releases the USB pad. The only way to get native USB
+back would be to drop Encoder Z and leave `J32` unpopulated; nothing else can
+free those two pins, because the console has nowhere else to go. Flashing and
+the console both work over the UART port, so this costs nothing in practice.
 
 ## Mechanics behind the numbers
 
