@@ -1,69 +1,184 @@
 #pragma once
-// Runtime-settable configuration, persisted to NVS and editable over the web
-// UI (WebConfig.*). The values themselves are declared in config.h under
-// their original namespaces, so call sites read them exactly as they did
-// when they were compile-time constants.
+// Runtime-editable configuration, persisted as JSON on LittleFS.
 //
-// Everything is driven off one descriptor table: JSON serialization, form
-// rendering, range validation, and NVS persistence all walk kSettings rather
-// than hand-listing fields, so adding a setting means adding one row.
+// This is the single source of truth for the whole firmware: pin map, axis
+// mechanics, motion limits, control mapping and network setup all live here
+// rather than in constexprs, so the web UI can change any of them without a
+// reflash. config.h only supplies the factory defaults.
 //
-// NOT exposed here, deliberately:
-//   - Pin assignments. Editing these in software cannot rewire the board;
-//     it can only make firmware disagree with the physical wiring, and a
-//     wrong entry drives STEP pulses onto whatever else is on that pin. They
-//     are physical facts, so they stay compile-time.
-//   - I2C addresses, OLED dimensions, TMC sense resistor and address straps.
-//     Same reasoning: fixed by the parts fitted and how they're soldered.
+// Anything that can only be applied at boot (pin assignments, encoder pins,
+// I2C pins) sets requiresReboot on save; the UI surfaces that to the user.
 
-#include <cstdint>
+#include <ArduinoJson.h>
+#include <Arduino.h>
 
-namespace settings {
+#include "config.h"
 
-enum class Type : uint8_t { F32, U32, I32, U16, U8, BOOL };
+enum class AxisKind : uint8_t { LINEAR = 0, ROTARY = 1 };
+enum class HomingMode : uint8_t { NONE = 0, LIMIT_MIN = 1, LIMIT_MAX = 2, SENSOR = 3 };
+enum class FeedbackType : uint8_t { NONE = 0, AS5600 = 1 };
+enum class EncoderMode : uint8_t { OFF = 0, VELOCITY = 1, POSITION = 2 };
 
-struct Desc {
-  const char *key;    // NVS key AND JSON field name — max 15 chars (NVS limit)
-  const char *group;  // UI section heading
-  const char *label;  // human-readable name in the UI
-  const char *unit;   // shown after the input; "" if unitless
-  Type type;
-  void *ptr;          // points at the extern in config.h
-  float min;          // inclusive validation bounds, applied on every write
-  float max;
-  bool needsReboot;   // value is only read during init, so a live edit won't apply
+// Everything a physical button can be bound to. Kept as one flat list so the
+// web UI can render it as a plain dropdown and so short- and long-press can
+// draw from the same set.
+enum class ButtonAction : uint8_t {
+  NONE = 0,
+  PLAY_PAUSE,
+  SEQ_STOP,
+  SEQ_RESTART,
+  KEYFRAME_ADD,
+  KEYFRAME_DELETE_LAST,
+  KEYFRAME_CLEAR,
+  GOTO_START,
+  HOME_ALL,
+  HOME_AXIS,
+  ESTOP,
+  ENABLE_TOGGLE,
+  REC_TOGGLE,
+  REC_RESYNC,
+  SELECT_NEXT_AXIS,
+  ZERO_AXIS,
+  ACTION_COUNT
 };
 
-extern const Desc kSettings[];
-extern const uint16_t kSettingsCount;
+const char *axisKindName(AxisKind v);
+const char *homingModeName(HomingMode v);
+const char *feedbackTypeName(FeedbackType v);
+const char *encoderModeName(EncoderMode v);
+const char *buttonActionName(ButtonAction v);
 
-// Loads every setting from NVS, falling back to the compiled-in default for
-// any key not yet stored, then recomputes derived values. Call first in
-// setup(), before anything reads config — in particular before the TMC
-// drivers are configured and before any axis begin().
-void begin();
+struct AxisConfig {
+  char name[16];
+  bool enabled;
+  AxisKind kind;
 
-// Persists every setting to NVS. Called by the web UI after a successful
-// write; values are already live in RAM by then.
-void saveAll();
+  uint8_t stepPin;
+  uint8_t dirPin;
+  bool invertDir;
 
-// Clears the NVS store, so the next boot comes up on compiled-in defaults.
-// Values currently in RAM are left alone — the rig keeps running on what it
-// has until it reboots.
-void resetToDefaults();
+  // TMC2209 over the shared UART bus. address is strapped by MS1/MS2 on the
+  // board (U1=0, U2=1, U3=2, U4=3) and must match the hardware straps.
+  bool tmcEnabled;
+  uint8_t tmcAddress;
+  uint16_t microsteps;      // 1,2,4,8,16,32,64,128,256
+  uint16_t runCurrentMa;
+  uint8_t holdCurrentPct;
+  bool stealthChop;
 
-// Recomputes mech::*_STEPS_PER_* and the *_MICROSTEPPING mirrors from their
-// inputs. Called automatically by begin() and after any web UI write.
-void recomputeDerived();
+  float motorStepsPerRev;
+  float beltPitchMm;   // LINEAR
+  float pulleyTeeth;   // LINEAR
+  float gearRatio;     // ROTARY
 
-// Finds a descriptor by key, or nullptr.
-const Desc *find(const char *key);
+  float maxSpeed;   // units/s   (mm/s or deg/s)
+  float accel;      // units/s^2
+  float minLimit;   // units
+  float maxLimit;   // units
+  bool softLimits;
 
-// Writes one setting from a numeric value, clamped to the descriptor's
-// range. Returns false if the key is unknown or the value is not finite.
-bool setValue(const Desc &desc, float value);
+  HomingMode homing;
+  uint8_t limitMinPin;
+  uint8_t limitMaxPin;
+  bool limitActiveLow;
+  float homingSpeed;    // units/s
+  float homingBackoff;  // units
 
-// Reads one setting as a float, for JSON output.
-float getValue(const Desc &desc);
+  FeedbackType feedback;
+  uint8_t muxChannel;
+  float zeroOffsetDeg;
+  uint32_t driftCheckMs;
+  float driftThresholdDeg;
 
-}  // namespace settings
+  const char *unitLabel() const { return kind == AxisKind::ROTARY ? "deg" : "mm"; }
+
+  // Steps per user unit, derived from the mechanics above. Everything that
+  // converts between units and steps goes through this.
+  float stepsPerUnit() const {
+    const float full = motorStepsPerRev * static_cast<float>(microsteps);
+    if (kind == AxisKind::ROTARY) {
+      return (full * gearRatio) / 360.0f;
+    }
+    const float mmPerRev = beltPitchMm * pulleyTeeth;
+    return mmPerRev > 0.0f ? full / mmPerRev : 0.0f;
+  }
+};
+
+struct EncoderConfig {
+  char name[16];
+  bool enabled;
+  uint8_t pinA;
+  uint8_t pinB;
+  EncoderMode mode;
+  uint8_t axis;             // index into Settings::axes
+  bool invert;
+  uint8_t countsPerDetent;  // raw quadrature counts per mechanical click
+  float unitsPerDetent;     // POSITION mode: how far one click nudges
+  int32_t detentsForMaxSpeed;  // VELOCITY mode: clicks from stop to full speed
+};
+
+struct ButtonConfig {
+  char name[16];
+  bool enabled;
+  uint8_t pin;
+  bool activeLow;
+  ButtonAction shortPress;
+  ButtonAction longPress;
+  uint8_t axisArg;  // target axis for HOME_AXIS / ZERO_AXIS
+};
+
+struct WifiConfig {
+  bool staEnabled;      // try to join `ssid` first
+  bool apFallback;      // bring up the AP if the join fails (or always, if !sta)
+  char ssid[33];
+  char pass[65];
+  char apSsid[33];
+  char apPass[65];
+  char hostname[33];
+};
+
+struct Settings {
+  uint16_t version;
+
+  AxisConfig axes[fw::AXIS_COUNT];
+  EncoderConfig encoders[fw::ENCODER_COUNT];
+  ButtonConfig buttons[fw::BUTTON_COUNT];
+  WifiConfig wifi;
+
+  // Shared driver enable line (active low on this board).
+  uint8_t driverEnablePin;
+  bool driverEnableActiveLow;
+
+  // Shared TMC2209 UART bus.
+  uint8_t tmcTxPin;
+  uint8_t tmcRxPin;
+  uint32_t tmcBaud;
+  float tmcRSense;
+
+  uint8_t muxSdaPin, muxSclPin, muxAddress;
+  uint8_t oledSdaPin, oledSclPin, oledAddress;
+  bool displayEnabled;
+  uint16_t displayRefreshMs;
+
+  bool bleEnabled;
+  char bleName[32];
+
+  bool sequencerLoop;
+  bool sequencerEase;  // s-curve blend between keyframes
+
+  void setDefaults();
+  void toJson(JsonObject root) const;
+  // Merges `root` over the current values; absent keys keep their value, so
+  // the UI can PATCH a single field. Returns false if a value was rejected.
+  bool applyJson(JsonObjectConst root, String &error);
+
+  // Rejects a config where two live roles want the same GPIO -- two axes on
+  // one STEP pin, an encoder on a limit switch, and so on.
+  bool checkPinConflicts(String &error) const;
+
+  bool load();
+  bool save() const;
+  static const char *path() { return "/config.json"; }
+};
+
+extern Settings settings;
