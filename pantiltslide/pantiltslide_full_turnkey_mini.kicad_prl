@@ -14,10 +14,6 @@
       "GPIO_17",
       "GPIO_15",
       "GPIO_16",
-      "AUX_M1A",
-      "AUX_M1B",
-      "AUX_M2A",
-      "AUX_M2B",
       "GPIO_11",
       "GPIO_1",
       "GPIO_0",
@@ -46,7 +42,7 @@
       "text": true,
       "tracks": true,
       "vias": true,
-      "zones": false
+      "zones": true
     },
     "visible_items": [
       "vias",
@@ -72,7 +68,7 @@
       "board_outline_area",
       "ly_points"
     ],
-    "visible_layers": "ffffffff_ffffffff_ffffffff_ffffffff",
+    "visible_layers": "ffffffff_ffffffff_ffffffff_ffffffbf",
     "zone_display_mode": 0
   },
   "git": {
