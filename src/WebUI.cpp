@@ -6,6 +6,7 @@
 #include <WiFi.h>
 
 #include "BleRecorder.h"
+#include "CurveSequence.h"
 #include "Inputs.h"
 #include "Motion.h"
 #include "Mux.h"
@@ -115,8 +116,15 @@ bool WebUI::queueCommand(const WebCommand &cmd) {
 }
 
 void WebUI::registerRoutes() {
+  // Every route below is registered with an *exact* URI matcher. The library's
+  // default matcher is "backward compatible", which also matches anything
+  // under the path as if it were a folder -- so "/api/estop" would swallow
+  // "/api/estop/clear" (and "/api/home" would swallow "/api/home/axis"),
+  // whichever was registered first winning. The result was a Clear e-stop
+  // button that cheerfully returned 200 while re-latching the e-stop.
+
   // ---- static page ----
-  server_.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server_.on(AsyncURIMatcher::exact("/"), HTTP_GET, [](AsyncWebServerRequest *request) {
     // Served straight out of flash: a String copy of the page would be a
     // 30 kB heap allocation on a board that also runs WiFi and BLE.
     AsyncWebServerResponse *response = request->beginResponse(
@@ -127,19 +135,19 @@ void WebUI::registerRoutes() {
   });
 
   // ---- read-only ----
-  server_.on("/api/status", HTTP_GET, [this](AsyncWebServerRequest *request) {
+  server_.on(AsyncURIMatcher::exact("/api/status"), HTTP_GET, [this](AsyncWebServerRequest *request) {
     JsonDocument doc;
     buildStatus(doc.to<JsonObject>());
     sendJson(request, 200, doc);
   });
 
-  server_.on("/api/config", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server_.on(AsyncURIMatcher::exact("/api/config"), HTTP_GET, [](AsyncWebServerRequest *request) {
     JsonDocument doc;
     settings.toJson(doc.to<JsonObject>());
     sendJson(request, 200, doc);
   });
 
-  server_.on("/api/actions", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server_.on(AsyncURIMatcher::exact("/api/actions"), HTTP_GET, [](AsyncWebServerRequest *request) {
     // Lets the UI build its dropdowns from the firmware's own action list, so
     // the two can never drift apart.
     JsonDocument doc;
@@ -150,13 +158,34 @@ void WebUI::registerRoutes() {
     sendJson(request, 200, doc);
   });
 
-  server_.on("/api/sequence", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server_.on(AsyncURIMatcher::exact("/api/sequence"), HTTP_GET, [](AsyncWebServerRequest *request) {
     JsonDocument doc;
     sequencer.toJson(doc.to<JsonObject>());
     sendJson(request, 200, doc);
   });
 
-  server_.on("/api/tmc", HTTP_GET, [](AsyncWebServerRequest *request) {
+  // Curve sequences: the saved-slot list, and the one currently loaded.
+  server_.on(AsyncURIMatcher::exact("/api/curves"), HTTP_GET,
+             [](AsyncWebServerRequest *request) {
+    JsonDocument doc;
+    curves.slotsJson(doc.to<JsonObject>());
+    sendJson(request, 200, doc);
+  });
+
+  server_.on(AsyncURIMatcher::exact("/api/curve"), HTTP_GET,
+             [](AsyncWebServerRequest *request) {
+    JsonDocument doc;
+    JsonObject root = doc.to<JsonObject>();
+    curves.toJson(root);
+    // Surfacing the reason a sequence will not play here means the UI can warn
+    // while it is being drawn, rather than only when Play is pressed.
+    String why;
+    root["playable"] = curves.checkFeasible(why);
+    root["why"] = why;
+    sendJson(request, 200, doc);
+  });
+
+  server_.on(AsyncURIMatcher::exact("/api/tmc"), HTTP_GET, [](AsyncWebServerRequest *request) {
     JsonDocument doc;
     JsonArray arr = doc["drivers"].to<JsonArray>();
     for (uint8_t i = 0; i < fw::AXIS_COUNT; ++i) {
@@ -168,7 +197,7 @@ void WebUI::registerRoutes() {
 
   // Magnet check for the AS5600s. Doing this from the UI beats guessing why
   // an axis reads a constant angle.
-  server_.on("/api/sensors", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server_.on(AsyncURIMatcher::exact("/api/sensors"), HTTP_GET, [](AsyncWebServerRequest *request) {
     JsonDocument doc;
     JsonArray arr = doc["sensors"].to<JsonArray>();
     for (uint8_t i = 0; i < fw::AXIS_COUNT; ++i) {
@@ -192,7 +221,7 @@ void WebUI::registerRoutes() {
     sendJson(request, 200, doc);
   });
 
-  server_.on("/api/wifi/scan", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server_.on(AsyncURIMatcher::exact("/api/wifi/scan"), HTTP_GET, [](AsyncWebServerRequest *request) {
     JsonDocument doc;
     JsonArray arr = doc["networks"].to<JsonArray>();
     const int16_t n = WiFi.scanComplete();
@@ -230,13 +259,18 @@ void WebUI::registerRoutes() {
       {"/api/sequence/restart", CmdType::SEQ_RESTART},
       {"/api/sequence/capture", CmdType::SEQ_CAPTURE},
       {"/api/sequence/save", CmdType::SEQ_SAVE},
+      {"/api/curve/play", CmdType::CURVE_PLAY},
+      {"/api/curve/pause", CmdType::CURVE_PAUSE},
+      {"/api/curve/stop", CmdType::CURVE_STOP},
+      {"/api/curve/new", CmdType::CURVE_NEW},
       {"/api/tmc/apply", CmdType::TMC_APPLY},
       {"/api/config/reset", CmdType::FACTORY_RESET},
       {"/api/reboot", CmdType::REBOOT},
   };
   for (const auto &route : simpleRoutes) {
     const CmdType type = route.type;
-    server_.on(route.uri, HTTP_POST, [this, type](AsyncWebServerRequest *request) {
+    server_.on(AsyncURIMatcher::exact(route.uri), HTTP_POST,
+               [this, type](AsyncWebServerRequest *request) {
       WebCommand cmd;
       cmd.type = type;
       if (queueCommand(cmd)) {
@@ -249,7 +283,7 @@ void WebUI::registerRoutes() {
 
   // ---- JSON body endpoints ----
   auto *moveHandler = new AsyncCallbackJsonWebHandler(
-      "/api/move", [this](AsyncWebServerRequest *request, JsonVariant &json) {
+      AsyncURIMatcher::exact("/api/move"), [this](AsyncWebServerRequest *request, JsonVariant &json) {
         JsonObjectConst body = json.as<JsonObjectConst>();
         WebCommand cmd;
         cmd.axis = body["axis"] | 0;
@@ -276,7 +310,7 @@ void WebUI::registerRoutes() {
   server_.addHandler(moveHandler);
 
   auto *jogHandler = new AsyncCallbackJsonWebHandler(
-      "/api/jog", [this](AsyncWebServerRequest *request, JsonVariant &json) {
+      AsyncURIMatcher::exact("/api/jog"), [this](AsyncWebServerRequest *request, JsonVariant &json) {
         JsonObjectConst body = json.as<JsonObjectConst>();
         WebCommand cmd;
         cmd.type = CmdType::JOG;
@@ -295,7 +329,7 @@ void WebUI::registerRoutes() {
   server_.addHandler(jogHandler);
 
   auto *homeHandler = new AsyncCallbackJsonWebHandler(
-      "/api/home/axis", [this](AsyncWebServerRequest *request, JsonVariant &json) {
+      AsyncURIMatcher::exact("/api/home/axis"), [this](AsyncWebServerRequest *request, JsonVariant &json) {
         WebCommand cmd;
         cmd.type = CmdType::HOME_AXIS;
         cmd.axis = json["axis"] | 0;
@@ -310,7 +344,7 @@ void WebUI::registerRoutes() {
   server_.addHandler(homeHandler);
 
   auto *zeroHandler = new AsyncCallbackJsonWebHandler(
-      "/api/zero", [this](AsyncWebServerRequest *request, JsonVariant &json) {
+      AsyncURIMatcher::exact("/api/zero"), [this](AsyncWebServerRequest *request, JsonVariant &json) {
         WebCommand cmd;
         cmd.type = CmdType::ZERO_AXIS;
         cmd.axis = json["axis"] | 0;
@@ -326,7 +360,7 @@ void WebUI::registerRoutes() {
   server_.addHandler(zeroHandler);
 
   auto *enableHandler = new AsyncCallbackJsonWebHandler(
-      "/api/enable", [this](AsyncWebServerRequest *request, JsonVariant &json) {
+      AsyncURIMatcher::exact("/api/enable"), [this](AsyncWebServerRequest *request, JsonVariant &json) {
         WebCommand cmd;
         cmd.type = CmdType::SET_ENABLE;
         cmd.flag = json["on"] | true;
@@ -337,7 +371,7 @@ void WebUI::registerRoutes() {
   server_.addHandler(enableHandler);
 
   auto *gotoHandler = new AsyncCallbackJsonWebHandler(
-      "/api/sequence/goto",
+      AsyncURIMatcher::exact("/api/sequence/goto"),
       [this](AsyncWebServerRequest *request, JsonVariant &json) {
         WebCommand cmd;
         cmd.type = CmdType::SEQ_GOTO;
@@ -351,7 +385,7 @@ void WebUI::registerRoutes() {
   // Fires any of the bindable actions by name -- the web UI's buttons and the
   // physical buttons therefore go through exactly the same code path.
   auto *actionHandler = new AsyncCallbackJsonWebHandler(
-      "/api/action", [this](AsyncWebServerRequest *request, JsonVariant &json) {
+      AsyncURIMatcher::exact("/api/action"), [this](AsyncWebServerRequest *request, JsonVariant &json) {
         const ButtonAction action = parseAction(json["action"]);
         if (action == ButtonAction::NONE) {
           sendError(request, 400, "unknown action");
@@ -368,7 +402,7 @@ void WebUI::registerRoutes() {
   server_.addHandler(actionHandler);
 
   auto *configHandler = new AsyncCallbackJsonWebHandler(
-      "/api/config", [this](AsyncWebServerRequest *request, JsonVariant &json) {
+      AsyncURIMatcher::exact("/api/config"), [this](AsyncWebServerRequest *request, JsonVariant &json) {
         if (pendingSettingsValid_) {
           sendError(request, 409, "a config change is still being applied");
           return;
@@ -403,7 +437,7 @@ void WebUI::registerRoutes() {
   server_.addHandler(configHandler);
 
   auto *sequenceHandler = new AsyncCallbackJsonWebHandler(
-      "/api/sequence", [this](AsyncWebServerRequest *request, JsonVariant &json) {
+      AsyncURIMatcher::exact("/api/sequence"), [this](AsyncWebServerRequest *request, JsonVariant &json) {
         if (pendingSequenceValid_) {
           sendError(request, 409, "a sequence change is still being applied");
           return;
@@ -431,6 +465,99 @@ void WebUI::registerRoutes() {
       });
   sequenceHandler->setMethod(HTTP_POST);
   server_.addHandler(sequenceHandler);
+
+  // ---- curve sequence slots ----
+  auto *curveSelect = new AsyncCallbackJsonWebHandler(
+      AsyncURIMatcher::exact("/api/curve/select"),
+      [this](AsyncWebServerRequest *request, JsonVariant &json) {
+        WebCommand cmd;
+        cmd.type = CmdType::CURVE_SELECT;
+        cmd.axis = json["slot"] | 0;
+        if (cmd.axis >= fw::MAX_CURVE_SEQUENCES) {
+          sendError(request, 400, "slot out of range");
+          return;
+        }
+        queueCommand(cmd) ? sendOk(request)
+                          : sendError(request, 503, "command queue full");
+      });
+  curveSelect->setMethod(HTTP_POST);
+  server_.addHandler(curveSelect);
+
+  auto *curveSave = new AsyncCallbackJsonWebHandler(
+      AsyncURIMatcher::exact("/api/curve/save"),
+      [this](AsyncWebServerRequest *request, JsonVariant &json) {
+        WebCommand cmd;
+        cmd.type = CmdType::CURVE_SAVE;
+        cmd.axis = json["slot"] | 0;
+        if (cmd.axis >= fw::MAX_CURVE_SEQUENCES) {
+          sendError(request, 400, "slot out of range");
+          return;
+        }
+        strlcpy(pendingCurveName_, json["name"] | "", sizeof(pendingCurveName_));
+        queueCommand(cmd) ? sendOk(request)
+                          : sendError(request, 503, "command queue full");
+      });
+  curveSave->setMethod(HTTP_POST);
+  server_.addHandler(curveSave);
+
+  auto *curveDelete = new AsyncCallbackJsonWebHandler(
+      AsyncURIMatcher::exact("/api/curve/delete"),
+      [this](AsyncWebServerRequest *request, JsonVariant &json) {
+        WebCommand cmd;
+        cmd.type = CmdType::CURVE_DELETE;
+        cmd.axis = json["slot"] | 0;
+        if (cmd.axis >= fw::MAX_CURVE_SEQUENCES) {
+          sendError(request, 400, "slot out of range");
+          return;
+        }
+        queueCommand(cmd) ? sendOk(request)
+                          : sendError(request, 503, "command queue full");
+      });
+  curveDelete->setMethod(HTTP_POST);
+  server_.addHandler(curveDelete);
+
+  auto *curveGoto = new AsyncCallbackJsonWebHandler(
+      AsyncURIMatcher::exact("/api/curve/goto"),
+      [this](AsyncWebServerRequest *request, JsonVariant &json) {
+        WebCommand cmd;
+        cmd.type = CmdType::CURVE_GOTO;
+        cmd.value = json["t"] | 0.0f;
+        queueCommand(cmd) ? sendOk(request)
+                          : sendError(request, 503, "command queue full");
+      });
+  curveGoto->setMethod(HTTP_POST);
+  server_.addHandler(curveGoto);
+
+  // The edited sequence itself. Validated here on the web task so a bad curve
+  // is rejected with a reason, then staged for loop() to adopt.
+  auto *curveHandler = new AsyncCallbackJsonWebHandler(
+      AsyncURIMatcher::exact("/api/curve"),
+      [this](AsyncWebServerRequest *request, JsonVariant &json) {
+        if (pendingCurveValid_) {
+          sendError(request, 409, "a curve change is still being applied");
+          return;
+        }
+        String error;
+        CurveSequence draft;
+        if (!draft.fromJson(json.as<JsonObjectConst>(), error)) {
+          sendError(request, 400, error);
+          return;
+        }
+        pendingCurveJson_.clear();
+        serializeJson(json, pendingCurveJson_);
+        pendingCurveValid_ = true;
+        WebCommand cmd;
+        cmd.type = CmdType::CURVE_APPLY;
+        cmd.flag = json["save"] | false;
+        if (!queueCommand(cmd)) {
+          pendingCurveValid_ = false;
+          sendError(request, 503, "command queue full");
+          return;
+        }
+        sendOk(request);
+      });
+  curveHandler->setMethod(HTTP_POST);
+  server_.addHandler(curveHandler);
 
   server_.onNotFound([](AsyncWebServerRequest *request) {
     request->send(404, "application/json", "{\"ok\":false,\"error\":\"not found\"}");
@@ -469,18 +596,22 @@ void WebUI::handleCommand(const WebCommand &cmd) {
       break;
     case CmdType::STOP_ALL:
       sequencer.pause();
+      curves.pause();
       motion_ctl.stopAll();
       break;
     case CmdType::HOME_AXIS:
       sequencer.stop();
+      curves.stop();
       motion_ctl.axis(cmd.axis).startHoming();
       break;
     case CmdType::HOME_ALL:
       sequencer.stop();
+      curves.stop();
       motion_ctl.homeAll();
       break;
     case CmdType::ESTOP:
       sequencer.stop();
+      curves.stop();
       motion_ctl.estop();
       break;
     case CmdType::CLEAR_ESTOP:
@@ -493,6 +624,7 @@ void WebUI::handleCommand(const WebCommand &cmd) {
       motion_ctl.axis(cmd.axis).setPositionUnits(cmd.value);
       break;
     case CmdType::SEQ_PLAY:
+      curves.stop();
       if (!sequencer.play(error)) Serial.printf("[web] %s\n", error.c_str());
       break;
     case CmdType::SEQ_PAUSE:
@@ -531,6 +663,54 @@ void WebUI::handleCommand(const WebCommand &cmd) {
       }
       pendingSequenceJson_.clear();
       pendingSequenceValid_ = false;
+      break;
+    }
+    // The two move types are mutually exclusive by construction: both drive
+    // the same steppers, so starting one always stops the other rather than
+    // letting them fight over the axes mid-take.
+    case CmdType::CURVE_PLAY:
+      sequencer.stop();
+      if (!curves.play(error)) Serial.printf("[web] %s\n", error.c_str());
+      break;
+    case CmdType::CURVE_PAUSE:
+      curves.pause();
+      break;
+    case CmdType::CURVE_STOP:
+      curves.stop();
+      break;
+    case CmdType::CURVE_GOTO:
+      sequencer.stop();
+      if (!curves.gotoTime(cmd.value, error)) Serial.printf("[web] %s\n", error.c_str());
+      break;
+    case CmdType::CURVE_SELECT:
+      if (!curves.loadSlot(cmd.axis, error)) Serial.printf("[web] %s\n", error.c_str());
+      break;
+    case CmdType::CURVE_SAVE:
+      if (!curves.saveSlot(cmd.axis, pendingCurveName_, error)) {
+        Serial.printf("[web] %s\n", error.c_str());
+      }
+      pendingCurveName_[0] = '\0';
+      break;
+    case CmdType::CURVE_DELETE:
+      if (!curves.deleteSlot(cmd.axis, error)) Serial.printf("[web] %s\n", error.c_str());
+      break;
+    case CmdType::CURVE_NEW:
+      curves.stop();
+      curves.active().clear();
+      break;
+    case CmdType::CURVE_APPLY: {
+      if (!pendingCurveValid_) break;
+      JsonDocument doc;
+      if (deserializeJson(doc, pendingCurveJson_) == DeserializationError::Ok) {
+        curves.stop();
+        if (!curves.active().fromJson(doc.as<JsonObjectConst>(), error)) {
+          Serial.printf("[web] %s\n", error.c_str());
+        } else if (cmd.flag && curves.activeSlot() >= 0) {
+          curves.saveSlot(curves.activeSlot(), nullptr, error);
+        }
+      }
+      pendingCurveJson_.clear();
+      pendingCurveValid_ = false;
       break;
     }
     case CmdType::RUN_ACTION:
@@ -586,6 +766,7 @@ void WebUI::buildStatus(JsonObject out) {
   out["rssi"] = WiFi.RSSI();
   motion_ctl.telemetryJson(out);
   sequencer.telemetryJson(out["sequencer"].to<JsonObject>());
+  curves.telemetryJson(out["curve"].to<JsonObject>());
   inputs.telemetryJson(out["inputs"].to<JsonObject>());
   JsonObject b = out["ble"].to<JsonObject>();
   b["enabled"] = bleRecorder.isEnabled();

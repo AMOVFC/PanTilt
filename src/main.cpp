@@ -13,6 +13,7 @@
 #include <LittleFS.h>
 
 #include "BleRecorder.h"
+#include "CurveSequence.h"
 #include "Display.h"
 #include "Inputs.h"
 #include "Motion.h"
@@ -36,6 +37,7 @@ void setup() {
 
   motion_ctl.begin();
   sequencer.begin(motion_ctl);
+  curves.begin(motion_ctl);
   inputs.begin();
   display.begin();
   bleRecorder.begin();
@@ -56,5 +58,6 @@ void loop() {
   motion_ctl.update(nowMs);
   inputs.update(nowMs);
   sequencer.update(nowMs);
+  curves.update(nowMs);
   display.update(nowMs);
 }
