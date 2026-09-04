@@ -1,0 +1,397 @@
+name: PCB Design Review
+#
+# Fresh-eyes review of a board, on request. Never automatically.
+#
+# Nothing here spends money until a human asks for it, twice over: the review
+# only runs when someone writes the keyword, and only when that someone has
+# write access to this repository. This repo is public -- without the author
+# check, any passer-by who can comment on a pull request could run up the API
+# bill.
+#
+# Two ways to ask:
+#
+#   1. Put [pcb-review] in the commit message you push to an open PR.
+#   2. Comment /pcb-review on the PR.
+#
+# Both re-run on demand, so a PR can be reviewed as many times as it needs and
+# never once more. Pushing a commit without the keyword costs nothing at all --
+# the workflow does not start.
+#
+# The comment form takes an optional model: `/pcb-review sonnet` reviews at
+# roughly a third the cost of the default.
+#
+# The pipeline degrades rather than failing. If the KiCad container is
+# unavailable, or no ANTHROPIC_API_KEY is configured, the deterministic report
+# still gets posted -- it costs nothing and it catches the mechanical mistakes.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - '**.kicad_pcb'
+      - '**.kicad_sch'
+      - '**.kicad_pro'
+      - '**/*.kicad_mod'
+      - '**/bom*.csv'
+      - '**/cpl*.csv'
+      - '.github/workflows/pcb-review.yml'
+      - 'tools/pcb_review/**'
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      board:
+        description: 'Board file to review (blank = every board in the repo)'
+        required: false
+      model:
+        description: 'Model override (opus | sonnet | haiku)'
+        required: false
+
+concurrency:
+  group: pcb-review-${{ github.event.pull_request.number || github.event.issue.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+env:
+  KEYWORD: 'pcb-review'
+  # kicad-cli must be at least as new as the files it opens -- a KiCad 10 board
+  # will not load in a 9.x CLI. Tags are tried in order; the first that pulls
+  # and runs wins. Add a newer tag at the front when the project moves forward.
+  KICAD_IMAGES: 'kicad/kicad:10.0 kicad/kicad:nightly kicad/kicad:9.0'
+  # Default model. claude-opus-5 is $5/$25 per MTok; claude-sonnet-5 is $2/$10
+  # and usually adequate for DFM review, since the fact sheet has already done
+  # the measuring. Overridable per-invocation via `/pcb-review sonnet`.
+  DEFAULT_MODEL: 'claude-opus-5'
+
+jobs:
+  # ------------------------------------------------------------------
+  # Decide whether a human actually asked for this. Costs one API call
+  # and no runner time worth measuring; every expensive step hangs off it.
+  # ------------------------------------------------------------------
+  gate:
+    name: Was a review requested?
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.decide.outputs.run }}
+      pr: ${{ steps.decide.outputs.pr }}
+      sha: ${{ steps.decide.outputs.sha }}
+      model: ${{ steps.decide.outputs.model }}
+      reason: ${{ steps.decide.outputs.reason }}
+    steps:
+      - id: decide
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          COMMENT_ASSOC: ${{ github.event.comment.author_association }}
+          IS_PR_COMMENT: ${{ github.event.issue.pull_request != null }}
+          ISSUE_NUM: ${{ github.event.issue.number }}
+          PR_NUM: ${{ github.event.pull_request.number }}
+          PR_SHA: ${{ github.event.pull_request.head.sha }}
+          DISPATCH_MODEL: ${{ github.event.inputs.model }}
+        run: |
+          set -uo pipefail
+          run=false; pr=''; sha=''; model=''; reason='no request'
+
+          # All matching is done with shell glob `case`, never grep: some grep
+          # builds abort outright on `-iF` with bracket characters, and a gate
+          # that crashes is a gate that fails open on the next careless edit.
+          lower() { printf '%s' "$1" | tr '[:upper:]' '[:lower:]'; }
+
+          # Pad to spaces so a keyword at the very start or end of the text
+          # still has a delimiter on both sides, and newlines act as separators.
+          padded() { printf ' %s ' "$(lower "$1" | tr -s '[:space:]' ' ')"; }
+
+          resolve_model() {
+            case "$(lower "$1")" in
+              *sonnet*) echo 'claude-sonnet-5' ;;
+              *haiku*)  echo 'claude-haiku-4-5' ;;
+              *opus*)   echo 'claude-opus-5' ;;
+              *)        echo '' ;;
+            esac
+          }
+
+          case "$EVENT" in
+            workflow_dispatch)
+              run=true; reason='manual dispatch'
+              model=$(resolve_model "${DISPATCH_MODEL:-}")
+              ;;
+
+            pull_request)
+              # The keyword must be in the head commit's message. Only the head
+              # is checked: a review looks at the resulting board, not at each
+              # commit that got there.
+              msg=$(gh api "repos/$REPO/commits/$PR_SHA" --jq '.commit.message' 2>/dev/null || echo '')
+              case "$(lower "$msg")" in
+                *"[$KEYWORD]"*)
+                  run=true; pr="$PR_NUM"; sha="$PR_SHA"
+                  reason="keyword in commit ${PR_SHA:0:7}"
+                  model=$(resolve_model "$msg")
+                  ;;
+                *) reason="no [$KEYWORD] in commit message" ;;
+              esac
+              ;;
+
+            issue_comment)
+              if [ "$IS_PR_COMMENT" != "true" ]; then
+                reason='comment is on an issue, not a pull request'
+              elif case "$(padded "$COMMENT_BODY")" in *" /$KEYWORD "*) false ;; *) true ;; esac; then
+                reason="comment does not contain /$KEYWORD"
+              # This repo is public. Only people who can push to it may spend
+              # money from it. author_association is what GitHub gives us.
+              elif case "$COMMENT_ASSOC" in OWNER|MEMBER|COLLABORATOR) false ;; *) true ;; esac; then
+                reason="requester is $COMMENT_ASSOC, not a collaborator -- refused"
+              else
+                pr="$ISSUE_NUM"
+                sha=$(gh api "repos/$REPO/pulls/$pr" --jq '.head.sha' 2>/dev/null || echo '')
+                if [ -z "$sha" ]; then
+                  reason="could not resolve head SHA for PR #$pr"
+                else
+                  run=true
+                  reason="/$KEYWORD by $COMMENT_ASSOC on PR #$pr"
+                  model=$(resolve_model "$COMMENT_BODY")
+                fi
+              fi
+              ;;
+          esac
+
+          echo "run=$run"      >> "$GITHUB_OUTPUT"
+          echo "pr=$pr"        >> "$GITHUB_OUTPUT"
+          echo "sha=$sha"      >> "$GITHUB_OUTPUT"
+          echo "model=$model"  >> "$GITHUB_OUTPUT"
+          echo "reason=$reason" >> "$GITHUB_OUTPUT"
+          echo "### PCB review gate: \`$run\` — $reason" >> "$GITHUB_STEP_SUMMARY"
+
+      # Acknowledge the request so the person who typed it knows it landed,
+      # rather than staring at a comment that appears to have done nothing.
+      - name: React to the triggering comment
+        if: steps.decide.outputs.run == 'true' && github.event_name == 'issue_comment'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -X POST \
+            "repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions" \
+            -f content=eyes >/dev/null || true
+
+  review:
+    name: Review changed boards
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    env:
+      # Job level, not step level: a step's own `env:` is not in scope for that
+      # step's `if:` condition, so the API-key guard below would never fire.
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # For a comment trigger the workflow runs on the default branch, so
+          # the PR head has to be asked for explicitly.
+          ref: ${{ needs.gate.outputs.sha || github.ref }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Resolve review model
+        env:
+          REQUESTED: ${{ needs.gate.outputs.model }}
+        run: |
+          echo "REVIEW_MODEL=${REQUESTED:-$DEFAULT_MODEL}" >> "$GITHUB_ENV"
+          echo "Reviewing with ${REQUESTED:-$DEFAULT_MODEL}"
+
+      - name: Find changed boards
+        id: changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ needs.gate.outputs.pr }}
+        run: |
+          set -uo pipefail
+          : > boards.txt
+          if [ -n "$PR" ]; then
+            # Every board the PR touches, from the API -- works identically
+            # whether the trigger was a commit or a comment.
+            gh api "repos/$REPO/pulls/$PR/files" --paginate \
+              --jq '.[] | select(.status != "removed") | .filename' \
+              | grep -E '\.kicad_pcb$' \
+              | grep -v -E '(backups|_restore|/\.history/|/\.claude/)' \
+              > boards.txt || true
+          fi
+          if [ ! -s boards.txt ]; then
+            # Manual dispatch, or a PR that changed a schematic but no layout:
+            # fall back to whatever board was named, else sweep the repo.
+            if [ -n "${{ github.event.inputs.board }}" ]; then
+              printf '%s\n' "${{ github.event.inputs.board }}" > boards.txt
+            else
+              find . -name '*.kicad_pcb' \
+                -not -path './.git/*' -not -path '*/.claude/*' \
+                -not -path '*backups*' -not -path '*_restore*' \
+                -not -path '*/.history/*' | sed 's|^\./||' > boards.txt
+            fi
+          fi
+          echo "Boards to review:"; cat boards.txt
+          echo "count=$(wc -l < boards.txt | tr -d ' ')" >> "$GITHUB_OUTPUT"
+
+      - name: Deterministic measurement
+        if: steps.changed.outputs.count != '0'
+        run: |
+          set -uo pipefail
+          mkdir -p .pcb-review
+          : > .pcb-review/facts.md
+          while IFS= read -r board; do
+            [ -z "$board" ] && continue
+            slug=$(printf '%s' "$board" | tr '/ ' '__')
+            python tools/pcb_review/extract_facts.py "$board" \
+              --md ".pcb-review/${slug}.md" \
+              --json ".pcb-review/${slug}.json" || {
+                echo "### Measurement failed for \`$board\`" >> .pcb-review/facts.md
+                continue; }
+            cat ".pcb-review/${slug}.md" >> .pcb-review/facts.md
+            printf '\n\n' >> .pcb-review/facts.md
+          done < boards.txt
+          cat .pcb-review/facts.md
+
+      - name: kicad-cli DRC and ERC
+        if: steps.changed.outputs.count != '0'
+        continue-on-error: true
+        timeout-minutes: 15
+        run: |
+          set -uo pipefail
+          IMAGE=''
+          for candidate in $KICAD_IMAGES; do
+            if docker pull -q "$candidate" >/dev/null 2>&1; then IMAGE="$candidate"; break; fi
+          done
+          if [ -z "$IMAGE" ]; then
+            echo "No KiCad image available; skipping DRC/ERC." | tee .pcb-review/drc.md
+            exit 0
+          fi
+          echo "Using $IMAGE"
+          chmod -R a+rwX .pcb-review
+          : > .pcb-review/drc.md
+          while IFS= read -r board; do
+            [ -z "$board" ] && continue
+            slug=$(printf '%s' "$board" | tr '/ ' '__')
+            docker run --rm --user root -v "$PWD":/w -w /w "$IMAGE" \
+              kicad-cli pcb drc --format json --severity-error --severity-warning \
+              -o ".pcb-review/${slug}.drc.json" "$board" >/dev/null 2>&1 || true
+            sch="${board%.kicad_pcb}.kicad_sch"
+            if [ -f "$sch" ]; then
+              docker run --rm --user root -v "$PWD":/w -w /w "$IMAGE" \
+                kicad-cli sch erc --format json --severity-error --severity-warning \
+                -o ".pcb-review/${slug}.erc.json" "$sch" >/dev/null 2>&1 || true
+            fi
+            python tools/pcb_review/summarize_drc.py "$board" \
+              ".pcb-review/${slug}.drc.json" ".pcb-review/${slug}.erc.json" \
+              >> .pcb-review/drc.md 2>/dev/null || true
+          done < boards.txt
+          cat .pcb-review/drc.md || true
+
+      - name: Assemble reviewer input
+        if: steps.changed.outputs.count != '0'
+        run: |
+          set -uo pipefail
+          {
+            cat tools/pcb_review/reviewer_prompt.md
+            printf '\n\n---\n\n# Boards under review\n\n'
+            sed 's/^/- /' boards.txt
+            printf '\n\n---\n\n'
+            cat .pcb-review/facts.md
+            printf '\n\n---\n\n# kicad-cli DRC / ERC\n\n'
+            if [ -s .pcb-review/drc.md ]; then cat .pcb-review/drc.md; \
+            else echo '_Not available for this run._'; fi
+            printf '\n\n---\n\nReview the board(s) listed above and produce the report.\n'
+          } > .pcb-review/input.md
+          wc -c .pcb-review/input.md
+
+      - name: Claude review
+        id: claude
+        if: steps.changed.outputs.count != '0' && env.ANTHROPIC_API_KEY != ''
+        continue-on-error: true
+        timeout-minutes: 20
+        run: |
+          set -uo pipefail
+          npm install -g @anthropic-ai/claude-code@latest
+          # --allowedTools keeps the reviewer read-only: it may open files to
+          # answer its own questions, but cannot edit the branch it is reviewing.
+          # Those reads are also the cost variable -- a KiCad schematic is ~450 KB,
+          # so a review that opens one costs several times one that does not.
+          # json output carries total_cost_usd, so every run reports its own spend
+          # instead of leaving it to be guessed.
+          claude -p \
+            --model "$REVIEW_MODEL" \
+            --allowedTools "Read,Grep,Glob" \
+            --output-format json \
+            < .pcb-review/input.md > .pcb-review/result.json
+          ARGS="--review .pcb-review/review.md --cost .pcb-review/cost.txt"
+          if python tools/pcb_review/format_result.py .pcb-review/result.json \
+            $ARGS --model "$REVIEW_MODEL"; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+          echo "Spend: $(cat .pcb-review/cost.txt 2>/dev/null)"
+          cat .pcb-review/review.md
+
+      - name: Compose comment
+        if: steps.changed.outputs.count != '0'
+        run: |
+          set -uo pipefail
+          {
+            echo '<!-- pcb-review-bot -->'
+            echo '## PCB design review'
+            echo
+            echo "Requested: ${{ needs.gate.outputs.reason }} · commit \`${{ needs.gate.outputs.sha }}\`"
+            echo 'Reviewed as an unfamiliar board.'
+            echo
+            if [ "${{ steps.claude.outputs.ok }}" = "true" ]; then
+              cat .pcb-review/review.md
+              echo
+              if [ -s .pcb-review/cost.txt ]; then
+                echo "<sub>$(cat .pcb-review/cost.txt)</sub>"
+                echo
+              fi
+              echo '<details><summary>Measured facts and DRC output</summary>'
+              echo
+            else
+              echo '> Model review unavailable for this run -- deterministic checks only.'
+              echo '> Set the `ANTHROPIC_API_KEY` repository secret to enable the full review.'
+              echo
+              echo '<details open><summary>Measured facts and DRC output</summary>'
+              echo
+            fi
+            cat .pcb-review/facts.md
+            if [ -s .pcb-review/drc.md ]; then echo; cat .pcb-review/drc.md; fi
+            echo
+            echo '</details>'
+          } > .pcb-review/comment.md
+          head -c 200 .pcb-review/comment.md
+
+      - name: Post the review
+        if: steps.changed.outputs.count != '0' && needs.gate.outputs.pr != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ needs.gate.outputs.pr }}
+        run: |
+          set -uo pipefail
+          # A new comment each time, not a sticky one. Reviews are now asked for
+          # explicitly, so each is a deliberate act with its own answer, and
+          # overwriting the previous one would erase what it said.
+          gh api -X POST "repos/$REPO/issues/$PR/comments" \
+            -F body=@.pcb-review/comment.md >/dev/null
+          echo "Posted review to PR #$PR"
+
+      - name: Upload review artifacts
+        if: steps.changed.outputs.count != '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pcb-review-${{ needs.gate.outputs.pr || github.run_id }}
+          path: .pcb-review/
+          retention-days: 30
