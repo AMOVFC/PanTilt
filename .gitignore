@@ -5,3 +5,5 @@
 /hybrid/schematic/.history
 ~*.lck
 /prototype/schematic_wired/.history
+.pcb-review/
+__pycache__/
