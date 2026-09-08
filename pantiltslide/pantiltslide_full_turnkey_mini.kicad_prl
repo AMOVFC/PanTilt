@@ -1,6 +1,6 @@
 {
   "board": {
-    "active_layer": 2,
+    "active_layer": 6,
     "active_layer_preset": "",
     "auto_track_width": false,
     "hidden_netclasses": [],
@@ -28,9 +28,9 @@
       "otherItems": false,
       "pads": false,
       "text": false,
-      "tracks": true,
+      "tracks": false,
       "vias": false,
-      "zones": false
+      "zones": true
     },
     "visible_items": [
       "vias",
@@ -110,7 +110,7 @@
       91,
       91,
       91,
-      1051
+      1068
     ],
     "custom_group_rules": [],
     "expanded_rows": [],
