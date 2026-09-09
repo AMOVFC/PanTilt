@@ -5,8 +5,20 @@
     "auto_track_width": false,
     "hidden_netclasses": [],
     "hidden_nets": [
+      "3.3v",
       "GND",
-      "VCC_5V"
+      "+24V",
+      "GPIO_13",
+      "GPIO_14",
+      "GPIO_17",
+      "GPIO_15",
+      "GPIO_16",
+      "GPIO_10",
+      "GPIO_11",
+      "GPIO_1",
+      "GPIO_0",
+      "GPIO_12",
+      "CHIP_PU"
     ],
     "high_contrast_mode": 0,
     "net_color_mode": 1,
@@ -110,7 +122,7 @@
       91,
       91,
       91,
-      1068
+      468
     ],
     "custom_group_rules": [],
     "expanded_rows": [],
@@ -123,7 +135,7 @@
     "show_unconnected_nets": false,
     "show_zero_pad_nets": false,
     "sort_ascending": true,
-    "sorting_column": 5
+    "sorting_column": 0
   },
   "open_jobsets": [],
   "project": {
