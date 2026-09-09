@@ -4366,6 +4366,207 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:LED"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "LED"
+				(at 0 -2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Light emitting diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Pins" "1=K 2=A"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "LED diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "LED* LED_SMD:* LED_THT:*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "LED_0_1"
+				(polyline
+					(pts
+						(xy -3.048 -0.762) (xy -4.572 -2.286) (xy -3.81 -2.286) (xy -4.572 -2.286) (xy -4.572 -1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.778 -0.762) (xy -3.302 -2.286) (xy -2.54 -2.286) (xy -3.302 -2.286) (xy -3.302 -1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 0) (xy 1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 -1.27) (xy -1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -1.27) (xy 1.27 1.27) (xy -1.27 0) (xy 1.27 -1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "LED_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "New_Library:tmc2209"
 			(pin_names
 				(offset 1.016)
@@ -27934,6 +28135,952 @@
 		(uuid "556644b8-d1d6-41c0-9138-49178c93cc4c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 171.35 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(text "POWER-INDICATOR LEDS -- one per rail, not yet on the fab board"
+		(at 65 409 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left)
+		)
+		(uuid "d91622c8-fa5d-4885-8600-e9ca2127facc")
+	)
+	(symbol
+		(lib_id "Device:LED")
+		(at 65 415 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "59977984-128f-4919-9cb0-86877fedf734")
+		(property "Reference" "LED1"
+			(at 65 412.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "LED_24V"
+			(at 65 417.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "LED_SMD:LED_0805_2012Metric"
+			(at 65 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 65 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 65 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "24V present indicator, R value matches D4/R1 in pantiltslide_full_pwr"
+			(at 65 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "480046d3-d655-450a-9101-4d7efa52d82c")
+		)
+		(pin "2"
+			(uuid "5d1e687f-117d-41ea-954d-5bd63e4f146e")
+		)
+		(instances
+			(project "pantiltslide_full_mini_extra"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "LED1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 61.19 415) (xy 58.65 415)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "433b8b14-4293-455b-92f0-b329170a78e7")
+	)
+	(wire
+		(pts
+			(xy 68.81 415) (xy 71.35 415)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c5487512-6cc0-44c5-a2db-5ab9a3a85e9b")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 58.65 415 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9080b008-689c-4ad6-959d-b41bffc2741e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 58.65 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "Net-(LED1-A)"
+		(shape input)
+		(at 71.35 415 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5e1a3356-4b09-4182-a9b8-3726f119c346")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 71.35 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 80 415 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "31705b47-4cfb-4de3-be41-abf6dbdf8320")
+		(property "Reference" "R31"
+			(at 80 412.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 80 417.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 80 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 80 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 80 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "24V present indicator, R value matches D4/R1 in pantiltslide_full_pwr"
+			(at 80 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "831f2a6b-9cbe-42c6-adc1-bce61a3edd2b")
+		)
+		(pin "2"
+			(uuid "6b841475-3aa0-4193-b761-48c35df8ebaf")
+		)
+		(instances
+			(project "pantiltslide_full_mini_extra"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R31")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 76.19 415) (xy 73.65 415)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2490d243-32d0-49ac-9ab3-72b11c79eb2b")
+	)
+	(wire
+		(pts
+			(xy 83.81 415) (xy 86.35 415)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f9b6efd7-748d-4eaa-b22e-f4fd529f0f80")
+	)
+	(global_label "Net-(LED1-A)"
+		(shape input)
+		(at 73.65 415 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9da50c0d-6950-4f6f-a803-645a91cadf98")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 73.65 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "+24V"
+		(shape input)
+		(at 86.35 415 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "db19e08b-ba51-4eab-b9ae-41f66d8f84d7")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 86.35 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:LED")
+		(at 110 415 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "8fbe8a92-017c-4557-8fcc-af3bbce7bb7c")
+		(property "Reference" "LED2"
+			(at 110 412.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "LED_5V"
+			(at 110 417.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "LED_SMD:LED_0805_2012Metric"
+			(at 110 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 110 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 110 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "5V present indicator"
+			(at 110 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4891b9e4-78a8-4abc-a36f-3edb80d5e627")
+		)
+		(pin "2"
+			(uuid "b652fdab-f704-47d8-a716-00933795df7a")
+		)
+		(instances
+			(project "pantiltslide_full_mini_extra"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "LED2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 106.19 415) (xy 103.65 415)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1f1fb08a-e4c5-4545-9a7d-5ceac4f48f6a")
+	)
+	(wire
+		(pts
+			(xy 113.81 415) (xy 116.35 415)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f52793eb-01a4-492b-bc4d-706c11c90d1e")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 103.65 415 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "79eba493-95df-479e-a0f3-2c976fb05e90")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 103.65 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "Net-(LED2-A)"
+		(shape input)
+		(at 116.35 415 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d2db58bb-a6a5-4ade-8bee-8577d8d00027")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 116.35 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 125 415 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9d4e61ea-9f3a-430d-a075-dc7a700cd9d5")
+		(property "Reference" "R32"
+			(at 125 412.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 125 417.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 125 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 125 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 125 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "5V present indicator"
+			(at 125 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "9d4ee9e0-aed9-4e53-9f1c-6887e16a08f7")
+		)
+		(pin "2"
+			(uuid "e086bc16-4cc5-44d2-92e1-2913899ee7c0")
+		)
+		(instances
+			(project "pantiltslide_full_mini_extra"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R32")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 121.19 415) (xy 118.65 415)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f77b9136-1a4b-464c-964d-720aeab91e25")
+	)
+	(wire
+		(pts
+			(xy 128.81 415) (xy 131.35 415)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "22e76136-d0a4-4fd6-9f3e-fcaf66fe70b9")
+	)
+	(global_label "Net-(LED2-A)"
+		(shape input)
+		(at 118.65 415 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9764c5ba-5bbc-413c-8863-1dae4eabc95e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 118.65 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "VCC_5V"
+		(shape input)
+		(at 131.35 415 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7383175f-695b-4530-a43b-ff99bcf9fb99")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 131.35 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:LED")
+		(at 155 415 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "a7b4a27f-011c-4283-92bf-f03662026d91")
+		(property "Reference" "LED3"
+			(at 155 412.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "LED_3V3"
+			(at 155 417.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "LED_SMD:LED_0805_2012Metric"
+			(at 155 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 155 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 155 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "3.3V present indicator, R value matches D5/R2 in pantiltslide_full_pwr"
+			(at 155 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "87d953b3-3829-4a3f-bf15-3a2085d477d0")
+		)
+		(pin "2"
+			(uuid "20128d52-d0d9-4fcd-b7f4-9f05c30a0a15")
+		)
+		(instances
+			(project "pantiltslide_full_mini_extra"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "LED3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 151.19 415) (xy 148.65 415)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "17e58fa9-344b-4f05-b441-b32de4d3d637")
+	)
+	(wire
+		(pts
+			(xy 158.81 415) (xy 161.35 415)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "541e4823-6869-4de0-b894-23f4936370c4")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 148.65 415 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b8121fe6-6a52-49e1-8665-2a70cb3a043d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 148.65 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "Net-(LED3-A)"
+		(shape input)
+		(at 161.35 415 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "412c1740-e946-4a85-8290-075ee9766244")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 161.35 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 170 415 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "edfedaf0-fcb8-470c-8d94-b48de843010a")
+		(property "Reference" "R33"
+			(at 170 412.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1k"
+			(at 170 417.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 170 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 170 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 170 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "3.3V present indicator, R value matches D5/R2 in pantiltslide_full_pwr"
+			(at 170 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4d354177-eeba-498d-84f0-1053c0c26e99")
+		)
+		(pin "2"
+			(uuid "4ab5a9d4-7c01-4c4b-b779-c5cec6bb69f6")
+		)
+		(instances
+			(project "pantiltslide_full_mini_extra"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R33")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 166.19 415) (xy 163.65 415)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "099119e5-ca34-45dc-a65e-8c6fec842aac")
+	)
+	(wire
+		(pts
+			(xy 173.81 415) (xy 176.35 415)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9afc0fc6-0ebb-4dc1-8aba-8dd1f48d3fd4")
+	)
+	(global_label "Net-(LED3-A)"
+		(shape input)
+		(at 163.65 415 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f9d73806-e056-465f-9a9d-f9ae36d21da6")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 163.65 415 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 176.35 415 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "805054a6-94e9-4fc4-8556-b6a37ef2ee6f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 176.35 415 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
