@@ -25953,6 +25953,3475 @@
 			)
 		)
 	)
+	(text "NEW ADDITIONS -- proposed pull-ups and filter caps, not yet on the fab board"
+		(at 65 386 0)
+		(effects
+			(font
+				(size 2 2)
+			)
+			(justify left)
+		)
+		(uuid "84b59102-7bd8-4022-ad78-feae1feae065")
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 65 392 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "b4777ebd-1a9f-436f-8f98-074d1f8a3396")
+		(property "Reference" "R13"
+			(at 65 389.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 65 394.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F2201T5E"
+			(at 65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Uniroyal"
+			(at 65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C17520"
+			(at 65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: mux ch2-7 I2C pull-up, matches R5-R8"
+			(at 65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d95fb570-3fb9-412f-bdb5-615444c38d1c")
+		)
+		(pin "2"
+			(uuid "8dae4009-7b41-420c-9872-3b1f863b5bb6")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 61.19 392) (xy 58.65 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2f06506e-65b3-46a6-808e-05385bafd9f4")
+	)
+	(wire
+		(pts
+			(xy 68.81 392) (xy 71.35 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "77a700d6-9791-4bef-965c-e1abec2d123b")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 58.65 392 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c2f1721a-fe95-4983-92f9-c04b3515a491")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 58.65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "MUX_CH2_SDA"
+		(shape input)
+		(at 71.35 392 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "52584bcb-31b1-4185-8694-02e8651c0c97")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 71.35 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 90 392 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "72463da0-1ec2-44d7-8ade-7046855dde79")
+		(property "Reference" "R14"
+			(at 90 389.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 90 394.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 90 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 90 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 90 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F2201T5E"
+			(at 90 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Uniroyal"
+			(at 90 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C17520"
+			(at 90 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: mux ch2-7 I2C pull-up, matches R5-R8"
+			(at 90 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2c200c3a-dcc9-4c3d-9dd6-4782f9c8e286")
+		)
+		(pin "2"
+			(uuid "0bf2e335-f11a-488e-b458-22eb8a3452ae")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 86.19 392) (xy 83.65 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e12216d8-4c79-404f-b813-f09f2b383717")
+	)
+	(wire
+		(pts
+			(xy 93.81 392) (xy 96.35 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1d6024e6-73cc-4f21-a867-93e54b7989b6")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 83.65 392 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9f256e8a-1441-47e9-a8b4-32ee1c7b75b6")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 83.65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "MUX_CH2_SCL"
+		(shape input)
+		(at 96.35 392 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "82ac6ebd-437e-4f1a-8b55-118a3cad3cde")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 96.35 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 115 392 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "84dead27-de76-4bae-bef4-253944b425ea")
+		(property "Reference" "R15"
+			(at 115 389.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 115 394.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 115 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 115 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 115 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F2201T5E"
+			(at 115 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Uniroyal"
+			(at 115 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C17520"
+			(at 115 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: mux ch2-7 I2C pull-up, matches R5-R8"
+			(at 115 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "7cef6b67-d7e6-4457-8fbf-a02c4d69fd4c")
+		)
+		(pin "2"
+			(uuid "505fad00-2235-4a47-af33-5f160347c8c1")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R15")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 111.19 392) (xy 108.65 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "24899e3b-9c87-4c8b-9457-22ec9ccee1e0")
+	)
+	(wire
+		(pts
+			(xy 118.81 392) (xy 121.35 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4db00a38-45e6-4cb6-886f-cb5766ac1eb2")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 108.65 392 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6a9000d6-c13f-485a-a7f1-1c85ea1132fc")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 108.65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "MUX_CH3_SDA"
+		(shape input)
+		(at 121.35 392 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "467ec410-4bbc-4706-a8f7-51b4457f6ba0")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 121.35 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 140 392 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "5281ca8a-5842-4fff-bb17-8a54ed90df1c")
+		(property "Reference" "R16"
+			(at 140 389.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 140 394.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 140 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 140 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 140 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F2201T5E"
+			(at 140 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Uniroyal"
+			(at 140 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C17520"
+			(at 140 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: mux ch2-7 I2C pull-up, matches R5-R8"
+			(at 140 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "7be8412c-07e9-4079-a12b-0eee67070f56")
+		)
+		(pin "2"
+			(uuid "bdbbe484-a206-4c9a-b234-7b4c951a4108")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R16")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 136.19 392) (xy 133.65 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec5d3861-9045-415c-9518-27087da40f68")
+	)
+	(wire
+		(pts
+			(xy 143.81 392) (xy 146.35 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6d6b2feb-9f26-4711-9149-f5ca75c12e55")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 133.65 392 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c55ebc29-9564-44bb-ac41-3ade793b8092")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 133.65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "MUX_CH3_SCL"
+		(shape input)
+		(at 146.35 392 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "845ce5cc-418d-4257-b4c2-b68acc3413df")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 146.35 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 165 392 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "ca0b25aa-5ea8-41cc-8b3f-228ac855c783")
+		(property "Reference" "R17"
+			(at 165 389.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 165 394.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 165 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 165 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 165 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F2201T5E"
+			(at 165 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Uniroyal"
+			(at 165 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C17520"
+			(at 165 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: mux ch2-7 I2C pull-up, matches R5-R8"
+			(at 165 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "cb1d7aa6-78c4-494b-aeaa-52ca7cdb4e36")
+		)
+		(pin "2"
+			(uuid "eed431db-aab0-48d5-8286-148c9eb767fc")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 161.19 392) (xy 158.65 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9e7b7fec-ed05-469a-9168-da6f0cad144f")
+	)
+	(wire
+		(pts
+			(xy 168.81 392) (xy 171.35 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c645504a-d6be-4f43-b860-a2e98bbcdb48")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 158.65 392 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "aa40eb89-bad0-4e32-951f-a42c4f2c5ff4")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 158.65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "MUX_CH4_SDA"
+		(shape input)
+		(at 171.35 392 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3bef44be-a0e7-4938-9a1f-2d128a8da5ed")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 171.35 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 190 392 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "a499125c-a80e-4e54-ae0f-6edeb9db613a")
+		(property "Reference" "R18"
+			(at 190 389.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 190 394.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 190 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 190 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 190 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F2201T5E"
+			(at 190 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Uniroyal"
+			(at 190 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C17520"
+			(at 190 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: mux ch2-7 I2C pull-up, matches R5-R8"
+			(at 190 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c59e8d47-8bb5-42dd-8be8-ee54ab47ac4c")
+		)
+		(pin "2"
+			(uuid "d3328396-a97c-435e-b549-53b22395ab35")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 186.19 392) (xy 183.65 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1ccfa432-175a-4189-82e7-91a37ef053af")
+	)
+	(wire
+		(pts
+			(xy 193.81 392) (xy 196.35 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f6a069cc-9c8c-43a7-89d9-0fc08ddc1c6a")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 183.65 392 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2096bf0f-d1ca-4f37-990c-2be9f58776a6")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 183.65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "MUX_CH4_SCL"
+		(shape input)
+		(at 196.35 392 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "82d58c0e-f73d-4f8f-b56f-33ff434c19e8")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 196.35 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 215 392 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f6b2b683-c6bc-4838-ac18-bac01b20d9ef")
+		(property "Reference" "R19"
+			(at 215 389.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 215 394.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 215 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 215 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 215 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F2201T5E"
+			(at 215 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Uniroyal"
+			(at 215 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C17520"
+			(at 215 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: mux ch2-7 I2C pull-up, matches R5-R8"
+			(at 215 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "12cf9892-0f7a-4ad9-b3f4-e4e1ae975ebd")
+		)
+		(pin "2"
+			(uuid "301357de-8cca-4086-80b5-88d0e0416e49")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 211.19 392) (xy 208.65 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bc9ba141-5c7a-4d3b-b855-523a8c209051")
+	)
+	(wire
+		(pts
+			(xy 218.81 392) (xy 221.35 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fe320b5a-a619-4222-b7dc-9dd053c875e6")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 208.65 392 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "731c6ece-5b91-4ee0-94a7-19fd24973079")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 208.65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "MUX_CH5_SDA"
+		(shape input)
+		(at 221.35 392 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1fe6a251-9c14-41c3-837f-0eec04ac4e45")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 221.35 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 240 392 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "54acfae5-faad-4f1d-af5f-536c2991f532")
+		(property "Reference" "R20"
+			(at 240 389.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 240 394.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 240 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 240 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 240 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F2201T5E"
+			(at 240 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Uniroyal"
+			(at 240 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C17520"
+			(at 240 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: mux ch2-7 I2C pull-up, matches R5-R8"
+			(at 240 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "10c120dc-81fe-4bf0-bb15-0239828725d3")
+		)
+		(pin "2"
+			(uuid "40a8fa86-0847-424b-b08f-ce4eb5e28ee7")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R20")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 236.19 392) (xy 233.65 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9eb65b48-27c0-4f7c-8f76-76f6c8c2d2b1")
+	)
+	(wire
+		(pts
+			(xy 243.81 392) (xy 246.35 392)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5cd7d76e-e01b-43da-93eb-49447ce53224")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 233.65 392 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9a196a27-1755-44a6-bfa0-ab93226a57b7")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 233.65 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "MUX_CH5_SCL"
+		(shape input)
+		(at 246.35 392 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5b8d4faf-b325-4882-bff9-766c3f879f93")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 246.35 392 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 65 407 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "3c764deb-380c-4a4f-98e8-ed2c69a6b228")
+		(property "Reference" "R21"
+			(at 65 404.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 65 409.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 65 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 65 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 65 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F2201T5E"
+			(at 65 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Uniroyal"
+			(at 65 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C17520"
+			(at 65 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: mux ch2-7 I2C pull-up, matches R5-R8"
+			(at 65 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4b9c193b-aefb-4167-82c0-cd76c762d4e5")
+		)
+		(pin "2"
+			(uuid "03dd29dc-a455-4c74-8f78-079f4fcfcefd")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 61.19 407) (xy 58.65 407)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "185b4faa-f958-4b4b-80bc-a240c5f219fe")
+	)
+	(wire
+		(pts
+			(xy 68.81 407) (xy 71.35 407)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "86db79fb-2a92-4ad6-99ec-bcd931fb35fe")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 58.65 407 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2ba29993-531a-4852-9c2d-dec7f84dc0a1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 58.65 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "MUX_CH6_SDA"
+		(shape input)
+		(at 71.35 407 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a23a59d3-9095-448f-9eb5-35d53acb4fdb")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 71.35 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 90 407 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "d2e1c879-babb-4196-a6b4-117c17eb2ae5")
+		(property "Reference" "R22"
+			(at 90 404.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 90 409.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 90 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 90 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 90 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F2201T5E"
+			(at 90 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Uniroyal"
+			(at 90 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C17520"
+			(at 90 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: mux ch2-7 I2C pull-up, matches R5-R8"
+			(at 90 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "37a883a2-7e7b-465a-8999-88fc4f433d98")
+		)
+		(pin "2"
+			(uuid "cbfc99a4-2668-4417-960b-b8407581b34c")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 86.19 407) (xy 83.65 407)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eff83b49-5b6e-4d73-b63a-ca1fb8fb2e11")
+	)
+	(wire
+		(pts
+			(xy 93.81 407) (xy 96.35 407)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "016031ca-109b-406c-9105-1c254cd1017e")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 83.65 407 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "fb7d4660-e968-4103-8655-15d82ff8866a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 83.65 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "MUX_CH6_SCL"
+		(shape input)
+		(at 96.35 407 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "869ef72d-18a8-4756-96a8-6f4377033338")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 96.35 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 115 407 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "fd31e347-a1d2-4b94-9171-10b5bdf93807")
+		(property "Reference" "R23"
+			(at 115 404.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 115 409.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 115 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 115 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 115 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F2201T5E"
+			(at 115 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Uniroyal"
+			(at 115 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C17520"
+			(at 115 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: mux ch2-7 I2C pull-up, matches R5-R8"
+			(at 115 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c0aae1c8-d7a1-4b29-b76d-dcc826d8eb0c")
+		)
+		(pin "2"
+			(uuid "de907692-7098-40ff-b677-c72f98148b0c")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 111.19 407) (xy 108.65 407)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "14b0baf5-6d2c-4c13-a9de-e0bde4bed928")
+	)
+	(wire
+		(pts
+			(xy 118.81 407) (xy 121.35 407)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6793ab0b-308b-4c23-8a18-0d83ae64b526")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 108.65 407 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e8705a45-e84d-4f06-8c34-1628ae170fae")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 108.65 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "MUX_CH7_SDA"
+		(shape input)
+		(at 121.35 407 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "73e68720-64b8-4ea7-8033-cb9ebf469bb6")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 121.35 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 140 407 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "c5b2eac1-1780-49f7-8abc-ce183d55991d")
+		(property "Reference" "R24"
+			(at 140 404.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2.2k"
+			(at 140 409.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 140 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 140 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 140 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0805W8F2201T5E"
+			(at 140 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Uniroyal"
+			(at 140 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C17520"
+			(at 140 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: mux ch2-7 I2C pull-up, matches R5-R8"
+			(at 140 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b87ce7ab-8783-4fee-8acc-69419355001a")
+		)
+		(pin "2"
+			(uuid "cf5e9196-a8a4-471d-9e6c-14f4985b304c")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 136.19 407) (xy 133.65 407)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cdeffcfa-b0d6-4ce2-a9a4-e3ef9aa391fa")
+	)
+	(wire
+		(pts
+			(xy 143.81 407) (xy 146.35 407)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "16712194-a451-46d0-ab25-b769c40ce4ec")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 133.65 407 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "7fca627f-e27d-4255-830d-40905db7500b")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 133.65 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "MUX_CH7_SCL"
+		(shape input)
+		(at 146.35 407 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "277467c9-dea1-4dfd-a29b-f07df625811f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 146.35 407 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 65 422 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "7bcdb644-726a-4857-8f05-9b015a78379e")
+		(property "Reference" "R25"
+			(at 65 419.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 65 424.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 65 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 65 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 65 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: pull-up, see PCB review"
+			(at 65 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "89fa75b9-ac10-428b-bc75-17b8aa7b4b11")
+		)
+		(pin "2"
+			(uuid "b4108555-6bea-4956-a7d3-b64a3bb2b296")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R25")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 61.19 422) (xy 58.65 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "05fa5a8a-01a0-4f4e-8753-aaec63790e33")
+	)
+	(wire
+		(pts
+			(xy 68.81 422) (xy 71.35 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9cebffad-5a1b-495a-9dfe-167492ad9f49")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 58.65 422 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "609b7000-f392-436a-b597-d5ec900c1a44")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 58.65 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GPIO_10"
+		(shape input)
+		(at 71.35 422 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7b9fd246-8227-4584-a9d9-00a24cd4caa5")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 71.35 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 90 422 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "3642315e-672f-4156-914c-ece45839edbe")
+		(property "Reference" "R26"
+			(at 90 419.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 90 424.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 90 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 90 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 90 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: pull-up, see PCB review"
+			(at 90 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "47c810f9-5542-4bdf-b0d0-22a71a293629")
+		)
+		(pin "2"
+			(uuid "34503cec-45e5-4c34-8a3c-31c38947ea27")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 86.19 422) (xy 83.65 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "74b66ab2-459c-4124-a1f8-a010ce09e71f")
+	)
+	(wire
+		(pts
+			(xy 93.81 422) (xy 96.35 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6a84f0d6-e5a8-42b2-810f-079aec5a5eeb")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 83.65 422 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3bf0ea96-31dc-460e-8999-6bfe324c3f0a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 83.65 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GPIO_39"
+		(shape input)
+		(at 96.35 422 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "34d7367c-a45b-416b-bb0e-b943c2dbb201")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 96.35 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 115 422 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "1ae8c73a-f74f-4795-b51d-5182de37a4c2")
+		(property "Reference" "R27"
+			(at 115 419.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 115 424.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 115 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 115 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 115 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: pull-up, see PCB review"
+			(at 115 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "db7f80e2-42a3-4121-8d62-b469c6b5bd35")
+		)
+		(pin "2"
+			(uuid "2d5201b3-4551-41ee-b113-c22388ed4e68")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R27")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 111.19 422) (xy 108.65 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "966fc862-79c1-4296-a8f7-9905b8bd8735")
+	)
+	(wire
+		(pts
+			(xy 118.81 422) (xy 121.35 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2f454c5c-845f-49de-abe2-c8dc57df8732")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 108.65 422 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1529cbf2-00bd-4ad5-b8a3-8b4095ad7a0b")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 108.65 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GPIO_40"
+		(shape input)
+		(at 121.35 422 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "745b8ae9-419d-4eb5-989d-d52d845d88c8")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 121.35 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 140 422 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "055b3127-d271-46e0-b15f-58fdd6896b00")
+		(property "Reference" "R28"
+			(at 140 419.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 140 424.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 140 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 140 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 140 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: pull-up, see PCB review"
+			(at 140 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "6c5852a9-6742-4d04-9417-8e68c5db9087")
+		)
+		(pin "2"
+			(uuid "ff43a991-0741-49d2-adf9-cbe8cc22a342")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "R28")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 136.19 422) (xy 133.65 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "09ff804e-ad81-4194-b92d-cf1e55d2a802")
+	)
+	(wire
+		(pts
+			(xy 143.81 422) (xy 146.35 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4ca09a00-da74-4f00-9744-20fdf162ed98")
+	)
+	(global_label "3.3v"
+		(shape input)
+		(at 133.65 422 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "98557525-0a88-4dfd-8aa1-738da831fcdd")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 133.65 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GPIO_42"
+		(shape input)
+		(at 146.35 422 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c88ab178-732d-4bb3-87c7-858fc2d30c0d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 146.35 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 165 422 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "a22715de-f8b4-4df6-9c9b-b15e60cbc8a8")
+		(property "Reference" "C18"
+			(at 165 419.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100nF"
+			(at 165 424.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 165 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 165 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 165 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CC0805KRX7R9BB104"
+			(at 165 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 165 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C49678"
+			(at 165 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: limit-switch RC filter, matches C6-C9/C13-C17"
+			(at 165 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a939db5e-4d1a-48cf-935a-6352cd49efc1")
+		)
+		(pin "2"
+			(uuid "b90c8292-02b6-4814-bfc6-614172632df6")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "C18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 161.19 422) (xy 158.65 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3f392f6a-bd52-4783-bb52-8995b2381d44")
+	)
+	(wire
+		(pts
+			(xy 168.81 422) (xy 171.35 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3eab6381-979f-4b0f-bc8b-12eb6393a13d")
+	)
+	(global_label "GPIO_39"
+		(shape input)
+		(at 158.65 422 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8ff6d2ba-1dfc-4176-84fd-032c1ee6992d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 158.65 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape input)
+		(at 171.35 422 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fcd7b7b0-5a6e-4325-929c-2dfb25240830")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 171.35 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 190 422 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "60c90523-fc22-491b-99b8-9652398749a3")
+		(property "Reference" "C19"
+			(at 190 419.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100nF"
+			(at 190 424.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 190 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 190 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 190 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CC0805KRX7R9BB104"
+			(at 190 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 190 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C49678"
+			(at 190 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: limit-switch RC filter, matches C6-C9/C13-C17"
+			(at 190 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a696c471-b22b-4562-9546-616abe839215")
+		)
+		(pin "2"
+			(uuid "d4a44041-a3d8-4bf4-a632-d976807d6752")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "C19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 186.19 422) (xy 183.65 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5183c1e8-d15f-43cd-b7d7-79588a4b57c0")
+	)
+	(wire
+		(pts
+			(xy 193.81 422) (xy 196.35 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "57d594a9-47e5-4734-b5fb-a9b50a19fc8c")
+	)
+	(global_label "GPIO_40"
+		(shape input)
+		(at 183.65 422 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6672db8b-0c7d-4da1-9202-5b4287afa2d1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 183.65 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape input)
+		(at 196.35 422 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "74670c10-1698-4957-881e-98dd867f620f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 196.35 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 215 422 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "39223efe-48fc-4fef-81e7-4ff93080f683")
+		(property "Reference" "C20"
+			(at 215 419.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100nF"
+			(at 215 424.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 215 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 215 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 215 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CC0805KRX7R9BB104"
+			(at 215 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 215 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C49678"
+			(at 215 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Notes" "added: limit-switch RC filter, matches C6-C9/C13-C17"
+			(at 215 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "26ca0a37-514c-4e9c-b18b-556ac397cb03")
+		)
+		(pin "2"
+			(uuid "1663fae7-f371-4fa9-a8f6-de826e6ec8cc")
+		)
+		(instances
+			(project "pantiltslide_full_turnkey_mini"
+				(path "/069dac62-ca78-4a21-b689-b9421532705f"
+					(reference "C20")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 211.19 422) (xy 208.65 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c0d41af0-1ff2-4b34-b5e1-74dc608f6b49")
+	)
+	(wire
+		(pts
+			(xy 218.81 422) (xy 221.35 422)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "72fb1e94-8a0d-4ea9-bad4-df0f2f53b57c")
+	)
+	(global_label "GPIO_42"
+		(shape input)
+		(at 208.65 422 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e070a056-a3b7-4d57-857b-587339d05407")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 208.65 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape input)
+		(at 221.35 422 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "faf49677-9691-461e-aae6-40f46bdae812")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 221.35 422 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
 	(sheet_instances
 		(path "/"
 			(page "1")
