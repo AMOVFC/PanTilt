@@ -64,7 +64,7 @@
           "min_island_area": 10.0,
           "min_thickness": 0.25,
           "pad_connection": 1,
-          "remove_islands": 1,
+          "remove_islands": 0,
           "thermal_relief_gap": 0.5,
           "thermal_relief_spoke_width": 0.5
         }
@@ -106,9 +106,9 @@
         "item_on_disabled_layer": "error",
         "items_not_allowed": "error",
         "length_out_of_range": "error",
-        "lib_footprint_issues": "ignore",
+        "lib_footprint_issues": "warning",
         "lib_footprint_mismatch": "warning",
-        "malformed_courtyard": "ignore",
+        "malformed_courtyard": "error",
         "microvia_drill_out_of_range": "error",
         "mirrored_text_on_front_layer": "warning",
         "missing_courtyard": "ignore",
@@ -121,7 +121,7 @@
         "pth_inside_courtyard": "error",
         "shorting_items": "error",
         "silk_edge_clearance": "warning",
-        "silk_over_copper": "ignore",
+        "silk_over_copper": "warning",
         "silk_overlap": "warning",
         "skew_out_of_range": "error",
         "solder_mask_bridge": "error",
@@ -467,7 +467,6 @@
       "footprint_filter": "ignore",
       "footprint_link_issues": "warning",
       "four_way_junction": "ignore",
-      "global_label_dangling": "warning",
       "ground_pin_not_ground": "warning",
       "hier_label_mismatch": "error",
       "isolated_pin_label": "warning",
@@ -507,7 +506,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "pantiltslide_full_turnkey_mini.kicad_pro",
+    "filename": "pantiltslide_full_mini_extra.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -541,14 +540,11 @@
   },
   "pcbnew": {
     "last_paths": {
-      "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "C:/Users/acard/Downloads/turnkey_mini/",
-      "pos_files": "",
+      "plot": "",
       "specctra_dsn": "",
       "step": "",
-      "svg": "",
       "vrml": ""
     },
     "page_layout_descr_file": ""
@@ -671,33 +667,25 @@
     "meta": {
       "version": 1
     },
-    "net_format_name": "",
     "page_layout_descr_file": "",
     "plot_directory": "",
     "reuse_designators": true,
-    "space_save_all_events": true,
-    "spice_current_sheet_as_root": false,
-    "spice_external_command": "spice \"%I\"",
-    "spice_model_current_sheet_as_root": true,
-    "spice_save_all_currents": false,
-    "spice_save_all_dissipations": false,
-    "spice_save_all_voltages": false,
     "subpart_first_id": 65,
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "pantiltslide_full_turnkey_mini.kicad_sch",
-        "name": "pantiltslide_full_turnkey",
+        "filename": "pantiltslide_full_mini_extra.kicad_sch",
+        "name": "pantiltslide_full_mini_extra",
         "uuid": "069dac62-ca78-4a21-b689-b9421532705f"
       }
     ],
-    "used_designators": "R9-12,5Vin1,J1-16,J24,J39-41,F1,U1,#PWR1-6,24Vin1",
+    "used_designators": "F2",
     "variants": []
   },
   "sheets": [
     [
       "069dac62-ca78-4a21-b689-b9421532705f",
-      "pantiltslide_full_turnkey"
+      "pantiltslide_full_mini_extra"
     ]
   ],
   "text_variables": {},
