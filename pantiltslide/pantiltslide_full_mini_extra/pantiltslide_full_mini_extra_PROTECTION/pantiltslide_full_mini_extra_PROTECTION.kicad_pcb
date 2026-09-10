@@ -1156,7 +1156,7 @@
 				)
 			)
 		)
-		(property "Value" "ClearKeyframe"
+		(property "Value" "Btn_ClearKeyframe"
 			(at 2.032 4.081 0)
 			(layer "F.SilkS")
 			(uuid "dfe4c296-1e99-45f4-955e-09b3b783a409")
@@ -8367,7 +8367,7 @@
 				)
 			)
 		)
-		(property "Value" "Fuse_Small"
+		(property "Value" "1.5A"
 			(at 0 -3.429 90)
 			(layer "F.Fab")
 			(uuid "95dd57dd-ed1c-47c3-9ecb-a9cb3d711ddc")
@@ -9442,7 +9442,7 @@
 				)
 			)
 		)
-		(property "Value" "Reset"
+		(property "Value" "Btn_Reset"
 			(at 3.302 4.064 0)
 			(layer "F.SilkS")
 			(uuid "ca88ea82-5971-494d-ac23-205eed9ce3c5")
@@ -17549,7 +17549,7 @@
 				)
 			)
 		)
-		(property "Value" "PlayPause"
+		(property "Value" "Btn_PlayPause"
 			(at 1.524 4.081 180)
 			(layer "F.SilkS")
 			(uuid "6335dd0e-649b-4b98-b4d6-ab22db20756c")
