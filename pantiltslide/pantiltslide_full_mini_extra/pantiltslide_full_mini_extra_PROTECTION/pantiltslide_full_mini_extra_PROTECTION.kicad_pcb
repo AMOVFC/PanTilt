@@ -147,7 +147,7 @@
 			(mirror no)
 			(drillshape 0)
 			(scaleselection 1)
-			(outputdirectory "C:/Users/acard/Downloads/turnkey_mini/")
+			(outputdirectory "C:/Users/acard/Downloads/mini_protected/")
 		)
 	)
 	(footprint "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical"
