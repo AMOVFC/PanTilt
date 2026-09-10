@@ -7851,7 +7851,7 @@
 	)
 	(text "PWR_FLAGs - all four rails arrive on connectors, nothing on this board drives them"
 		(exclude_from_sim no)
-		(at 82.55 242.25 0)
+		(at 161.798 238.252 0)
 		(effects
 			(font
 				(size 1.27 1.27)
