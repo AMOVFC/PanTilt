@@ -35,7 +35,7 @@ on:
       - '**/bom*.csv'
       - '**/cpl*.csv'
       - '.github/workflows/pcb-review.yml'
-      - 'tools/pcb_review/**'
+      - 'hardware/tools/pcb_review/**'
   issue_comment:
     types: [created]
   workflow_dispatch:
@@ -250,7 +250,7 @@ jobs:
           while IFS= read -r board; do
             [ -z "$board" ] && continue
             slug=$(printf '%s' "$board" | tr '/ ' '__')
-            python tools/pcb_review/extract_facts.py "$board" \
+            python hardware/tools/pcb_review/extract_facts.py "$board" \
               --md ".pcb-review/${slug}.md" \
               --json ".pcb-review/${slug}.json" || {
                 echo "### Measurement failed for \`$board\`" >> .pcb-review/facts.md
@@ -289,7 +289,7 @@ jobs:
                 kicad-cli sch erc --format json --severity-error --severity-warning \
                 -o ".pcb-review/${slug}.erc.json" "$sch" >/dev/null 2>&1 || true
             fi
-            python tools/pcb_review/summarize_drc.py "$board" \
+            python hardware/tools/pcb_review/summarize_drc.py "$board" \
               ".pcb-review/${slug}.drc.json" ".pcb-review/${slug}.erc.json" \
               >> .pcb-review/drc.md 2>/dev/null || true
           done < boards.txt
@@ -300,7 +300,7 @@ jobs:
         run: |
           set -uo pipefail
           {
-            cat tools/pcb_review/reviewer_prompt.md
+            cat hardware/tools/pcb_review/reviewer_prompt.md
             printf '\n\n---\n\n# Boards under review\n\n'
             sed 's/^/- /' boards.txt
             printf '\n\n---\n\n'
@@ -332,7 +332,7 @@ jobs:
             --output-format json \
             < .pcb-review/input.md > .pcb-review/result.json
           ARGS="--review .pcb-review/review.md --cost .pcb-review/cost.txt"
-          if python tools/pcb_review/format_result.py .pcb-review/result.json \
+          if python hardware/tools/pcb_review/format_result.py .pcb-review/result.json \
             $ARGS --model "$REVIEW_MODEL"; then
             echo "ok=true" >> "$GITHUB_OUTPUT"
           fi

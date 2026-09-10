@@ -1,6 +1,6 @@
 # Camera slider firmware — flashing and bring-up
 
-Firmware for the ESP32-S3 on `pantiltslide`. Four axes (slide / pan / tilt / Z), TMC2209 drivers over a shared UART, four encoders, four transport
+Firmware for the ESP32-S3 on the `hardware/pantilt-controller` board. Four axes (slide / pan / tilt / Z), TMC2209 drivers over a shared UART, four encoders, four transport
 buttons, an OLED, BLE record trigger, and a web UI for configuring all of it.
 
 Everything that describes *your* machine — pin map, mechanics, speeds, limits,
@@ -217,8 +217,9 @@ slide and Z axes are simply not detectable; pan and tilt are checked against
 their AS5600 while idle and resynced if they drift.
 
 **`hardware/final_wiring_diagram_v3.svg` is stale.** It predates the four-axis
-/ UART revision of the board. `pantiltslide/tools/gen_wiring.py` is the
-current source of truth for wiring.
+/ UART revision of the board. `legacy/pantiltslide/tools/gen_wiring.py` is the
+last generator that produced it; the board's own `pantilt-controller.kicad_sch`
+is now the source of truth for wiring.
 
 ## Source layout
 
