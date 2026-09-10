@@ -1,9 +1,7 @@
 .pio/
 .vscode/
-/pantiltslide/.history
-/integrated/schematic/.history
-/hybrid/schematic/.history
+.history/
 ~*.lck
-/prototype/schematic_wired/.history
 .pcb-review/
 __pycache__/
+*.bak
