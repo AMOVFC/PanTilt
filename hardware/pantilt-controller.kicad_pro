@@ -69,7 +69,13 @@
           "thermal_relief_spoke_width": 0.5
         }
       },
-      "diff_pair_dimensions": [],
+      "diff_pair_dimensions": [
+        {
+          "gap": 0.0,
+          "via_gap": 0.0,
+          "width": 0.0
+        }
+      ],
       "drc_exclusions": [],
       "meta": {
         "version": 2
@@ -102,7 +108,7 @@
         "length_out_of_range": "error",
         "lib_footprint_issues": "warning",
         "lib_footprint_mismatch": "warning",
-        "malformed_courtyard": "error",
+        "malformed_courtyard": "ignore",
         "microvia_drill_out_of_range": "error",
         "mirrored_text_on_front_layer": "warning",
         "missing_courtyard": "ignore",
@@ -203,7 +209,14 @@
           "td_width_to_size_filter_ratio": 0.9
         }
       ],
-      "track_widths": [],
+      "track_widths": [
+        0.0,
+        0.2,
+        0.8,
+        1.2,
+        1.6,
+        2.0
+      ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
           "corner_radius_percentage": 80,
@@ -230,7 +243,12 @@
           "spacing": 0.6
         }
       },
-      "via_dimensions": [],
+      "via_dimensions": [
+        {
+          "diameter": 0.0,
+          "drill": 0.0
+        }
+      ],
       "zones_allow_external_fillets": false
     },
     "ipc2581": {
@@ -488,7 +506,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "pantiltslide.kicad_pro",
+    "filename": "pantilt-controller.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -524,7 +542,7 @@
     "last_paths": {
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "C:/Users/acard/Downloads/mini_protected/",
       "specctra_dsn": "",
       "step": "",
       "vrml": ""
@@ -656,18 +674,18 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "pantiltslide.kicad_sch",
-        "name": "Root",
+        "filename": "pantilt-controller.kicad_sch",
+        "name": "pantilt-controller",
         "uuid": "069dac62-ca78-4a21-b689-b9421532705f"
       }
     ],
-    "used_designators": "J1-16,F1,U1,#PWR1-6",
+    "used_designators": "F2",
     "variants": []
   },
   "sheets": [
     [
       "069dac62-ca78-4a21-b689-b9421532705f",
-      "Root"
+      "pantilt-controller"
     ]
   ],
   "text_variables": {},

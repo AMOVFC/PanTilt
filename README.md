@@ -19,35 +19,39 @@ move. Slide and Z home against physical switches.
 
 ## The board
 
-**`pantiltslide/pantiltslide_full_turnkey`** is the production board. It is the
-only one being manufactured, and the firmware's factory defaults describe it.
+**[`hardware/pantilt-controller`](hardware/)** is the production board — the only
+one being manufactured, and what the firmware's factory defaults describe. It is
+the compact ("mini") carrier plus on-board power protection: TVS crowbars on the
+24 V and 5 V rails, a bleeder across the 24 V bulk caps, fused 24 V and 5 V
+inputs, and per-rail power LEDs.
 
 A DevKitC-1 drops into two 22-pin sockets; four TMC2209 SilentStepSticks, a
 TCA9548A breakout, the AS5600 heads, OLED, four encoders, four buttons and
-three limit switches all plug in over connectors. PCBWay build it turnkey.
+three limit switches all plug in over connectors.
 
 The full source/destination pin map is **[docs/pinout.md](docs/pinout.md)** —
 that table and `include/config.h` are locked to each other.
 
 ### Superseded
 
-These exist in history and in the tree, but are not being built. Nothing in the
+Every earlier design lives under **[`legacy/`](legacy/)**. Nothing in the
 firmware targets them.
 
 | Variant | Directory | Why it stopped |
 |---|---|---|
-| Prototype | [`prototype/`](prototype/README.md) | 3-axis hand-wired origin of the project |
-| Integrated | [`integrated/`](integrated/README.md) | everything soldered incl. 4x QFN28; never routed |
-| Hybrid | [`hybrid/`](hybrid/README.md) | soldered MCU + power, plug-in drivers; superseded by turnkey |
+| Prototype | [`legacy/prototype/`](legacy/prototype/README.md) | 3-axis hand-wired origin of the project |
+| Integrated | [`legacy/integrated/`](legacy/integrated/README.md) | everything soldered incl. 4× QFN28; never routed |
+| Hybrid | [`legacy/hybrid/`](legacy/hybrid/README.md) | soldered MCU + power, plug-in drivers |
+| Turnkey / turnkey-mini / full / pwr | [`legacy/pantiltslide/`](legacy/pantiltslide/README.md) | earlier carrier-board iterations; `pantilt-controller` descends from turnkey-mini |
 
 ## Manufacturing
 
-**PCBWay have confirmed they will fabricate the PCB *and* source and assemble
-all components, provided the total comes in under USD $150.**
+PCBWay fabricate the bare PCB. Components are **hand-assembled** — PCBWay only
+cover parts they also assemble, so the BOM is kept to common, reusable passives
+and widely-stocked LCSC parts rather than one-off specials.
 
-Motors, PSU, AS5600 modules, OLED, encoders and mechanical parts sit outside
-that budget -- they wire in over connectors rather than being assembled onto
-the board.
+Motors, PSU, AS5600 modules, OLED, encoders and mechanical parts wire in over
+connectors rather than being placed on the board.
 
 ## Flashing
 

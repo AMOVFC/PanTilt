@@ -16581,7 +16581,7 @@
 			(uuid "19a2467a-8060-48a3-9c47-9affbe120f23")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J2")
 					(unit 1)
@@ -16673,7 +16673,7 @@
 			(uuid "ff43a991-0741-49d2-adf9-cbe8cc22a342")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R28")
 					(unit 1)
@@ -16752,7 +16752,7 @@
 			(uuid "dc499743-6a82-557a-a9a2-33607fd600f5")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC8")
 					(unit 1)
@@ -16831,7 +16831,7 @@
 			(uuid "ccd66459-2552-5a6b-9c27-609f2a3eb7e6")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC2")
 					(unit 1)
@@ -16917,7 +16917,7 @@
 			(uuid "306d54b8-81e0-458d-8023-47a2777cd565")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J8")
 					(unit 1)
@@ -17054,7 +17054,7 @@
 			(uuid "eff040ac-91fc-4b3e-82d4-1122c03f225d")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J41")
 					(unit 1)
@@ -17191,7 +17191,7 @@
 			(uuid "fb21fbbb-2cd2-46b2-ba96-885eed277f0c")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "F1")
 					(unit 1)
@@ -17277,7 +17277,7 @@
 			(uuid "dfc060e1-487a-4167-a02d-7ef30224fd1b")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J6")
 					(unit 1)
@@ -17411,7 +17411,7 @@
 			(uuid "0a0f1fd4-7c7f-4dd1-9937-21ade400c5d7")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R11")
 					(unit 1)
@@ -17503,7 +17503,7 @@
 			(uuid "2d5201b3-4551-41ee-b113-c22388ed4e68")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R27")
 					(unit 1)
@@ -17639,7 +17639,7 @@
 			(uuid "0fe15060-c96f-565f-bda9-f9f152d1b0e3")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R3")
 					(unit 1)
@@ -17718,7 +17718,7 @@
 			(uuid "2bb96e96-65a2-51f6-980f-d4ddf6c69545")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC11")
 					(unit 1)
@@ -17797,7 +17797,7 @@
 			(uuid "5055b57b-663c-52b4-9b6c-d1b14a659c83")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC6")
 					(unit 1)
@@ -17883,7 +17883,7 @@
 			(uuid "221d5c75-dc59-4ff8-ba7c-a08f0d834404")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J7")
 					(unit 1)
@@ -18030,7 +18030,7 @@
 			(uuid "ccd3cb6c-5e65-58f9-ab77-9c8431916851")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C1")
 					(unit 1)
@@ -18166,7 +18166,7 @@
 			(uuid "d64fc0ba-1a7b-50e1-902d-1059a5773d61")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R5")
 					(unit 1)
@@ -18258,7 +18258,7 @@
 			(uuid "6b841475-3aa0-4193-b761-48c35df8ebaf")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R31")
 					(unit 1)
@@ -18382,7 +18382,7 @@
 			(uuid "ded701a0-e4b7-49fc-a74f-de4dc2a985d3")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "F2")
 					(unit 1)
@@ -18474,7 +18474,7 @@
 			(uuid "34503cec-45e5-4c34-8a3c-31c38947ea27")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R26")
 					(unit 1)
@@ -18599,7 +18599,7 @@
 			(uuid "1663fae7-f371-4fa9-a8f6-de826e6ec8cc")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C20")
 					(unit 1)
@@ -18734,7 +18734,7 @@
 			(uuid "de618823-9ac3-4736-9faa-51a25122f334")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J37")
 					(unit 1)
@@ -18875,7 +18875,7 @@
 			(uuid "65558004-5810-4f06-8fea-869ac32a5d88")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J29")
 					(unit 1)
@@ -18954,7 +18954,7 @@
 			(uuid "46dcf262-052e-5507-bbcd-785432a4747a")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC3")
 					(unit 1)
@@ -19046,7 +19046,7 @@
 			(uuid "d7ee76b7-2d89-43bc-a465-d557ece0c257")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R30")
 					(unit 1)
@@ -19171,7 +19171,7 @@
 			(uuid "4f45af04-bfe4-4131-8780-003744ba0871")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "D1")
 					(unit 1)
@@ -19312,7 +19312,7 @@
 			(uuid "845cb051-f02c-46d9-8c45-ba3a135d6924")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J31")
 					(unit 1)
@@ -19404,7 +19404,7 @@
 			(uuid "2e71a4b3-6531-4177-8d68-7a43736e8baf")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R29")
 					(unit 1)
@@ -19490,7 +19490,7 @@
 			(uuid "68df4b7d-8115-410b-9c22-294a2e25ae1b")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J3")
 					(unit 1)
@@ -19568,7 +19568,7 @@
 			(uuid "39060635-f9e6-4300-91af-d065bfd220aa")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWR06")
 					(unit 1)
@@ -19709,7 +19709,7 @@
 			(uuid "03c2cd25-5250-4e7f-baab-38ac88e1ae57")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J22")
 					(unit 1)
@@ -19856,7 +19856,7 @@
 			(uuid "1b73e5d0-b857-58b1-b915-be736f14a83c")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C8")
 					(unit 1)
@@ -20023,7 +20023,7 @@
 			(uuid "20d8f3b1-7232-4a90-b916-7670a30da696")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J20")
 					(unit 1)
@@ -20170,7 +20170,7 @@
 			(uuid "b9b80636-8abf-5279-9bb9-13e5f14308dc")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C4")
 					(unit 1)
@@ -20262,7 +20262,7 @@
 			(uuid "5d1e687f-117d-41ea-954d-5bd63e4f146e")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "LED1")
 					(unit 1)
@@ -20403,7 +20403,7 @@
 			(uuid "b408e712-9b4e-44c0-a1c3-e68f19b49566")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J32")
 					(unit 1)
@@ -20482,7 +20482,7 @@
 			(uuid "5f4958e6-6195-5b2b-88e1-a56d52572104")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC13")
 					(unit 1)
@@ -20629,7 +20629,7 @@
 			(uuid "be491763-2b77-5d1d-9f28-363d67a905ce")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C15")
 					(unit 1)
@@ -20754,7 +20754,7 @@
 			(uuid "d4a44041-a3d8-4bf4-a632-d976807d6752")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C19")
 					(unit 1)
@@ -20901,7 +20901,7 @@
 			(uuid "52c11fe7-5cfb-5261-9677-fe7719fb4942")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C16")
 					(unit 1)
@@ -21048,7 +21048,7 @@
 			(uuid "ffef2b85-9c6c-508e-968e-3a749aafb111")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C3")
 					(unit 1)
@@ -21184,7 +21184,7 @@
 			(uuid "48665205-f886-4ffb-993a-f812c1b5458c")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J38")
 					(unit 1)
@@ -21262,7 +21262,7 @@
 			(uuid "f1d95c7d-5600-484e-a4b1-7e0624fb4f1d")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWR05")
 					(unit 1)
@@ -21340,7 +21340,7 @@
 			(uuid "d46a6696-c3e8-4393-a101-671182bd1d37")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWR01")
 					(unit 1)
@@ -21419,7 +21419,7 @@
 			(uuid "70a5f6d1-f414-5820-a50e-faf8d98a5f3d")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC9")
 					(unit 1)
@@ -21560,7 +21560,7 @@
 			(uuid "9264bb51-c59b-4c4f-9618-f757864e651f")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J30")
 					(unit 1)
@@ -21707,7 +21707,7 @@
 			(uuid "d1dfc55a-94be-5d3b-b8dd-fc8cae076fdc")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C2")
 					(unit 1)
@@ -21843,7 +21843,7 @@
 			(uuid "62930890-0dba-5823-b9e5-ce6a4420cabc")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R7")
 					(unit 1)
@@ -21979,7 +21979,7 @@
 			(uuid "2ca0abd8-be07-54b4-9d50-208bc733fcad")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R2")
 					(unit 1)
@@ -22071,7 +22071,7 @@
 			(uuid "b4108555-6bea-4956-a7d3-b64a3bb2b296")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R25")
 					(unit 1)
@@ -22212,7 +22212,7 @@
 			(uuid "3f1ac7fa-723c-4836-89a6-1f10cc6a9faa")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J21")
 					(unit 1)
@@ -22348,7 +22348,7 @@
 			(uuid "5813615e-4900-5de4-a693-5cdcddaf442e")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R4")
 					(unit 1)
@@ -22489,7 +22489,7 @@
 			(uuid "234f7e46-0c33-43ef-bd0b-d0fcee126847")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J19")
 					(unit 1)
@@ -22636,7 +22636,7 @@
 			(uuid "d6376b09-b5b9-5baa-b6bd-740acc80839a")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C6")
 					(unit 1)
@@ -22716,7 +22716,7 @@
 			(uuid "76a05e08-3371-50d9-8fae-3d1c15f3579d")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#FLG03")
 					(unit 1)
@@ -22841,7 +22841,7 @@
 			(uuid "c7fee1cb-fcfe-4184-958a-0500eb068f76")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "D2")
 					(unit 1)
@@ -22975,7 +22975,7 @@
 			(uuid "7ba9aa69-f0a3-4967-bda8-e2d1814a7df9")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R12")
 					(unit 1)
@@ -23054,7 +23054,7 @@
 			(uuid "90c1b2f2-edc7-5d0f-b62e-631dff440ac4")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC17")
 					(unit 1)
@@ -23146,7 +23146,7 @@
 			(uuid "b652fdab-f704-47d8-a716-00933795df7a")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "LED2")
 					(unit 1)
@@ -23225,7 +23225,7 @@
 			(uuid "674badea-32d4-564c-9da3-cbe52bfcf6dd")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC12")
 					(unit 1)
@@ -23304,7 +23304,7 @@
 			(uuid "e5dc5c8c-9236-5b09-b50b-ec7e79806148")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC1")
 					(unit 1)
@@ -23396,7 +23396,7 @@
 			(uuid "e086bc16-4cc5-44d2-92e1-2913899ee7c0")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R32")
 					(unit 1)
@@ -23594,7 +23594,7 @@
 			(uuid "9a8221ed-2055-42e4-8742-bd4f29d56144")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J1")
 					(unit 1)
@@ -23731,7 +23731,7 @@
 			(uuid "c2c81f23-7ae3-4a80-8562-9ef2460c1938")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J27")
 					(unit 1)
@@ -23914,7 +23914,7 @@
 			(uuid "613e5e6d-1b61-4859-82ef-77bf675d8e1f")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "U2")
 					(unit 1)
@@ -24039,7 +24039,7 @@
 			(uuid "b90c8292-02b6-4814-bfc6-614172632df6")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C18")
 					(unit 1)
@@ -24176,7 +24176,7 @@
 			(uuid "e903a5f7-1ea1-4d72-a321-a92937f9e558")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J34")
 					(unit 1)
@@ -24268,7 +24268,7 @@
 			(uuid "20128d52-d0d9-4fcd-b7f4-9f05c30a0a15")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "LED3")
 					(unit 1)
@@ -24346,7 +24346,7 @@
 			(uuid "ab13a1b2-54fa-4ee4-a23c-a90c4f0d9044")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWR03")
 					(unit 1)
@@ -24432,7 +24432,7 @@
 			(uuid "9ab94f0a-3665-4b42-a7ea-a74775f3c3d6")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J5")
 					(unit 1)
@@ -24511,7 +24511,7 @@
 			(uuid "ba91c44b-58c6-523e-aa69-5c1780c6223f")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC15")
 					(unit 1)
@@ -24652,7 +24652,7 @@
 			(uuid "cd167abe-b685-470e-9e48-f839c038fefb")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J18")
 					(unit 1)
@@ -24731,7 +24731,7 @@
 			(uuid "070f5e21-a69f-5d98-abfc-3cd89508a04b")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC14")
 					(unit 1)
@@ -24872,7 +24872,7 @@
 			(uuid "469aa3c9-7fc7-406a-bbfa-a6dd753e1556")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J23")
 					(unit 1)
@@ -24951,7 +24951,7 @@
 			(uuid "52230fd9-d98c-5d9a-b666-de49c98e659f")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC5")
 					(unit 1)
@@ -25134,7 +25134,7 @@
 			(uuid "367af685-b27f-41c3-8832-674f0b8f9293")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "U3")
 					(unit 1)
@@ -25318,7 +25318,7 @@
 			(uuid "96f7ca94-8344-4bf4-8915-fdd98061c3e9")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "U4")
 					(unit 1)
@@ -25397,7 +25397,7 @@
 			(uuid "fd34994f-08bc-542f-bc90-53fcb6b762e9")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC10")
 					(unit 1)
@@ -25533,7 +25533,7 @@
 			(uuid "10c373ae-1d43-54f5-b680-dfecb3b97887")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R1")
 					(unit 1)
@@ -25680,7 +25680,7 @@
 			(uuid "900d5305-b006-5b1b-b7fe-85bd98fd9ea9")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C12")
 					(unit 1)
@@ -25817,7 +25817,7 @@
 			(uuid "e2d792d2-d8f8-4e5f-a6b0-7004700efbc5")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J36")
 					(unit 1)
@@ -25895,7 +25895,7 @@
 			(uuid "5a0802ea-07c3-4cde-8cae-9f9626fea49e")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWR02")
 					(unit 1)
@@ -26042,7 +26042,7 @@
 			(uuid "ec4ec883-2ca5-525a-932d-692a21eff7b2")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C14")
 					(unit 1)
@@ -26122,7 +26122,7 @@
 			(uuid "55ef0b09-4235-516a-a7bf-5949425c8adc")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#FLG02")
 					(unit 1)
@@ -26287,7 +26287,7 @@
 			(uuid "76a587d1-2e46-4dc5-beeb-84d7426d338e")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J24")
 					(unit 1)
@@ -26366,7 +26366,7 @@
 			(uuid "1d4d7b0b-f543-57d9-a0fe-75ead3bd3568")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC7")
 					(unit 1)
@@ -26502,7 +26502,7 @@
 			(uuid "232b34e3-8cd6-574b-b5f7-a04a16359715")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R8")
 					(unit 1)
@@ -26581,7 +26581,7 @@
 			(uuid "ce1b455e-4a02-5259-a98b-2b178c7915de")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC16")
 					(unit 1)
@@ -26722,7 +26722,7 @@
 			(uuid "f9109802-ab60-451c-83de-f5cea64a7375")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J28")
 					(unit 1)
@@ -26869,7 +26869,7 @@
 			(uuid "07ac3bf8-890c-5a43-8015-b3663452336c")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C5")
 					(unit 1)
@@ -27016,7 +27016,7 @@
 			(uuid "72452c2b-92ee-5bac-85a3-ab62aa47cbc0")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C10")
 					(unit 1)
@@ -27102,7 +27102,7 @@
 			(uuid "d109a0e9-97fd-4bfa-8ece-8b838d1a97cd")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J4")
 					(unit 1)
@@ -27236,7 +27236,7 @@
 			(uuid "916918d0-3e50-4b63-bea7-992114144f95")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R10")
 					(unit 1)
@@ -27373,7 +27373,7 @@
 			(uuid "278131a5-0e2f-48ed-9318-f738e1c31a70")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J26")
 					(unit 1)
@@ -27453,7 +27453,7 @@
 			(uuid "1b122b9b-9251-5321-8a44-6b9bbb04d947")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#FLG04")
 					(unit 1)
@@ -27600,7 +27600,7 @@
 			(uuid "8d5c6d44-062d-5a99-a128-35ece7a4bee9")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C11")
 					(unit 1)
@@ -27783,7 +27783,7 @@
 			(uuid "ebb6c0ee-2e38-4bec-bac1-6e91ae52872b")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "U1")
 					(unit 1)
@@ -27862,7 +27862,7 @@
 			(uuid "1e4dbe28-2691-5c45-b7b3-83902f04643e")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#PWRC4")
 					(unit 1)
@@ -27999,7 +27999,7 @@
 			(uuid "bbba6943-2f51-4573-870b-38aaeb729348")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J33")
 					(unit 1)
@@ -28146,7 +28146,7 @@
 			(uuid "654cdd2b-6a57-53c2-b762-a417eaac125c")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C17")
 					(unit 1)
@@ -28238,7 +28238,7 @@
 			(uuid "4ab5a9d4-7c01-4c4b-b779-c5cec6bb69f6")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R33")
 					(unit 1)
@@ -28379,7 +28379,7 @@
 			(uuid "bed7805d-aef1-4aee-8001-5c90bcea92b4")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J17")
 					(unit 1)
@@ -28515,7 +28515,7 @@
 			(uuid "60bbb369-21e8-54ff-99f4-c330492c062a")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "R6")
 					(unit 1)
@@ -28662,7 +28662,7 @@
 			(uuid "1b0ea7df-eb8c-596d-8537-fbaa1ca40c79")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C13")
 					(unit 1)
@@ -28809,7 +28809,7 @@
 			(uuid "d94affbe-d28d-5c99-a0b3-f07ea8b3c78c")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C9")
 					(unit 1)
@@ -28946,7 +28946,7 @@
 			(uuid "fdbcb458-2e42-40b2-bd5a-6142e220b2ec")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "J35")
 					(unit 1)
@@ -29093,7 +29093,7 @@
 			(uuid "2b7aaa45-57c9-5d33-a6b2-703f7909fc82")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "C7")
 					(unit 1)
@@ -29173,7 +29173,7 @@
 			(uuid "e57fee5c-1713-5a2f-a554-723bb7d196d7")
 		)
 		(instances
-			(project "pantiltslide_full_mini_extra_PROTECTION"
+			(project "pantilt-controller"
 				(path "/069dac62-ca78-4a21-b689-b9421532705f"
 					(reference "#FLG01")
 					(unit 1)

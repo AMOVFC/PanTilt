@@ -223,7 +223,7 @@ jobs:
             gh api "repos/$REPO/pulls/$PR/files" --paginate \
               --jq '.[] | select(.status != "removed") | .filename' \
               | grep -E '\.kicad_pcb$' \
-              | grep -v -E '(backups|_restore|/\.history/|/\.claude/)' \
+              | grep -v -E '(backups|_restore|/\.history/|/\.claude/|^legacy/)' \
               > boards.txt || true
           fi
           if [ ! -s boards.txt ]; then
@@ -233,7 +233,7 @@ jobs:
               printf '%s\n' "${{ github.event.inputs.board }}" > boards.txt
             else
               find . -name '*.kicad_pcb' \
-                -not -path './.git/*' -not -path '*/.claude/*' \
+                -not -path './.git/*' -not -path '*/.claude/*' -not -path './legacy/*' \
                 -not -path '*backups*' -not -path '*_restore*' \
                 -not -path '*/.history/*' | sed 's|^\./||' > boards.txt
             fi

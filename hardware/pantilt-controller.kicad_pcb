@@ -269,7 +269,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/7c824402-4ac5-4d66-87bd-5901894b6641")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -579,7 +579,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/edfedaf0-fcb8-470c-8d94-b48de843010a")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -737,7 +737,7 @@
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/8fbe8a92-017c-4557-8fcc-af3bbce7bb7c")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -947,7 +947,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/9d4e61ea-9f3a-430d-a075-dc7a700cd9d5")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -1257,7 +1257,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/a63ee592-13f1-421d-87ce-3a748ce49ec9")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -1611,7 +1611,7 @@
 		(property ki_fp_filters "CP_*")
 		(path "/661e2034-a777-5c6e-a612-d39341e9f461")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -3408,7 +3408,7 @@
 		(property ki_fp_filters "TerminalBlock*:*")
 		(path "/3c4e3515-b1f5-4295-b23b-20d36faf2b46")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -3890,7 +3890,7 @@
 		(property ki_fp_filters "CP_*")
 		(path "/d5f36e5e-6267-578d-8264-0cf4106fd02f")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -5466,7 +5466,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/acc4f0f7-00e3-4173-a072-89875112f3ee")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -5842,7 +5842,7 @@
 		(property ki_fp_filters "CP_*")
 		(path "/57aaea39-f8f3-58ef-8154-74e2d224daf1")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -7639,7 +7639,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/7decd873-cbb2-46c4-b206-eb18e51814b8")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -8002,7 +8002,7 @@
 		(property ki_fp_filters "TerminalBlock*:*")
 		(path "/6c223ee1-d2cc-4e87-8104-f113c8e8d98f")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -8403,7 +8403,7 @@
 		(property ki_fp_filters "*Fuse*")
 		(path "/344ded4d-5de9-423e-9268-0514d4df44e7")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -8588,7 +8588,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/106c3c6e-2f76-4f25-8238-17a8b55943ae")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -8852,7 +8852,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/2560b1e8-e880-4669-86e4-f317f8e95341")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -9197,7 +9197,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/b4126ca2-6e24-4c0e-8bbd-8c59bb330bde")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -9543,7 +9543,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/c26d87b5-8a48-4082-a373-96718a419b57")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -9872,7 +9872,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/e19b558b-fe58-44fc-98e5-b15ad268d65c")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -10160,7 +10160,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/31705b47-4cfb-4de3-be41-abf6dbdf8320")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -10306,7 +10306,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/a9ab1eb0-7367-49c8-8b30-f1a4387a4782")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -10651,7 +10651,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/9f734201-f895-4db7-bb91-6781be76bbf1")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -10981,7 +10981,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/76cf35d7-99d5-4a42-a8e6-92429d28c0b7")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -11346,7 +11346,7 @@
 		(property ki_fp_filters "CP_*")
 		(path "/d19b726e-6d89-57dc-b147-afe726ae4ded")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -13089,7 +13089,7 @@
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/a7b4a27f-011c-4283-92bf-f03662026d91")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -13353,7 +13353,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/d0240c8c-a01b-4727-b1aa-dcead041718e")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -13717,7 +13717,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/f17d21e8-8740-4c4b-975f-4f11e3123ba1")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -14080,7 +14080,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/46dadb67-468d-43b3-a906-20930660ca3f")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -14355,7 +14355,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/de58fd76-c076-457c-b9b2-026d21e00c26")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -14799,7 +14799,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/5289d57e-4de8-4a85-8eef-f9561a1ac2a0")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -15161,7 +15161,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/40374c60-a181-4162-be69-0aee16310a52")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -15515,7 +15515,7 @@
 		(property ki_fp_filters "CP_*")
 		(path "/27c57b60-7c9e-5c2a-b556-d12e71b51aa2")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -17650,7 +17650,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/fcd980a3-824a-4007-8624-8e3a8cbabd55")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -17980,7 +17980,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/5a8b0203-99fe-46a0-9fea-81c90ac56d0b")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -18334,7 +18334,7 @@
 		(property ki_fp_filters "CP_*")
 		(path "/773025db-6d38-53de-8e0c-ec4fb43d9153")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -20064,7 +20064,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/10888df2-3f7c-493e-b3d3-3affcba8f2d5")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -20410,7 +20410,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/ecaf3b31-14fb-496e-abfb-8a592f3f3571")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -20755,7 +20755,7 @@
 		(property ki_fp_filters "*Fuse*")
 		(path "/106d95d6-622b-49ff-9ec0-120261876e75")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -21152,7 +21152,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/0b6b2a98-1085-463b-b5e5-e7e6b4076b37")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -21432,7 +21432,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/4bcfd596-a666-4d8b-9b6d-bba85d8bb41d")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -21726,7 +21726,7 @@
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/59977984-128f-4919-9cb0-86877fedf734")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -21998,7 +21998,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/f2a9a2c6-53d0-503d-8f81-7e7001584792")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -22220,7 +22220,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/8988cc44-84fb-455b-8e29-caa690fd36b0")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -22385,7 +22385,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/44e2fcfb-cf84-4ff9-9df3-718c504cb7e5")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -22592,7 +22592,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/60c90523-fc22-491b-99b8-9652398749a3")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -22814,7 +22814,7 @@
 		(property ki_fp_filters "TMC2209_SilentStepStick*")
 		(path "/ec23bdd9-f36c-47dc-b5ac-df9cabe7ba25")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -23369,7 +23369,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/6158c87c-9b3b-5e73-b0bb-bf700b12d864")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -23605,7 +23605,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/c6a7a516-0063-565e-a40d-9914d865a276")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -23841,7 +23841,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/eb00d68a-6814-5ca2-a8cd-5e1d9dd69e21")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -24064,7 +24064,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/7d224ead-594c-52d5-96b7-5bfabe576752")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -24286,7 +24286,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/cfa395c2-d9a0-5ef3-875c-bcb3717aa485")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -24522,7 +24522,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/ece629d3-a6d1-5e34-a857-c0b4dd81b4d2")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -24688,7 +24688,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/1ae8c73a-f74f-4795-b51d-5182de37a4c2")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -24911,7 +24911,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/be3a6193-26aa-555e-88c7-4124e82b121b")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -25135,7 +25135,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/02816247-89d6-4ab9-9c48-e55ba26d0638")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -25705,7 +25705,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/53bcac9d-6d1d-525b-b0bf-7fa89e3a6609")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -25928,7 +25928,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/56229577-98fd-46de-9c2d-aad9faa40d3f")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -26371,7 +26371,7 @@
 		(property ki_fp_filters "TMC2209_SilentStepStick*")
 		(path "/b7f68b12-b20e-4327-84f4-b94c150a7405")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -26927,7 +26927,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/80e5d38b-c126-524d-947b-dd2831a6793a")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -27134,7 +27134,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/a22715de-f8b4-4df6-9c9b-b15e60cbc8a8")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -27357,7 +27357,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/7b005c21-71e3-51fa-94ee-c822fabcf9e2")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -27579,7 +27579,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/1affb88d-3405-5e25-8c1b-a3287fd0bf41")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -27744,7 +27744,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/7bcdb644-726a-4857-8f05-9b015a78379e")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -27910,7 +27910,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/3642315e-672f-4156-914c-ece45839edbe")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -28075,7 +28075,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/4b001178-679b-4bb9-a520-e376861ab72b")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -28298,7 +28298,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/dec7d606-a3b0-4f14-87e0-e4cb347c7acd")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -28520,7 +28520,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/cb75599e-35bc-460c-a0ba-e8a5d47573f8")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -28978,7 +28978,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/f3a893eb-5ee8-53d7-a8c6-a993af7707cf")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -29214,7 +29214,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/fd597b33-7545-580c-9c02-f19738199165")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -29436,7 +29436,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/1708692f-35fb-4e6b-a548-8c9c1125990b")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -29657,7 +29657,7 @@
 		(property ki_fp_filters "TMC2209_SilentStepStick*")
 		(path "/a1ff8c53-c1a2-4a29-8538-571c0d5ad492")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -30200,7 +30200,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/9e547f17-21ca-44ca-9f02-697eeb180a22")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -30770,7 +30770,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/fbf9e46d-4033-5e67-a4ac-ea9ede46b93c")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -30924,7 +30924,7 @@
 		)
 		(path "/88d7821e-ba93-41b9-b212-cd5834b159f7")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -31208,7 +31208,7 @@
 		)
 		(path "/4533f093-3348-41bc-ad36-acd597b6a308")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -31560,7 +31560,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/77cbf21e-9a0a-5b78-b5b5-7b322e9cc8dd")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -31796,7 +31796,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/6071e344-9ec8-5f34-857c-17ac107c9ac7")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -32018,7 +32018,7 @@
 		(property ki_fp_filters "TMC2209_SilentStepStick*")
 		(path "/ba75bf95-6b72-4ff3-aca6-65824a5ba6d6")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -32503,7 +32503,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/055b3127-d271-46e0-b15f-58fdd6896b00")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -32739,7 +32739,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/be7aec64-f1f3-5a4c-9262-8388a08058c2")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -32947,7 +32947,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/39223efe-48fc-4fef-81e7-4ff93080f683")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -33170,7 +33170,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/2c10eca2-aa73-5f93-958c-9269aa2731f8")
 		(sheetname "/")
-		(sheetfile "pantiltslide_full_mini_extra_PROTECTION.kicad_sch")
+		(sheetfile "pantilt-controller.kicad_sch")
 		(units
 			(unit
 				(name "A")

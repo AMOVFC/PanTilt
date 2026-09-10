@@ -1,8 +1,9 @@
-# Locked pinout — `pantiltslide_full_turnkey`
+# Locked pinout — `hardware/pantilt-controller`
 
-Authoritative source/destination map for the turnkey carrier board going to
-PCBWay. `include/config.h` is locked to exactly this table; anything that
-disagrees is a wiring error, not a preference.
+Authoritative source/destination map for the production carrier board.
+`include/config.h` is locked to exactly this table; anything that disagrees is a
+wiring error, not a preference. (The pin map is unchanged from the earlier
+turnkey / turnkey-mini boards now in `legacy/`.)
 
 The ESP32-S3 DevKitC-1 sits in two 22-pin sockets, **J1** and **J2**. Socket
 pin numbers below are those sockets, not the module's own pads.
