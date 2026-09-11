@@ -17118,7 +17118,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Fuse"
+		(property "Value" "4A"
 			(at 56.388 24.892 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -17129,7 +17129,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Fuse:Fuseholder_Clip-5x20mm_Littelfuse_111_Inline_P20.00x5.00mm_D1.05mm_Horizontal"
+		(property "Footprint" "PanTilt:Fuseholder_Blade_Mini_XFCN_XF-508P-B-B"
 			(at 54.61 28.448 90)
 			(hide yes)
 			(show_name no)
@@ -17151,7 +17151,7 @@
 				)
 			)
 		)
-		(property "Description" "Fuse"
+		(property "Description" "MINI (ATM) blade fuse holder, PCB mount - 24V input protection"
 			(at 54.61 26.67 0)
 			(hide yes)
 			(show_name no)
@@ -17162,7 +17162,7 @@
 				)
 			)
 		)
-		(property "MPN" "5x20mm PCB fuse clip"
+		(property "MPN" "XF-508P-B-B"
 			(at 54.61 26.67 0)
 			(hide yes)
 			(show_name no)
@@ -17173,7 +17173,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Generic"
+		(property "Manufacturer" "XFCN"
 			(at 54.61 26.67 0)
 			(hide yes)
 			(show_name no)
@@ -17184,7 +17184,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C3130"
+		(property "LCSC" "C19727305"
 			(at 54.61 26.67 0)
 			(hide yes)
 			(show_name no)
@@ -17195,7 +17195,7 @@
 				)
 			)
 		)
-		(property "AssemblyQty" "2"
+		(property "AssemblyQty" "1"
 			(at 54.61 26.67 0)
 			(hide yes)
 			(show_name no)
@@ -17206,7 +17206,7 @@
 				)
 			)
 		)
-		(property "Notes" "TWO clips per board; verify 5.00mm leg pitch"
+		(property "Notes" "MINI blade fuse holder XF-508P-B-B (LCSC C19727305). Footprint built from XFCN drawing: 9.80 x 3.40mm hole grid, 4x 1.8mm drill (datasheet 1.6mm min; pin diagonal 1.65mm). Pad 1 = left receptacle, pad 2 = right. Takes a 4A MINI blade fuse (Littelfuse 297/997 / Bussmann ATM), ordered separately."
 			(at 54.61 26.67 0)
 			(hide yes)
 			(show_name no)
@@ -20453,7 +20453,7 @@
 				)
 			)
 		)
-		(property "MPN" "KT-0805G"
+		(property "MPN" "NCD0805R1"
 			(at 0 0 0)
 			(hide yes)
 			(show_name no)
@@ -20464,7 +20464,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Hubei KENTO"
+		(property "Manufacturer" "Nationstar"
 			(at 0 0 0)
 			(hide yes)
 			(show_name no)
@@ -20475,7 +20475,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C2297"
+		(property "LCSC" "C84256"
 			(at 0 0 0)
 			(hide yes)
 			(show_name no)
@@ -23403,7 +23403,7 @@
 				)
 			)
 		)
-		(property "MPN" "KT-0805G"
+		(property "MPN" "NCD0805R1"
 			(at 0 0 0)
 			(hide yes)
 			(show_name no)
@@ -23414,7 +23414,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Hubei KENTO"
+		(property "Manufacturer" "Nationstar"
 			(at 0 0 0)
 			(hide yes)
 			(show_name no)
@@ -23425,7 +23425,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C2297"
+		(property "LCSC" "C84256"
 			(at 0 0 0)
 			(hide yes)
 			(show_name no)
@@ -24591,7 +24591,7 @@
 				)
 			)
 		)
-		(property "MPN" "KT-0805G"
+		(property "MPN" "NCD0805R1"
 			(at 0 0 0)
 			(hide yes)
 			(show_name no)
@@ -24602,7 +24602,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Hubei KENTO"
+		(property "Manufacturer" "Nationstar"
 			(at 0 0 0)
 			(hide yes)
 			(show_name no)
@@ -24613,7 +24613,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C2297"
+		(property "LCSC" "C84256"
 			(at 0 0 0)
 			(hide yes)
 			(show_name no)

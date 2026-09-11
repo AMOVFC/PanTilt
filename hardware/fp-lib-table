@@ -1,0 +1,5 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "PanTilt")(type "KiCad")(uri "${KIPRJMOD}/lib/PanTilt.pretty")(options "")(descr "Project-specific footprints for pantilt-controller"))
+	(lib (name "TMC2209")(type "KiCad")(uri "${KIPRJMOD}/lib/TMC2209.pretty")(options "")(descr "TMC2209 SilentStepStick socket footprints"))
+)
