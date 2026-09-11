@@ -56,6 +56,7 @@ shows the address it's actually reachable at.
 | `src/Axis.*` | One axis — stepper, TMC2209, limits, homing, AS5600 drift correction |
 | `src/Motion.*` | The four axes + the shared enable line, I²C bus and UART bus |
 | `src/Sequencer.*` | Keyframes and time-synced coordinated playback |
+| `src/CurveSequence.*` | Per-axis Bezier channels on one shared clock |
 | `src/Inputs.*` | Encoders, buttons, and the remappable action dispatch |
 | `src/QuadEncoder.*` | Interrupt-driven quadrature decode (not PCNT — see the header) |
 | `src/Mux.*` | TCA9548A channel select + AS5600 reads |
@@ -68,10 +69,21 @@ shows the address it's actually reachable at.
 
 - **Control** — live position/target/speed per axis, press-and-hold jog,
   go-to, per-axis home and zero, driver enable, BLE record toggle.
-  `Space` plays the sequence, `Esc` fires the e-stop.
-- **Sequence** — record four-axis poses, play them back as coordinated moves
+  `Space` plays whichever of Sequences / Keyframes is on screen, `Esc` fires
+  the e-stop.
+- **Sequences** — the curve editor. Each axis gets its own independent track
+  of points on one shared clock, so the slide can run through eight while pan
+  turns through three. Between points an axis follows a cubic Bezier whose
+  handles you drag (same parameterisation as CSS `cubic-bezier()`, so
+  retiming a leg never restyles it). Double-click a chart to add a point,
+  drag points or handles to shape it, right-click / `Delete` to remove one.
+  A curve that asks for more speed or acceleration than the axis has is drawn
+  red and refused at play with the figure it needed. Up to 16 named
+  sequences persist to flash; only the active one is in RAM.
+- **Keyframes** — record four-axis poses, play them back as coordinated moves
   with per-leg travel and hold times; slow legs drag the whole leg so axes
-  stay in sync. Ease in/out. Stored on the board, export/import as JSON.
+  stay in sync. Per-axis timeline graphs with absolute/relative readout, loop,
+  ease in/out. Stored on the board, export/import as JSON.
 - **Axes** — pins, direction, mechanics (belt/pulley or gear ratio),
   microstepping, speeds, soft limits, homing strategy, feedback sensor,
   TMC2209 current. Card header shows the resulting steps-per-unit.

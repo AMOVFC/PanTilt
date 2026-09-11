@@ -22,6 +22,17 @@ constexpr uint8_t ENCODER_COUNT = 4;
 constexpr uint8_t BUTTON_COUNT = 4;
 constexpr uint8_t MAX_KEYFRAMES = 32;
 
+// Curve sequences are the other kind of move the rig can play. A keyframe is
+// a pose -- every axis holds a value and they all arrive together. A curve
+// sequence instead gives each axis its own independent channel of keys on a
+// shared clock, so pan can turn through three points while the slide runs
+// through eight. That independence is the whole point of it, and it is why
+// the two are stored and played separately rather than one being a view of
+// the other.
+constexpr uint8_t MAX_CURVE_SEQUENCES = 16;  // saved slots on flash
+constexpr uint8_t MAX_CURVE_KEYS = 16;       // per axis, per sequence
+constexpr uint8_t CURVE_NAME_LEN = 24;
+
 // Steppers are identified by letter, matching the board silkscreen and the
 // TMC2209 UART addresses. The axis each one drives is a property of the
 // machine, not of the electronics, so it lives in the comment rather than in
@@ -176,6 +187,13 @@ constexpr uint32_t BUTTON_DEBOUNCE_MS = 30;
 constexpr uint32_t BUTTON_LONG_PRESS_MS = 600;
 constexpr uint32_t OLED_REFRESH_INTERVAL_MS = 200;
 constexpr uint32_t TELEMETRY_INTERVAL_MS = 150;
+// How often a playing curve sequence re-commands its axes. Each tick hands
+// FastAccelStepper a fresh short move toward where the curve says the axis
+// should be one tick from now, so the ramp hardware does the smoothing
+// between waypoints and the curve shape survives. Shorter tracks the curve
+// more tightly and costs more loop time; much longer and fast passages start
+// to read as a series of steps.
+constexpr uint32_t CURVE_TICK_MS = 25;
 }  // namespace ui
 
 namespace oled {

@@ -37,6 +37,15 @@ enum class CmdType : uint8_t {
   SEQ_CAPTURE,
   SEQ_APPLY,
   SEQ_SAVE,
+  CURVE_PLAY,
+  CURVE_PAUSE,
+  CURVE_STOP,
+  CURVE_GOTO,
+  CURVE_SELECT,
+  CURVE_SAVE,
+  CURVE_DELETE,
+  CURVE_NEW,
+  CURVE_APPLY,
   RUN_ACTION,
   APPLY_CONFIG,
   FACTORY_RESET,
@@ -75,6 +84,9 @@ class WebUI {
   volatile bool pendingSettingsValid_ = false;
   String pendingSequenceJson_;
   volatile bool pendingSequenceValid_ = false;
+  String pendingCurveJson_;
+  volatile bool pendingCurveValid_ = false;
+  char pendingCurveName_[fw::CURVE_NAME_LEN] = "";
 
   void startNetwork();
   void registerRoutes();
