@@ -16904,7 +16904,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
 			(at 534.67 140.97 0)
 			(hide yes)
 			(show_name no)
@@ -16935,6 +16935,38 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "Notes" "Male 1x4 2.54mm pin header used instead of socket; same footprint copper (2.54mm pitch, 1.0mm drill)" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C42431787" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "JXTCONN" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "PZ2.54-1X4P-H25" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "2"
@@ -17264,7 +17296,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
 			(at 534.67 114.3 0)
 			(hide yes)
 			(show_name no)
@@ -17295,6 +17327,38 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "Notes" "Male 1x4 2.54mm pin header used instead of socket; same footprint copper (2.54mm pitch, 1.0mm drill)" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C42431787" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "JXTCONN" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "PZ2.54-1X4P-H25" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "2"
@@ -17903,7 +17967,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
 			(at 534.67 128.27 0)
 			(hide yes)
 			(show_name no)
@@ -17934,6 +17998,38 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "Notes" "Male 1x4 2.54mm pin header used instead of socket; same footprint copper (2.54mm pitch, 1.0mm drill)" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C42431787" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "JXTCONN" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "PZ2.54-1X4P-H25" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "2"
@@ -19642,7 +19738,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
 			(at 534.67 68.58 0)
 			(hide yes)
 			(show_name no)
@@ -19673,6 +19769,38 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "Notes" "Male 1x4 2.54mm pin header used instead of socket; same footprint copper (2.54mm pitch, 1.0mm drill)" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C42431787" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "JXTCONN" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "PZ2.54-1X4P-H25" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "2"
@@ -24749,7 +24877,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
 			(at 534.67 100.33 0)
 			(hide yes)
 			(show_name no)
@@ -24780,6 +24908,38 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "Notes" "Male 1x4 2.54mm pin header used instead of socket; same footprint copper (2.54mm pitch, 1.0mm drill)" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C42431787" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "JXTCONN" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "PZ2.54-1X4P-H25" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "2"
@@ -25167,7 +25327,7 @@
 				)
 			)
 		)
-		(property "MPN" "2.54-1*4P"
+		(property "MPN" "PZ2.54-1X4P-H25"
 			(at 430 120 0)
 			(hide yes)
 			(show_name no)
@@ -25178,7 +25338,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Ckmtw"
+		(property "Manufacturer" "JXTCONN"
 			(at 430 120 0)
 			(hide yes)
 			(show_name no)
@@ -25189,7 +25349,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C2718488"
+		(property "LCSC" "C42431787"
 			(at 430 120 0)
 			(hide yes)
 			(show_name no)
@@ -25211,7 +25371,7 @@
 				)
 			)
 		)
-		(property "Notes" "OLED socket"
+		(property "Notes" "Male 1x4 2.54mm pin header used instead of socket; same footprint copper (2.54mm pitch, 1.0mm drill)"
 			(at 430 120 0)
 			(hide yes)
 			(show_name no)
@@ -25538,7 +25698,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TMC2209:TMC2209_SilentStepStick_Socket_18P"
 			(at 288.29 266.7 0)
 			(hide yes)
 			(show_name no)
@@ -27419,7 +27579,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
 			(at 534.67 83.82 0)
 			(hide yes)
 			(show_name no)
@@ -27450,6 +27610,38 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "Notes" "Male 1x4 2.54mm pin header used instead of socket; same footprint copper (2.54mm pitch, 1.0mm drill)" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C42431787" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "JXTCONN" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "PZ2.54-1X4P-H25" (at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "2"
