@@ -38,12 +38,14 @@ move. Slide and Z home against physical switches.
 ## The board in one paragraph
 
 An ESP32-S3 DevKitC-1 drops into two 22-pin sockets. Four TMC2209
-SilentStepSticks, a TCA9548A breakout, two AS5600 encoder heads, an OLED, four
-panel encoders, four buttons and the limit switches all plug in over JST-XH and
-pin-socket connectors. Both supply rails (24 V motor, 5 V logic) are fused, with
-a TVS crowbar downstream of each fuse and a bleeder across the 24 V bulk caps so
-hand-driving an axis while the board is off can't leave the capacitors charged.
-Details and BOM: [`hardware/README.md`](hardware/README.md).
+SilentStepSticks and a TCA9548A breakout plug into pin sockets; two AS5600
+encoder heads, four panel encoders, four buttons and the limit switches plug in
+over JST-XH; the OLED and the six spare mux channels break out on 1×4 pin
+headers. Both supply rails are fused — a 4 A MINI blade fuse on the 24 V motor
+rail, a 1.5 A Nano² on the 5 V logic rail — with a TVS crowbar downstream of
+each fuse and a bleeder across the 24 V bulk caps so hand-driving an axis while
+the board is off can't leave the capacitors charged. Details and BOM:
+[`hardware/README.md`](hardware/README.md).
 
 ## The firmware in one paragraph
 
