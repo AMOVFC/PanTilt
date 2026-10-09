@@ -1,0 +1,274 @@
+<title>PanTilt Assembly Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: step list on the left (one bag of parts per step), true-scale board view on the right that flips to the side being worked. */
+:root{
+  --bg:#f3f5f2; --panel:#ffffff; --fg:#17211b; --muted:#5d6b62; --line:#d5ddd7;
+  --mask:#1d5a3a; --mask-edge:#123d27; --pad:#c9b27a; --pad-dim:#8fa597; --ghost:#3d7a57;
+  --hot:#ff9d2e; --hot-ink:#3a2200; --done:#7fd3a3; --warn:#c2410c; --warn-bg:#fff1e8;
+  --silk:#eef3ef;
+  --f-ui:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1512; --panel:#16201b; --fg:#e4ece6; --muted:#93a399; --line:#27342d;
+  --mask:#174a30; --mask-edge:#0b2a1a; --pad:#b39c66; --pad-dim:#5f7a6a; --ghost:#2f6849;
+  --warn:#fb923c; --warn-bg:#2a1a10; --silk:#dfe8e2; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1512; --panel:#16201b; --fg:#e4ece6; --muted:#93a399; --line:#27342d;
+  --mask:#174a30; --mask-edge:#0b2a1a; --pad:#b39c66; --pad-dim:#5f7a6a; --ghost:#2f6849;
+  --warn:#fb923c; --warn-bg:#2a1a10; --silk:#dfe8e2; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:15px;line-height:1.45}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 16px 48px}
+header{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:baseline;justify-content:space-between;margin-bottom:18px}
+h1{font-size:1.7rem;font-weight:800;letter-spacing:-.01em;margin:0;text-wrap:balance}
+.sub{color:var(--muted);margin:4px 0 0;max-width:62ch}
+.meta{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}.view{order:-1}}
+.warn{background:var(--warn-bg);border:1px solid var(--warn);border-radius:6px;padding:10px 12px;margin-bottom:14px;font-size:.88rem}
+.warn b{color:var(--warn)}
+.sidehead{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.step{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid transparent;border-radius:6px;cursor:pointer;background:transparent;color:inherit;font:inherit;text-align:left;width:100%}
+.step:hover{background:var(--panel);border-color:var(--line)}
+.step:focus-visible{outline:2px solid var(--hot);outline-offset:1px}
+.step.on{background:var(--panel);border-color:var(--hot);box-shadow:inset 3px 0 0 var(--hot)}
+.num{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);text-align:right}
+.step.done .num{color:var(--done)}
+.step.done .val{text-decoration:line-through;text-decoration-color:var(--muted)}
+.val{font-weight:600}
+.pkg{font-family:var(--f-mono);font-size:.74rem;color:var(--muted);margin-left:6px}
+.refs{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);display:block;margin-top:1px}
+.qty{font-family:var(--f-mono);font-size:.82rem;font-variant-numeric:tabular-nums;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:1px 8px}
+.opt{color:var(--muted);font-size:.72rem;font-weight:600;margin-left:6px;letter-spacing:.04em}
+.pol{color:var(--warn);font-size:.72rem;font-weight:600;margin-left:6px;letter-spacing:.04em}
+.view{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+.vbar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.tabs{display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px}
+.tabs button{font:inherit;font-size:.85rem;font-weight:600;border:0;border-radius:4px;padding:5px 12px;background:transparent;color:var(--muted);cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--panel);color:var(--fg);box-shadow:0 0 0 1px var(--line)}
+.ctrl{display:flex;gap:6px;align-items:center}
+.ctrl button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:6px;padding:5px 10px;cursor:pointer}
+.ctrl button.primary{background:var(--hot);color:var(--hot-ink);border-color:var(--hot);font-weight:600}
+.ctrl button:focus-visible,.tabs button:focus-visible{outline:2px solid var(--hot);outline-offset:1px}
+.now{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;margin-bottom:8px}
+.now .big{font-size:1.25rem;font-weight:800}
+.now .r{font-family:var(--f-mono);font-size:.85rem;color:var(--muted)}
+.tip{font-size:.85rem;color:var(--muted);margin:0 0 8px;min-height:1.3em}
+.tip.p{color:var(--warn);font-weight:600}
+.svgbox{overflow-x:auto;display:flex;justify-content:center}
+svg{display:block;max-width:100%;height:auto;max-height:72vh}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.78rem;color:var(--muted);margin-top:10px}
+.sw{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-2px;margin-right:5px}
+.keys{font-size:.78rem;color:var(--muted);margin-top:16px}
+kbd{font-family:var(--f-mono);font-size:.72rem;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:var(--panel)}
+@media (prefers-reduced-motion:no-preference){.hotpart{animation:pulse 1.4s ease-in-out infinite}}
+@keyframes pulse{50%{opacity:.55}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>PanTilt assembly map</h1>
+      <p class="sub">Open one bag, place every part from it, tick it off, move to the next. SMD parts first (bottom, then top), then the through-hole parts from shortest to tallest so the board sits flat on the bench while you solder.</p>
+    </div>
+    <div class="meta">pantilt-controller.kicad_pcb · 52.3 × 93.2 mm · 40 SMD + 35 through-hole</div>
+  </header>
+
+  <div class="grid">
+    <section>
+      <div class="warn"><b>Check D1 and D2 before soldering.</b> The schematic puts the cathode on pad 2 (the +24 V / 5 V pad), but the D_SMB footprint's silkscreen bar sits on pad 1 (GND). Put the diode's <b>band on the rail pad</b>, as drawn here, not on the silk bar. Backwards, the TVS shorts the rail and blows the fuse at power-up.</div>
+      <div id="list"></div>
+      <p class="keys"><kbd>→</kbd> / <kbd>←</kbd> next / previous bag · <kbd>Space</kbd> mark done · <kbd>B</kbd> / <kbd>T</kbd> switch side</p>
+    </section>
+
+    <section class="view" aria-label="Board view">
+      <div class="vbar">
+        <div class="tabs" role="group" aria-label="Board side">
+          <button id="tabB" type="button" aria-pressed="true">Bottom</button>
+          <button id="tabF" type="button" aria-pressed="false">Top</button>
+        </div>
+        <div class="ctrl">
+          <button id="prev" type="button" aria-label="Previous bag">←</button>
+          <button id="mark" type="button" class="primary">Mark done</button>
+          <button id="next" type="button" aria-label="Next bag">→</button>
+        </div>
+      </div>
+      <div class="now"><span class="big" id="nowVal"></span><span class="r" id="nowRefs"></span></div>
+      <p class="tip" id="tip"></p>
+      <div class="svgbox"><svg id="board" role="img" aria-label="Board placement diagram"></svg></div>
+      <div class="legend">
+        <span><span class="sw" style="background:var(--hot)"></span>place now</span>
+        <span><span class="sw" style="background:var(--done)"></span>done</span>
+        <span><span class="sw" style="background:var(--pad-dim)"></span>later</span>
+        <span><span class="sw" style="background:var(--ghost)"></span>through-hole, not fitted yet</span>
+        <span id="mirrorNote"></span>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+const DATA = {"parts":[{"ref":"J21","val":"AS5600_Pan","side":"F","smd":false,"x":126.492,"y":75.946,"bb":[116.042,129.442,72.046,78.796],"pads":[["1",126.492,75.946,1.7,1.95,1],["2",123.992,75.946,1.7,1.95,1],["3",121.492,75.946,1.7,1.95,1],["4",118.992,75.946,1.7,1.95,1]]},{"ref":"R33","val":"1k","side":"F","smd":true,"x":125.984,"y":51.967,"bb":[125.034,126.934,50.287,53.647],"pads":[["1",125.984,52.879,1.4,1.025,0],["2",125.984,51.054,1.4,1.025,0]]},{"ref":"LED2","val":"LED_5V","side":"F","smd":true,"x":137.668,"y":77.724,"bb":[136.718,138.618,76.044,79.404],"pads":[["1",137.668,76.787,1.4,0.975,0],["2",137.668,78.662,1.4,0.975,0]]},{"ref":"R32","val":"2.2k","side":"F","smd":true,"x":137.16,"y":81.28,"bb":[136.21,138.11,79.6,82.96],"pads":[["1",137.16,80.368,1.4,1.025,0],["2",137.16,82.192,1.4,1.025,0]]},{"ref":"J34","val":"Btn_ClearKeyframe","side":"F","smd":false,"x":132.588,"y":54.119,"bb":[127.138,135.538,50.219,56.969],"pads":[["1",132.588,54.119,1.7,2.0,1],["2",130.088,54.119,1.7,2.0,1]]},{"ref":"C3","val":"100uF/50V","side":"F","smd":false,"x":102.233,"y":47.498,"bb":[103.983,108.233,47.498,47.498],"pads":[["1",102.233,47.498,1.6,1.6,1],["2",105.733,47.498,1.6,1.6,1]]},{"ref":"J37","val":"5V_In","side":"F","smd":false,"x":134.841,"y":98.262,"bb":[130.341,139.151,90.262,101.762],"pads":[["1",134.841,98.262,2.8,2.8,1],["2",134.841,93.262,2.8,2.8,1]]},{"ref":"C10","val":"100uF/16V","side":"F","smd":false,"x":134.278,"y":72.136,"bb":[129.628,133.028,72.136,72.136],"pads":[["1",134.278,72.136,1.6,1.6,1],["2",131.778,72.136,1.6,1.6,1]]},{"ref":"J18","val":"Motor_Pan","side":"F","smd":false,"x":92.439,"y":52.518,"bb":[89.589,96.339,42.068,55.468],"pads":[["1",92.439,52.518,1.95,1.7,1],["2",92.439,50.018,1.95,1.7,1],["3",92.439,47.518,1.95,1.7,1],["4",92.439,45.018,1.95,1.7,1]]},{"ref":"C4","val":"100uF/50V","side":"F","smd":false,"x":101.979,"y":25.4,"bb":[103.729,107.979,25.4,25.4],"pads":[["1",101.979,25.4,1.6,1.6,1],["2",105.479,25.4,1.6,1.6,1]]},{"ref":"J19","val":"Motor_Tilt","side":"F","smd":false,"x":92.456,"y":36.83,"bb":[89.606,96.356,26.38,39.78],"pads":[["1",92.456,36.83,1.95,1.7,1],["2",92.456,34.33,1.95,1.7,1],["3",92.456,31.83,1.95,1.7,1],["4",92.456,29.33,1.95,1.7,1]]},{"ref":"J38","val":"24V_In","side":"F","smd":false,"x":91.727,"y":94.524,"bb":[87.416,96.227,91.024,102.524],"pads":[["1",91.727,94.524,2.8,2.8,1],["2",91.727,99.524,2.8,2.8,1]]},{"ref":"F2","val":"1.5A","side":"F","smd":true,"x":133.349,"y":84.333,"bb":[130.834,135.864,78.618,90.048],"pads":[["1",133.349,87.518,3.81,4.24,0],["2",133.349,81.148,3.81,4.24,0]]},{"ref":"J41","val":"Aux_Max","side":"F","smd":false,"x":121.666,"y":46.499,"bb":[116.216,124.616,42.599,49.349],"pads":[["1",121.666,46.499,1.7,2.0,1],["2",119.166,46.499,1.7,2.0,1]]},{"ref":"J7","val":"MUX_6","side":"F","smd":false,"x":117.856,"y":92.71,"bb":[116.086,127.246,90.94,94.48],"pads":[["1",117.856,92.71,1.7,1.7,1],["2",120.396,92.71,1.7,1.7,1],["3",122.936,92.71,1.7,1.7,1],["4",125.476,92.71,1.7,1.7,1]]},{"ref":"J23","val":"OLED","side":"F","smd":false,"x":125.222,"y":59.182,"bb":[115.832,126.992,57.412,60.952],"pads":[["1",125.222,59.182,1.7,1.7,1],["2",122.682,59.182,1.7,1.7,1],["3",120.142,59.182,1.7,1.7,1],["4",117.602,59.182,1.7,1.7,1]]},{"ref":"J36","val":"Btn_Reset","side":"F","smd":false,"x":132.588,"y":61.739,"bb":[127.138,135.538,57.839,64.589],"pads":[["1",132.588,61.739,1.7,2.0,1],["2",130.088,61.739,1.7,2.0,1]]},{"ref":"J26","val":"Limit_Min","side":"F","smd":false,"x":121.666,"y":38.625,"bb":[116.216,124.616,34.725,41.475],"pads":[["1",121.666,38.625,1.7,2.0,1],["2",119.166,38.625,1.7,2.0,1]]},{"ref":"R31","val":"10k","side":"F","smd":true,"x":106.758,"y":102.616,"bb":[105.078,108.439,101.666,103.566],"pads":[["1",107.671,102.616,1.025,1.4,0],["2",105.846,102.616,1.025,1.4,0]]},{"ref":"J5","val":"MUX_4","side":"F","smd":false,"x":117.856,"y":100.838,"bb":[116.086,127.246,99.068,102.608],"pads":[["1",117.856,100.838,1.7,1.7,1],["2",120.396,100.838,1.7,1.7,1],["3",122.936,100.838,1.7,1.7,1],["4",125.476,100.838,1.7,1.7,1]]},{"ref":"J27","val":"Limit_Max","side":"F","smd":false,"x":121.666,"y":30.751,"bb":[116.216,124.616,26.851,33.601],"pads":[["1",121.666,30.751,1.7,2.0,1],["2",119.166,30.751,1.7,2.0,1]]},{"ref":"J30","val":"Enc_Pan","side":"F","smd":false,"x":132.588,"y":22.894,"bb":[124.638,135.538,18.994,25.744],"pads":[["1",132.588,22.894,1.7,1.95,1],["2",130.088,22.894,1.7,1.95,1],["3",127.588,22.894,1.7,1.95,1]]},{"ref":"C5","val":"100uF/50V","side":"F","smd":false,"x":103.886,"y":80.518,"bb":[103.886,103.886,74.518,78.768],"pads":[["1",103.886,80.518,1.6,1.6,1],["2",103.886,77.018,1.6,1.6,1]]},{"ref":"LED3","val":"LED_3V3","side":"F","smd":true,"x":125.984,"y":55.547,"bb":[125.034,126.934,53.867,57.227],"pads":[["1",125.984,56.485,1.4,0.975,0],["2",125.984,54.61,1.4,0.975,0]]},{"ref":"J28","val":"Motor_Aux","side":"F","smd":false,"x":92.439,"y":85.284,"bb":[89.589,96.339,74.834,88.234],"pads":[["1",92.439,85.284,1.95,1.7,1],["2",92.439,82.784,1.95,1.7,1],["3",92.439,80.284,1.95,1.7,1],["4",92.439,77.784,1.95,1.7,1]]},{"ref":"J17","val":"Motor_Slide","side":"F","smd":false,"x":92.456,"y":71.628,"bb":[89.606,96.356,61.178,74.578],"pads":[["1",92.456,71.628,1.95,1.7,1],["2",92.456,69.128,1.95,1.7,1],["3",92.456,66.628,1.95,1.7,1],["4",92.456,64.128,1.95,1.7,1]]},{"ref":"J31","val":"Enc_Tilt","side":"F","smd":false,"x":132.588,"y":38.625,"bb":[124.638,135.538,34.725,41.475],"pads":[["1",132.588,38.625,1.7,1.95,1],["2",130.088,38.625,1.7,1.95,1],["3",127.588,38.625,1.7,1.95,1]]},{"ref":"J4","val":"MUX_3","side":"F","smd":false,"x":117.856,"y":104.902,"bb":[116.086,127.246,103.132,106.672],"pads":[["1",117.856,104.902,1.7,1.7,1],["2",120.396,104.902,1.7,1.7,1],["3",122.936,104.902,1.7,1.7,1],["4",125.476,104.902,1.7,1.7,1]]},{"ref":"J22","val":"AS5600_Tilt","side":"F","smd":false,"x":126.432,"y":69.105,"bb":[115.982,129.382,65.205,71.955],"pads":[["1",126.432,69.105,1.7,1.95,1],["2",123.932,69.105,1.7,1.95,1],["3",121.432,69.105,1.7,1.95,1],["4",118.932,69.105,1.7,1.95,1]]},{"ref":"J29","val":"Enc_Slide","side":"F","smd":false,"x":132.588,"y":30.751,"bb":[124.638,135.538,26.851,33.601],"pads":[["1",132.588,30.751,1.7,1.95,1],["2",130.088,30.751,1.7,1.95,1],["3",127.588,30.751,1.7,1.95,1]]},{"ref":"C1","val":"470uF/50V","side":"F","smd":false,"x":102.362,"y":94.234,"bb":[104.862,110.112,94.234,94.234],"pads":[["1",102.362,94.234,2.0,2.0,1],["2",107.362,94.234,2.0,2.0,1]]},{"ref":"J35","val":"Btn_PlayPause","side":"F","smd":false,"x":121.666,"y":54.102,"bb":[116.216,124.616,50.202,56.952],"pads":[["1",121.666,54.102,1.7,2.0,1],["2",119.166,54.102,1.7,2.0,1]]},{"ref":"J32","val":"Enc_Aux","side":"F","smd":false,"x":132.588,"y":46.499,"bb":[124.638,135.538,42.599,49.349],"pads":[["1",132.588,46.499,1.7,1.95,1],["2",130.088,46.499,1.7,1.95,1],["3",127.588,46.499,1.7,1.95,1]]},{"ref":"C2","val":"100uF/50V","side":"F","smd":false,"x":102.233,"y":68.834,"bb":[103.983,108.233,68.834,68.834],"pads":[["1",102.233,68.834,1.6,1.6,1],["2",105.733,68.834,1.6,1.6,1]]},{"ref":"J6","val":"MUX_5","side":"F","smd":false,"x":117.856,"y":96.774,"bb":[116.086,127.246,95.004,98.544],"pads":[["1",117.856,96.774,1.7,1.7,1],["2",120.396,96.774,1.7,1.7,1],["3",122.936,96.774,1.7,1.7,1],["4",125.476,96.774,1.7,1.7,1]]},{"ref":"J33","val":"Btn_SetKeyframe","side":"F","smd":false,"x":121.666,"y":22.877,"bb":[116.216,124.616,18.977,25.727],"pads":[["1",121.666,22.877,1.7,2.0,1],["2",119.166,22.877,1.7,2.0,1]]},{"ref":"F1","val":"4A","side":"F","smd":false,"x":104.648,"y":107.188,"bb":[96.398,112.898,103.588,110.788],"pads":[["1",99.748,105.488,2.8,2.8,1],["1",99.748,108.888,2.8,2.8,1],["2",109.548,105.488,2.8,2.8,1],["2",109.548,108.888,2.8,2.8,1]]},{"ref":"J8","val":"MUX_7","side":"F","smd":false,"x":117.856,"y":88.646,"bb":[116.086,127.246,86.876,90.416],"pads":[["1",117.856,88.646,1.7,1.7,1],["2",120.396,88.646,1.7,1.7,1],["3",122.936,88.646,1.7,1.7,1],["4",125.476,88.646,1.7,1.7,1]]},{"ref":"J3","val":"MUX_2","side":"F","smd":false,"x":117.856,"y":108.966,"bb":[116.086,127.246,107.196,110.736],"pads":[["1",117.856,108.966,1.7,1.7,1],["2",120.396,108.966,1.7,1.7,1],["3",122.936,108.966,1.7,1.7,1],["4",125.476,108.966,1.7,1.7,1]]},{"ref":"LED1","val":"LED_24V","side":"F","smd":true,"x":106.758,"y":100.584,"bb":[105.078,108.439,99.634,101.534],"pads":[["1",105.821,100.584,0.975,1.4,0],["2",107.696,100.584,0.975,1.4,0]]},{"ref":"R6","val":"2.2k","side":"B","smd":true,"x":119.126,"y":78.994,"bb":[118.176,120.076,77.314,80.674],"pads":[["1",119.126,79.906,1.4,1.025,0],["2",119.126,78.082,1.4,1.025,0]]},{"ref":"R12","val":"1k R","side":"B","smd":true,"x":108.966,"y":56.134,"bb":[108.236,109.696,54.654,57.614],"pads":[["1",108.966,56.959,0.95,0.8,0],["2",108.966,55.309,0.95,0.8,0]]},{"ref":"R30","val":"10k","side":"B","smd":true,"x":88.9,"y":89.916,"bb":[87.95,89.85,88.236,91.596],"pads":[["1",88.9,89.004,1.4,1.025,0],["2",88.9,90.828,1.4,1.025,0]]},{"ref":"C19","val":"100nF","side":"B","smd":true,"x":122.428,"y":28.194,"bb":[120.728,124.128,27.214,29.174],"pads":[["1",121.478,28.194,1.0,1.45,0],["2",123.378,28.194,1.0,1.45,0]]},{"ref":"U1","val":"tmc2209","side":"B","smd":false,"x":98.298,"y":80.936,"bb":[96.398,112.898,61.436,82.836],"pads":[["1",98.298,80.936,1.7,1.7,1],["2",98.298,78.396,1.7,1.7,1],["3",98.298,75.856,1.7,1.7,1],["4",98.298,73.316,1.7,1.7,1],["5",98.298,70.776,1.7,1.7,1],["6",98.298,68.236,1.7,1.7,1],["7",98.298,65.696,1.7,1.7,1],["8",98.298,63.156,1.7,1.7,1],["9",110.998,80.936,1.7,1.7,1],["10",110.998,78.396,1.7,1.7,1],["11",110.998,75.856,1.7,1.7,1],["12",110.998,73.316,1.7,1.7,1],["13",110.998,70.776,1.7,1.7,1],["14",110.998,68.236,1.7,1.7,1],["15",110.998,65.696,1.7,1.7,1],["16",110.998,63.156,1.7,1.7,1],["17",106.008,63.186,1.7,1.7,1],["18",108.548,63.186,1.7,1.7,1]]},{"ref":"C16","val":"100nF","side":"B","smd":true,"x":101.092,"y":79.248,"bb":[100.112,102.072,77.548,80.948],"pads":[["1",101.092,78.298,1.45,1.0,0],["2",101.092,80.198,1.45,1.0,0]]},{"ref":"C14","val":"100nF","side":"B","smd":true,"x":100.33,"y":55.88,"bb":[99.35,101.31,54.18,57.58],"pads":[["1",100.33,56.83,1.45,1.0,0],["2",100.33,54.93,1.45,1.0,0]]},{"ref":"C11","val":"100nF","side":"B","smd":true,"x":132.334,"y":67.818,"bb":[130.634,134.034,66.838,68.798],"pads":[["1",133.284,67.818,1.0,1.45,0],["2",131.384,67.818,1.0,1.45,0]]},{"ref":"R4","val":"4.7k","side":"B","smd":true,"x":117.856,"y":62.23,"bb":[116.906,118.806,60.55,63.91],"pads":[["1",117.856,63.142,1.4,1.025,0],["2",117.856,61.317,1.4,1.025,0]]},{"ref":"R8","val":"2.2k","side":"B","smd":true,"x":118.812,"y":71.645,"bb":[117.132,120.492,70.695,72.595],"pads":[["1",117.9,71.645,1.025,1.4,0],["2",119.724,71.645,1.025,1.4,0]]},{"ref":"C17","val":"100nF","side":"B","smd":true,"x":124.971,"y":80.232,"bb":[123.271,126.671,79.252,81.212],"pads":[["1",125.921,80.232,1.0,1.45,0],["2",124.021,80.232,1.0,1.45,0]]},{"ref":"R27","val":"10k","side":"B","smd":true,"x":118.618,"y":33.782,"bb":[117.668,119.568,32.102,35.462],"pads":[["1",118.618,34.694,1.4,1.025,0],["2",118.618,32.869,1.4,1.025,0]]},{"ref":"R1","val":"4.7k","side":"B","smd":true,"x":125.73,"y":83.058,"bb":[124.78,126.68,81.378,84.738],"pads":[["1",125.73,82.146,1.4,1.025,0],["2",125.73,83.971,1.4,1.025,0]]},{"ref":"J2","val":"Conn_01x22_Socket","side":"B","smd":false,"x":114.554,"y":20.0,"bb":[112.784,116.324,18.23,75.11],"pads":[["1",114.554,20.0,1.7,1.7,1],["2",114.554,22.54,1.7,1.7,1],["3",114.554,25.08,1.7,1.7,1],["4",114.554,27.62,1.7,1.7,1],["5",114.554,30.16,1.7,1.7,1],["6",114.554,32.7,1.7,1.7,1],["7",114.554,35.24,1.7,1.7,1],["8",114.554,37.78,1.7,1.7,1],["9",114.554,40.32,1.7,1.7,1],["10",114.554,42.86,1.7,1.7,1],["11",114.554,45.4,1.7,1.7,1],["12",114.554,47.94,1.7,1.7,1],["13",114.554,50.48,1.7,1.7,1],["14",114.554,53.02,1.7,1.7,1],["15",114.554,55.56,1.7,1.7,1],["16",114.554,58.1,1.7,1.7,1],["17",114.554,60.64,1.7,1.7,1],["18",114.554,63.18,1.7,1.7,1],["19",114.554,65.72,1.7,1.7,1],["20",114.554,68.26,1.7,1.7,1],["21",114.554,70.8,1.7,1.7,1],["22",114.554,73.34,1.7,1.7,1]]},{"ref":"C8","val":"100nF/50V","side":"B","smd":true,"x":101.92,"y":20.066,"bb":[100.22,103.62,19.086,21.046],"pads":[["1",100.97,20.066,1.0,1.45,0],["2",102.87,20.066,1.0,1.45,0]]},{"ref":"J20","val":"TCA9548A_Mux","side":"B","smd":false,"x":128.524,"y":81.026,"bb":[126.754,130.294,79.256,110.736],"pads":[["1",128.524,81.026,1.7,1.7,1],["2",128.524,83.566,1.7,1.7,1],["3",128.524,86.106,1.7,1.7,1],["4",128.524,88.646,1.7,1.7,1],["5",128.524,91.186,1.7,1.7,1],["6",128.524,93.726,1.7,1.7,1],["7",128.524,96.266,1.7,1.7,1],["8",128.524,98.806,1.7,1.7,1],["9",128.524,101.346,1.7,1.7,1],["10",128.524,103.886,1.7,1.7,1],["11",128.524,106.426,1.7,1.7,1],["12",128.524,108.966,1.7,1.7,1]]},{"ref":"U3","val":"tmc2209","side":"B","smd":false,"x":98.298,"y":37.846,"bb":[96.398,112.898,18.346,39.746],"pads":[["1",98.298,37.846,1.7,1.7,1],["2",98.298,35.306,1.7,1.7,1],["3",98.298,32.766,1.7,1.7,1],["4",98.298,30.226,1.7,1.7,1],["5",98.298,27.686,1.7,1.7,1],["6",98.298,25.146,1.7,1.7,1],["7",98.298,22.606,1.7,1.7,1],["8",98.298,20.066,1.7,1.7,1],["9",110.998,37.846,1.7,1.7,1],["10",110.998,35.306,1.7,1.7,1],["11",110.998,32.766,1.7,1.7,1],["12",110.998,30.226,1.7,1.7,1],["13",110.998,27.686,1.7,1.7,1],["14",110.998,25.146,1.7,1.7,1],["15",110.998,22.606,1.7,1.7,1],["16",110.998,20.066,1.7,1.7,1],["17",106.008,20.096,1.7,1.7,1],["18",108.548,20.096,1.7,1.7,1]]},{"ref":"C6","val":"100nF/50V","side":"B","smd":true,"x":102.174,"y":63.246,"bb":[100.474,103.874,62.266,64.226],"pads":[["1",101.224,63.246,1.0,1.45,0],["2",103.124,63.246,1.0,1.45,0]]},{"ref":"C18","val":"100nF","side":"B","smd":true,"x":122.682,"y":36.322,"bb":[120.982,124.382,35.342,37.302],"pads":[["1",121.732,36.322,1.0,1.45,0],["2",123.632,36.322,1.0,1.45,0]]},{"ref":"R2","val":"4.7k","side":"B","smd":true,"x":128.535,"y":78.232,"bb":[126.855,130.215,77.282,79.182],"pads":[["1",127.623,78.232,1.025,1.4,0],["2",129.448,78.232,1.025,1.4,0]]},{"ref":"R3","val":"4.7k","side":"B","smd":true,"x":119.888,"y":62.23,"bb":[118.938,120.838,60.55,63.91],"pads":[["1",119.888,63.142,1.4,1.025,0],["2",119.888,61.317,1.4,1.025,0]]},{"ref":"R25","val":"10k","side":"B","smd":true,"x":134.366,"y":59.182,"bb":[133.416,135.316,57.502,60.862],"pads":[["1",134.366,60.095,1.4,1.025,0],["2",134.366,58.27,1.4,1.025,0]]},{"ref":"R26","val":"10k","side":"B","smd":true,"x":117.348,"y":41.148,"bb":[116.398,118.298,39.468,42.828],"pads":[["1",117.348,42.061,1.4,1.025,0],["2",117.348,40.236,1.4,1.025,0]]},{"ref":"R29","val":"10k","side":"B","smd":true,"x":88.9,"y":86.257,"bb":[87.95,89.85,84.576,87.937],"pads":[["1",88.9,85.344,1.4,1.025,0],["2",88.9,87.169,1.4,1.025,0]]},{"ref":"R10","val":"100R","side":"B","smd":true,"x":108.966,"y":59.182,"bb":[108.236,109.696,57.702,60.662],"pads":[["1",108.966,60.007,0.95,0.8,0],["2",108.966,58.357,0.95,0.8,0]]},{"ref":"J24","val":"TCA9548A_Mux","side":"B","smd":false,"x":114.565,"y":81.026,"bb":[112.795,116.335,79.256,110.736],"pads":[["1",114.565,81.026,1.7,1.7,1],["2",114.565,83.566,1.7,1.7,1],["3",114.565,86.106,1.7,1.7,1],["4",114.565,88.646,1.7,1.7,1],["5",114.565,91.186,1.7,1.7,1],["6",114.565,93.726,1.7,1.7,1],["7",114.565,96.266,1.7,1.7,1],["8",114.565,98.806,1.7,1.7,1],["9",114.565,101.346,1.7,1.7,1],["10",114.565,103.886,1.7,1.7,1],["11",114.565,106.426,1.7,1.7,1],["12",114.565,108.966,1.7,1.7,1]]},{"ref":"C13","val":"100nF","side":"B","smd":true,"x":101.092,"y":101.092,"bb":[100.112,102.072,99.392,102.792],"pads":[["1",101.092,100.142,1.45,1.0,0],["2",101.092,102.042,1.45,1.0,0]]},{"ref":"C7","val":"100nF/50V","side":"B","smd":true,"x":102.362,"y":41.656,"bb":[100.662,104.062,40.676,42.636],"pads":[["1",101.412,41.656,1.0,1.45,0],["2",103.312,41.656,1.0,1.45,0]]},{"ref":"R11","val":"100R","side":"B","smd":true,"x":108.966,"y":35.306,"bb":[108.236,109.696,33.826,36.786],"pads":[["1",108.966,36.131,0.95,0.8,0],["2",108.966,34.481,0.95,0.8,0]]},{"ref":"U2","val":"tmc2209","side":"B","smd":false,"x":98.298,"y":59.346,"bb":[96.398,112.898,39.846,61.246],"pads":[["1",98.298,59.346,1.7,1.7,1],["2",98.298,56.806,1.7,1.7,1],["3",98.298,54.266,1.7,1.7,1],["4",98.298,51.726,1.7,1.7,1],["5",98.298,49.186,1.7,1.7,1],["6",98.298,46.646,1.7,1.7,1],["7",98.298,44.106,1.7,1.7,1],["8",98.298,41.566,1.7,1.7,1],["9",110.998,59.346,1.7,1.7,1],["10",110.998,56.806,1.7,1.7,1],["11",110.998,54.266,1.7,1.7,1],["12",110.998,51.726,1.7,1.7,1],["13",110.998,49.186,1.7,1.7,1],["14",110.998,46.646,1.7,1.7,1],["15",110.998,44.106,1.7,1.7,1],["16",110.998,41.566,1.7,1.7,1],["17",106.008,41.596,1.7,1.7,1],["18",108.548,41.596,1.7,1.7,1]]},{"ref":"J1","val":"Conn_01x22_Socket","side":"B","smd":false,"x":137.414,"y":20.066,"bb":[135.644,139.184,18.296,75.176],"pads":[["1",137.414,20.066,1.7,1.7,1],["2",137.414,22.606,1.7,1.7,1],["3",137.414,25.146,1.7,1.7,1],["4",137.414,27.686,1.7,1.7,1],["5",137.414,30.226,1.7,1.7,1],["6",137.414,32.766,1.7,1.7,1],["7",137.414,35.306,1.7,1.7,1],["8",137.414,37.846,1.7,1.7,1],["9",137.414,40.386,1.7,1.7,1],["10",137.414,42.926,1.7,1.7,1],["11",137.414,45.466,1.7,1.7,1],["12",137.414,48.006,1.7,1.7,1],["13",137.414,50.546,1.7,1.7,1],["14",137.414,53.086,1.7,1.7,1],["15",137.414,55.626,1.7,1.7,1],["16",137.414,58.166,1.7,1.7,1],["17",137.414,60.706,1.7,1.7,1],["18",137.414,63.246,1.7,1.7,1],["19",137.414,65.786,1.7,1.7,1],["20",137.414,68.326,1.7,1.7,1],["21",137.414,70.866,1.7,1.7,1],["22",137.414,73.406,1.7,1.7,1]]},{"ref":"C9","val":"100nF/50V","side":"B","smd":true,"x":102.362,"y":84.746,"bb":[100.662,104.062,83.766,85.726],"pads":[["1",101.412,84.746,1.0,1.45,0],["2",103.312,84.746,1.0,1.45,0]]},{"ref":"D2","val":"SMBJ6.5A","side":"B","smd":true,"x":133.35,"y":83.684,"bb":[131.1,135.6,80.034,87.334],"pads":[["1",133.35,85.834,2.3,2.5,0],["2",133.35,81.534,2.3,2.5,0]]},{"ref":"D1","val":"SMBJ33A","side":"B","smd":true,"x":104.394,"y":103.378,"bb":[102.144,106.644,99.728,107.028],"pads":[["1",104.394,101.228,2.3,2.5,0],["2",104.394,105.528,2.3,2.5,0]]},{"ref":"R7","val":"2.2k","side":"B","smd":true,"x":122.622,"y":71.645,"bb":[120.942,124.302,70.695,72.595],"pads":[["1",123.534,71.645,1.025,1.4,0],["2",121.71,71.645,1.025,1.4,0]]},{"ref":"C15","val":"100nF","side":"B","smd":true,"x":101.412,"y":35.306,"bb":[99.712,103.112,34.326,36.286],"pads":[["1",100.462,35.306,1.0,1.45,0],["2",102.362,35.306,1.0,1.45,0]]},{"ref":"U4","val":"tmc2209","side":"B","smd":false,"x":98.298,"y":102.272,"bb":[96.398,112.898,82.772,104.172],"pads":[["1",98.298,102.272,1.7,1.7,1],["2",98.298,99.732,1.7,1.7,1],["3",98.298,97.192,1.7,1.7,1],["4",98.298,94.652,1.7,1.7,1],["5",98.298,92.112,1.7,1.7,1],["6",98.298,89.572,1.7,1.7,1],["7",98.298,87.032,1.7,1.7,1],["8",98.298,84.492,1.7,1.7,1],["9",110.998,102.272,1.7,1.7,1],["10",110.998,99.732,1.7,1.7,1],["11",110.998,97.192,1.7,1.7,1],["12",110.998,94.652,1.7,1.7,1],["13",110.998,92.112,1.7,1.7,1],["14",110.998,89.572,1.7,1.7,1],["15",110.998,87.032,1.7,1.7,1],["16",110.998,84.492,1.7,1.7,1],["17",106.008,84.522,1.7,1.7,1],["18",108.548,84.522,1.7,1.7,1]]},{"ref":"R28","val":"10k","side":"B","smd":true,"x":120.65,"y":43.942,"bb":[118.97,122.33,42.992,44.892],"pads":[["1",121.562,43.942,1.025,1.4,0],["2",119.738,43.942,1.025,1.4,0]]},{"ref":"C12","val":"22uF","side":"B","smd":true,"x":124.968,"y":20.066,"bb":[123.268,126.668,19.086,21.046],"pads":[["1",125.918,20.066,1.0,1.45,0],["2",124.018,20.066,1.0,1.45,0]]},{"ref":"C20","val":"100nF","side":"B","smd":true,"x":118.364,"y":48.768,"bb":[116.664,120.064,47.788,49.748],"pads":[["1",119.314,48.768,1.0,1.45,0],["2",117.414,48.768,1.0,1.45,0]]},{"ref":"R5","val":"2.2k","side":"B","smd":true,"x":122.682,"y":78.232,"bb":[121.002,124.362,77.282,79.182],"pads":[["1",123.594,78.232,1.025,1.4,0],["2",121.77,78.232,1.025,1.4,0]]}],"holes":[[91.44,22.098],[91.44,106.68],[135.128,106.68]],"bbox":[87.122,139.446,17.78,110.998]};
+const STEPS = [
+  {side:"B", val:"100 Ω", pkg:"0603", refs:["R10","R11"], tip:"TMC2209 UART series resistors, between the driver sockets."},
+  {side:"B", val:"1 kΩ", pkg:"0603", refs:["R12"], tip:"The only other 0603 on the board. Keep it apart from the 0805 1 k (R33, top side)."},
+  {side:"B", val:"100 nF", pkg:"0805", refs:["C6","C7","C8","C9","C11","C13","C14","C15","C16","C17","C18","C19","C20"], tip:"All 13 are the same part (LCSC C49678), so C6–C9 (marked 50 V) come from this bag too. Non-polarized."},
+  {side:"B", val:"22 µF", pkg:"0805", refs:["C12"], tip:"3.3 V bulk ceramic beside the DevKit socket. Non-polarized."},
+  {side:"B", val:"4.7 kΩ", pkg:"0805", refs:["R1","R2","R3","R4"], tip:"I²C pull-ups."},
+  {side:"B", val:"2.2 kΩ", pkg:"0805", refs:["R5","R6","R7","R8"], tip:"I²C pull-ups near the mux socket."},
+  {side:"B", val:"10 kΩ", pkg:"0805", refs:["R25","R26","R27","R28","R29","R30"], tip:"R29 + R30 at the left edge are the 24 V bleeder pair."},
+  {side:"B", val:"SMBJ33A", pkg:"SMB", refs:["D1"], pol:true, tip:"Band toward +24 V (pad 2, toward the F1 fuse edge). Not toward the silk bar."},
+  {side:"B", val:"SMBJ6.5A", pkg:"SMB", refs:["D2"], pol:true, tip:"Band toward VCC_5V (pad 2, toward the DevKit). Not toward the silk bar."},
+  {side:"F", val:"10 kΩ", pkg:"0805", refs:["R31"], tip:"24 V LED resistor, next to LED1."},
+  {side:"F", val:"2.2 kΩ", pkg:"0805", refs:["R32"], tip:"5 V LED resistor, next to LED2."},
+  {side:"F", val:"1 kΩ", pkg:"0805", refs:["R33"], tip:"3.3 V LED resistor, next to LED3."},
+  {side:"F", val:"Green LED", pkg:"0805", refs:["LED1","LED2","LED3"], pol:true, tip:"Cathode (green line on the LED's back) goes on the marked GND pad."},
+  {side:"F", val:"1.5 A fuse + holder", pkg:"Nano²", refs:["F2"], tip:"Tallest SMD part, so it goes last. Sits right over D2 on the other side."},
+  {side:"F", tht:true, val:"OLED socket", pkg:"1×4 2.54", refs:["J23"], tip:"Lowest through-hole part, so it goes first. Solder one pin, check it sits flat, then do the rest."},
+  {side:"F", tht:true, val:"JST-XH 2-pin", pkg:"B2B-XH", refs:["J26","J27","J33","J34","J35","J36","J41"], tip:"Limit switches and buttons. Match the shroud's open side to the silkscreen outline."},
+  {side:"F", tht:true, val:"JST-XH 3-pin", pkg:"B3B-XH", refs:["J29","J30","J31","J32"], tip:"Panel encoders, right-hand column. Match the shroud to the silkscreen."},
+  {side:"F", tht:true, val:"JST-XH 4-pin", pkg:"B4B-XH", refs:["J17","J18","J19","J28","J21","J22"], tip:"Motors J17/J18/J19/J28 along the left edge; AS5600 heads J21/J22 in the middle."},
+  {side:"B", tht:true, val:"TMC2209 sockets", pkg:"2 × 1×8 each", refs:["U1","U2","U3","U4"], tip:"8 female headers. Plug a SilentStepStick into each pair while soldering so the rows stay parallel. U1 Slide, U2 Pan, U3 Tilt, U4 Aux."},
+  {side:"B", tht:true, val:"DevKit sockets", pkg:"1×22 2.54", refs:["J1","J2"], tip:"Plug the ESP32-S3 DevKitC-1 in while soldering to hold the 22.86 mm spacing."},
+  {side:"B", tht:true, val:"Mux sockets", pkg:"1×12 2.54", refs:["J20","J24"], tip:"Plug the TCA9548A breakout in while soldering, same as the DevKit."},
+  {side:"F", tht:true, val:"24 V fuse clips", pkg:"XF-508P", refs:["F1"], tip:"Two clips, four pins. Fit the 4 A slow-blow cartridge afterwards."},
+  {side:"F", tht:true, val:"Terminal blocks", pkg:"5.0 mm 2P", refs:["J37","J38"], tip:"Wire openings face the board edge. J38 = 24 V in (left), J37 = 5 V in (right)."},
+  {side:"F", tht:true, val:"100 µF / 16 V", pkg:"Ø6.3 mm", refs:["C10"], pol:true, tip:"Long leg (+) into the marked pad, toward the DevKit edge. Stripe (−) faces the board centre."},
+  {side:"F", tht:true, val:"100 µF / 50 V", pkg:"Ø8 mm", refs:["C2","C3","C4","C5"], pol:true, tip:"One per driver. Long leg (+) into the marked pad, the one nearest the left edge (C5: the lower pad)."},
+  {side:"F", tht:true, val:"470 µF / 50 V", pkg:"Ø10 mm", refs:["C1"], pol:true, tip:"Tallest part on the board, so it goes last. Long leg (+) into the left pad."},
+  {side:"F", tht:true, opt:true, val:"Spare mux headers", pkg:"1×4 2.54", refs:["J3","J4","J5","J6","J7","J8"], tip:"Optional, not in the BOM. Only fit these if you want breakouts for mux channels 2–7."},
+];
+const POL = {D1:"2", D2:"2", LED1:"1", LED2:"1", LED3:"1", C1:"1", C2:"1", C3:"1", C4:"1", C5:"1", C10:"1"};
+const CAPD = {C1:10, C2:8, C3:8, C4:8, C5:8, C10:6.3};
+const LANDMARKS = new Set(["U1","U2","U3","U4","J1","J2","J20","J24","J37","J38","F1","C1"]);
+const LABELS = {U1:"U1 · TMC Slide",U2:"U2 · TMC Pan",U3:"U3 · TMC Tilt",U4:"U4 · TMC Aux",J1:"DevKit",J2:"DevKit",J20:"Mux",J24:"Mux",J37:"5V in",J38:"24V in",F1:"F1 24V fuse",C1:"470µF"};
+
+const [X0,X1,Y0,Y1] = DATA.bbox, M = 3;
+const byRef = Object.fromEntries(DATA.parts.map(p=>[p.ref,p]));
+const stepOf = {}; STEPS.forEach((s,i)=>s.refs.forEach(r=>stepOf[r]=i));
+
+let cur = 0, side = "B", done = new Set();
+try { const s = JSON.parse(localStorage.getItem("pt-smd") || "{}"); if (Array.isArray(s.done)) done = new Set(s.done); if (Number.isInteger(s.cur)) cur = Math.min(Math.max(s.cur,0),STEPS.length-1); } catch(e){}
+const save = () => { try { localStorage.setItem("pt-smd", JSON.stringify({done:[...done],cur})); } catch(e){} };
+
+const NS = "http://www.w3.org/2000/svg";
+const el = (t,a,parent)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);parent&&parent.appendChild(e);return e;};
+// Bottom side is drawn as you see it with the board flipped left-to-right.
+const mx = x => side==="B" ? (X0+X1)-x : x;
+
+function draw(){
+  const svg = document.getElementById("board");
+  svg.innerHTML = "";
+  svg.setAttribute("viewBox", `${X0-M} ${Y0-M} ${X1-X0+2*M} ${Y1-Y0+2*M}`);
+  svg.setAttribute("width", (X1-X0+2*M)*7.2); svg.setAttribute("height",(Y1-Y0+2*M)*7.2);
+  el("rect",{x:X0,y:Y0,width:X1-X0,height:Y1-Y0,rx:1,fill:"var(--mask)",stroke:"var(--mask-edge)","stroke-width":.6},svg);
+  for (const [hx,hy] of DATA.holes) el("circle",{cx:mx(hx),cy:hy,r:1.6,fill:"var(--bg)",stroke:"var(--pad)","stroke-width":.5},svg);
+
+  const g = el("g",{},svg);
+  const later=el("g",{},svg), donel=el("g",{},svg), hot=el("g",{class:"hotpart"},svg), labels=el("g",{},svg);
+  const geo = p => {
+    if (CAPD[p.ref]) { const cx=(p.pads[0][1]+p.pads[1][1])/2, cy=(p.pads[0][2]+p.pads[1][2])/2, r=CAPD[p.ref]/2; return {cap:true,cx:mx(cx),cy,r,x0:mx(cx)-r,x1:mx(cx)+r,y0:cy-r,y1:cy+r}; }
+    let [a,b,c,d] = p.bb; if (b-a<2){a-=1;b+=1;} if (d-c<2){c-=1;d+=1;}
+    const x0=Math.min(mx(a),mx(b)); return {x0,x1:x0+(b-a),y0:c,y1:d};
+  };
+  const drawPad = (layer,[n,x,y,w,h,th],fill) => {
+    const r = th ? Math.min(w,h)/2 : Math.min(w,h)*.2;
+    el("rect",{x:mx(x)-w/2,y:y-h/2,width:w,height:h,rx:r,fill},layer);
+    if (th) el("circle",{cx:mx(x),cy:y,r:Math.min(w,h)*.28,fill:"var(--mask-edge)"},layer);
+  };
+
+  for (const p of DATA.parts) {
+    const si = stepOf[p.ref], isHot = si===cur, isDone = done.has(si), onSide = p.side===side;
+    const G = geo(p);
+    if (!onSide || (!p.smd && !isHot && !isDone)) {
+      // through-hole landmark (or a through-hole part not placed yet)
+      if (p.smd) continue;
+      if (G.cap) el("circle",{cx:G.cx,cy:G.cy,r:G.r,fill:"none",stroke:"var(--ghost)","stroke-width":.35},g);
+      else el("rect",{x:G.x0,y:G.y0,width:G.x1-G.x0,height:G.y1-G.y0,fill:"none",stroke:"var(--ghost)","stroke-width":.35,"stroke-dasharray":LANDMARKS.has(p.ref)?"":"0.8 0.6"},g);
+      for (const pd of p.pads) if (pd[5]) el("circle",{cx:mx(pd[1]),cy:pd[2],r:Math.min(pd[3],pd[4])*.32,fill:"var(--ghost)"},g);
+      if (LANDMARKS.has(p.ref)) {
+        const cx=(G.x0+G.x1)/2, cy=(G.y0+G.y1)/2;
+        const t = el("text",{x:cx,y:cy,"text-anchor":"middle","dominant-baseline":"middle","font-size":1.9,"font-family":"var(--f-mono)",fill:"var(--ghost)"},g);
+        if (G.y1-G.y0 > G.x1-G.x0) t.setAttribute("transform",`rotate(-90 ${cx} ${cy})`);
+        t.textContent = LABELS[p.ref];
+      }
+      continue;
+    }
+    const col = isHot ? "var(--hot)" : isDone ? "var(--done)" : "var(--pad-dim)";
+    const layer = isHot ? hot : isDone ? donel : later;
+    const outline = {fill:isHot?"var(--hot)":"none","fill-opacity":isHot?.2:0,stroke:col,"stroke-width":isHot?.45:.25};
+    if (G.cap) el("circle",{cx:G.cx,cy:G.cy,r:G.r,...outline},layer);
+    else el("rect",{x:G.x0,y:G.y0,width:G.x1-G.x0,height:G.y1-G.y0,rx:.3,...outline},layer);
+    for (const pd of p.pads) {
+      const [n,x,y,w,h] = pd;
+      drawPad(layer,pd,isHot?"var(--hot)":isDone?"var(--done)":"var(--pad)");
+      if (POL[p.ref]!==n || !(isHot || p.ref.startsWith("D"))) continue;
+      if (G.cap) {
+        // "+" on the side of pad 1, away from pad 2
+        const o = p.pads.find(q=>q[0]!==n), dx = mx(x)-mx(o[1]), dy = y-o[2], L = Math.hypot(dx,dy)||1;
+        const t = el("text",{x:mx(x)+dx/L*2.6,y:y+dy/L*2.6,"text-anchor":"middle","dominant-baseline":"central","font-size":3,"font-weight":800,"font-family":"var(--f-ui)",fill:"var(--fg)"},layer);
+        t.textContent = "+";
+      } else {
+        // cathode band: a dark bar across the cathode pad
+        const bar = h > w ? {x:mx(x)-w/2-.5,y:y-.35,width:w+1,height:.7} : {x:mx(x)-.35,y:y-h/2-.5,width:.7,height:h+1};
+        el("rect", {...bar, fill:"var(--fg)"}, layer);
+      }
+    }
+    const t = el("text",{x:(G.x0+G.x1)/2,y:G.y1+1.7,"text-anchor":"middle","font-size":isHot?1.9:1.4,"font-weight":isHot?700:400,"font-family":"var(--f-mono)",fill:isHot?"var(--silk)":"var(--pad-dim)"},labels);
+    t.textContent = p.ref;
+    if (isHot) { const bg=el("rect",{},labels); labels.insertBefore(bg,t); requestAnimationFrame(()=>{try{const bx=t.getBBox();bg.setAttribute("x",bx.x-.4);bg.setAttribute("y",bx.y-.2);bg.setAttribute("width",bx.width+.8);bg.setAttribute("height",bx.height+.4);bg.setAttribute("rx",.4);bg.setAttribute("fill","var(--mask-edge)");}catch(e){}}); }
+  }
+  document.getElementById("mirrorNote").textContent = side==="B" ? "Bottom drawn mirrored, as seen with the board flipped over" : "Top, component side up";
+}
+
+function renderList(){
+  const host = document.getElementById("list"); host.innerHTML = "";
+  let ol = null, key = null;
+  STEPS.forEach((s,i)=>{
+    const k = (s.tht?"T":"S")+s.side;
+    if (k !== key) {
+      key = k;
+      const grp = STEPS.filter(x=>(x.tht?"T":"S")+x.side===k && !x.opt);
+      const n = grp.reduce((a,x)=>a+x.refs.length,0);
+      const h = document.createElement("div"); h.className="sidehead";
+      h.textContent = `${s.tht?"Through-hole":"SMD"} · ${s.side==="B"?"bottom":"top"} side · ${n} parts`; host.appendChild(h);
+      ol = document.createElement("ol"); ol.className="steps"; host.appendChild(ol);
+    }
+    const li=document.createElement("li"), b=document.createElement("button");
+    b.type="button"; b.className="step"+(i===cur?" on":"")+(done.has(i)?" done":"");
+    b.innerHTML = `<span class="num">${done.has(i)?"✓":String(i+1).padStart(2,"0")}</span><span><span class="val">${s.val}</span><span class="pkg">${s.pkg}</span>${s.pol?'<span class="pol">POLARITY</span>':""}${s.opt?'<span class="opt">OPTIONAL</span>':""}<span class="refs">${s.refs.join(" ")}</span></span><span class="qty">×${s.refs.length}</span>`;
+    b.onclick = ()=>go(i); li.appendChild(b); ol.appendChild(li);
+  });
+}
+
+function update(){
+  const s = STEPS[cur];
+  document.getElementById("nowVal").textContent = `${cur+1}. ${s.val} · ${s.pkg} · ×${s.refs.length}`;
+  document.getElementById("nowRefs").textContent = s.refs.join(" ");
+  const tip = document.getElementById("tip"); tip.textContent = s.tip; tip.className = "tip"+(s.pol?" p":"");
+  document.getElementById("mark").textContent = done.has(cur) ? "Undo done" : "Mark done";
+  document.getElementById("tabB").setAttribute("aria-pressed", side==="B");
+  document.getElementById("tabF").setAttribute("aria-pressed", side==="F");
+  renderList(); draw(); save();
+}
+function go(i){ cur = Math.min(Math.max(i,0),STEPS.length-1); side = STEPS[cur].side; update(); }
+function toggle(){ if (done.has(cur)) { done.delete(cur); update(); } else { done.add(cur); cur < STEPS.length-1 ? go(cur+1) : update(); } }
+
+document.getElementById("prev").onclick=()=>go(cur-1);
+document.getElementById("next").onclick=()=>go(cur+1);
+document.getElementById("mark").onclick=toggle;
+document.getElementById("tabB").onclick=()=>{side="B";update();};
+document.getElementById("tabF").onclick=()=>{side="F";update();};
+document.addEventListener("keydown",e=>{
+  if (e.target.closest && e.target.closest("input,textarea")) return;
+  if (e.key==="ArrowRight"){go(cur+1);e.preventDefault();}
+  else if (e.key==="ArrowLeft"){go(cur-1);e.preventDefault();}
+  else if (e.key===" " && !(e.target.tagName==="BUTTON")){toggle();e.preventDefault();}
+  else if (e.key==="b"||e.key==="B"){side="B";update();}
+  else if (e.key==="t"||e.key==="T"){side="F";update();}
+});
+side = STEPS[cur].side; update();
+</script>
